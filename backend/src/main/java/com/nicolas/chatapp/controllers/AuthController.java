@@ -41,14 +41,16 @@ public class AuthController {
 
             return ResponseEntity.ok(loginResponseDTO);
         } catch (BadCredentialsException e){
-            ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO();
-            errorResponseDTO.setHttpStatus(HttpStatus.BAD_REQUEST);
-            errorResponseDTO.setMessage("Invalid username or password");
+            ErrorResponseDTO errorResponseDTO = ErrorResponseDTO.builder()
+                    .httpStatus(HttpStatus.BAD_REQUEST)
+                    .message("Invalid username or password")
+                    .build();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponseDTO);
         } catch (Exception e) {
-            ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO();
-            errorResponseDTO.setHttpStatus(HttpStatus.BAD_REQUEST);
-            errorResponseDTO.setMessage(e.getMessage());
+            ErrorResponseDTO errorResponseDTO = ErrorResponseDTO.builder()
+                    .httpStatus(HttpStatus.BAD_REQUEST)
+                    .message(e.getMessage())
+                    .build();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponseDTO);
         }
     }
