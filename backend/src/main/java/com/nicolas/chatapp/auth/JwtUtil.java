@@ -11,20 +11,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import javax.naming.AuthenticationException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY_PHRASE = "mySecretKey";
-    private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY_PHRASE));
-    private static final long ACCESS_TOKEN_VALIDITY = 60 * 60 * 1000L;
-    private static final String TOKEN_HEADER = "Authorization";
-    private static final String TOKEN_PREFIX = "Bearer ";
+    private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(JwtConstants.SECRET_KEY_PHRASE));
 
     private final JwtParser jwtParser;
 
@@ -37,11 +31,11 @@ public class JwtUtil {
     public String createToken(User user) {
         Claims claims = Jwts.claims()
                 .subject(user.getEmail())
+                .add("firstName", user.getFirstName())
+                .add("lastName", user.getLastName())
                 .build();
-        claims.put("firstName", user.getFirstName());
-        claims.put("lastName", user.getLastName());
         Date tokenCreateTime = new Date();
-        Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(ACCESS_TOKEN_VALIDITY));
+        Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(JwtConstants.ACCESS_TOKEN_VALIDITY));
         return Jwts.builder()
                 .claims(claims)
                 .expiration(tokenValidity)
@@ -70,9 +64,9 @@ public class JwtUtil {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(TOKEN_HEADER);
-        if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
-            return bearerToken.substring(TOKEN_PREFIX.length());
+        String bearerToken = request.getHeader(JwtConstants.TOKEN_HEADER);
+        if (bearerToken != null && bearerToken.startsWith(JwtConstants.TOKEN_PREFIX)) {
+            return bearerToken.substring(JwtConstants.TOKEN_PREFIX.length());
         }
         return null;
     }
