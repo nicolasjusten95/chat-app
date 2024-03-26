@@ -1,10 +1,8 @@
 package com.nicolas.chatapp.dto.response;
 
-import lombok.Data;
+import lombok.Builder;
 
-@Data
-public class LoginResponseDTO {
+@Builder
+public record LoginResponseDTO(String email, String token) {
 
-    private String email;
-    private String token;
 }
