@@ -6,10 +6,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserRepository {
 
-    public User findUserByEmail(String email) {
+    // TODO: Transfer to real repository
+
+    public User findByEmail(String email) {
         User user = new User();
         user.setEmail(email);
-        user.setPassword("1234");
+        // password: 1234 as bcrypt
+        user.setPassword("$2a$12$0TjSkhITHjj8BDk8KjHUYu1ASnDBOFMYFgRJSpkmdLQnRJdwoVIvS");
         user.setFirstName("Luke");
         user.setLastName("Skywalker");
         return user;
