@@ -1,17 +1,19 @@
-package com.nicolas.chatapp.auth;
+package com.nicolas.chatapp.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 
-@Component
+@Slf4j
+@Service
 public class TokenProvider {
 
     private final SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(JwtConstants.SECRET_KEY));
@@ -24,6 +26,7 @@ public class TokenProvider {
     }
 
     public String generateToken(Authentication authentication) {
+        log.info("Generating token");
         return Jwts.builder()
                 .issuer(JwtConstants.ISSUER)
                 .issuedAt(new Date())

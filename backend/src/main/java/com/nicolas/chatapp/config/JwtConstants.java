@@ -1,4 +1,4 @@
-package com.nicolas.chatapp.auth;
+package com.nicolas.chatapp.config;
 
 public class JwtConstants {
 

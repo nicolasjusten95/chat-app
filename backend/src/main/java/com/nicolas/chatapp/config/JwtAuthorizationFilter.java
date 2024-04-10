@@ -1,4 +1,4 @@
-package com.nicolas.chatapp.auth;
+package com.nicolas.chatapp.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;

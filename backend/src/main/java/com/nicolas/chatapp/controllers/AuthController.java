@@ -1,6 +1,6 @@
 package com.nicolas.chatapp.controllers;
 
-import com.nicolas.chatapp.auth.TokenProvider;
+import com.nicolas.chatapp.config.TokenProvider;
 import com.nicolas.chatapp.dto.request.LoginRequestDTO;
 import com.nicolas.chatapp.dto.request.SignupRequestDTO;
 import com.nicolas.chatapp.dto.response.LoginResponseDTO;
