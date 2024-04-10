@@ -1,13 +1,24 @@
 package com.nicolas.chatapp.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.Data;
 
-@Getter
-@Setter
+import java.time.LocalDateTime;
+
+@Data
+@Entity
 public class Message {
 
-    private MessageType type;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private String content;
-    private String sender;
+    private LocalDateTime timeStamp;
+
+    @ManyToOne
+    private User user;
+
+    @ManyToOne
+    private Chat chat;
 }

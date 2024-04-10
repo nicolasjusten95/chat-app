@@ -1,15 +1,16 @@
 package com.nicolas.chatapp.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Objects;
 
 @Getter
 @Setter
-@Entity(name = "CHAT_USER")
+@ToString
+@Entity(name = "APP_USER")
 public class User {
 
     @Id
