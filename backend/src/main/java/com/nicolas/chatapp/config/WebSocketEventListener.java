@@ -1,7 +1,6 @@
 package com.nicolas.chatapp.config;
 
 import com.nicolas.chatapp.model.Message;
-import com.nicolas.chatapp.model.MessageType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -34,8 +33,6 @@ public class WebSocketEventListener {
         if (username != null) {
             log.info("User disconnected: {}", username);
             Message message = new Message();
-            message.setType(MessageType.LEAVE);
-            message.setSender(username);
             messageSendingOperations.convertAndSend("/topic/public", message);
         }
     }

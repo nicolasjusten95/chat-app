@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -39,8 +41,8 @@ public class AuthController {
         final String password = signupRequestDTO.password();
         final String fullName = signupRequestDTO.fullName();
 
-        User existingUser = userRepository.findByEmail(email);
-        if (existingUser != null) {
+        Optional<User> existingUser = userRepository.findByEmail(email);
+        if (existingUser.isPresent()) {
             throw new UserException("Account with email " + email + " already exists");
         }
 
