@@ -56,8 +56,8 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
         LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder()
-                .email(email)
                 .token(jwt)
+                .isAuthenticated(true)
                 .build();
         log.info("User {} successfully signed up", email);
 
@@ -72,8 +72,8 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
         LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder()
-                .email(email)
                 .token(jwt)
+                .isAuthenticated(true)
                 .build();
         log.info("User {} successfully logged in", loginRequestDTO.email());
 
