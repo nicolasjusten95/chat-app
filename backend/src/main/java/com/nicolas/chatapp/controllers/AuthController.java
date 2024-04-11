@@ -2,7 +2,7 @@ package com.nicolas.chatapp.controllers;
 
 import com.nicolas.chatapp.config.TokenProvider;
 import com.nicolas.chatapp.dto.request.LoginRequestDTO;
-import com.nicolas.chatapp.dto.request.SignupRequestDTO;
+import com.nicolas.chatapp.dto.request.UpdateUserRequestDTO;
 import com.nicolas.chatapp.dto.response.LoginResponseDTO;
 import com.nicolas.chatapp.exception.UserException;
 import com.nicolas.chatapp.model.User;
@@ -36,7 +36,7 @@ public class AuthController {
     private final CustomUserDetailsService customUserDetailsService;
 
     @PostMapping("/signup")
-    public ResponseEntity<LoginResponseDTO> signup(@RequestBody SignupRequestDTO signupRequestDTO) throws UserException {
+    public ResponseEntity<LoginResponseDTO> signup(@RequestBody UpdateUserRequestDTO signupRequestDTO) throws UserException {
         final String email = signupRequestDTO.email();
         final String password = signupRequestDTO.password();
         final String fullName = signupRequestDTO.fullName();
@@ -66,8 +66,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
-        final String email = loginRequestDTO.getEmail();
-        final String password = loginRequestDTO.getPassword();
+        final String email = loginRequestDTO.email();
+        final String password = loginRequestDTO.password();
         Authentication authentication = authenticateReq(email, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
@@ -75,7 +75,7 @@ public class AuthController {
                 .email(email)
                 .token(jwt)
                 .build();
-        log.info("User {} successfully logged in", loginRequestDTO.getEmail());
+        log.info("User {} successfully logged in", loginRequestDTO.email());
 
         return ResponseEntity.ok(loginResponseDTO);
     }
