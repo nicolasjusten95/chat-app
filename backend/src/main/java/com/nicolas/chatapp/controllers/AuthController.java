@@ -7,7 +7,7 @@ import com.nicolas.chatapp.dto.response.LoginResponseDTO;
 import com.nicolas.chatapp.exception.UserException;
 import com.nicolas.chatapp.model.User;
 import com.nicolas.chatapp.repository.UserRepository;
-import com.nicolas.chatapp.service.CustomUserDetailsService;
+import com.nicolas.chatapp.service.implementation.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

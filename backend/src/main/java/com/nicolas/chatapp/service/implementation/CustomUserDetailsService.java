@@ -1,4 +1,4 @@
-package com.nicolas.chatapp.service;
+package com.nicolas.chatapp.service.implementation;
 
 import com.nicolas.chatapp.model.User;
 import com.nicolas.chatapp.repository.UserRepository;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -25,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<User> optionalUser = userRepository.findByEmail(username);
 
         if (optionalUser.isEmpty()) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("User not found with username: " + username);
         }
 
         User user = optionalUser.get();
