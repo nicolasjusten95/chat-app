@@ -10,20 +10,20 @@ import java.util.List;
 
 public interface ChatService {
 
-    Chat createChat(User reqUser, Integer userId2) throws UserException;
+    Chat createChat(User reqUser, Long userId2) throws UserException;
 
-    Chat findChatById(Integer id) throws ChatException;
+    Chat findChatById(Long id) throws ChatException;
 
-    List<Chat> findAllByUserId(Integer userId) throws UserException;
+    List<Chat> findAllByUserId(Long userId) throws UserException;
 
     Chat createGroup(GroupChatRequestDTO req, User reqUser) throws UserException;
 
-    Chat addUserToGroup(Integer userId, Integer chatId, User reqUser) throws UserException, ChatException;
+    Chat addUserToGroup(Long userId, Long chatId, User reqUser) throws UserException, ChatException;
 
-    Chat renameGroup(Integer chatId, String groupName, User reqUser) throws UserException, ChatException;
+    Chat renameGroup(Long chatId, String groupName, User reqUser) throws UserException, ChatException;
 
-    Chat removeFromGroup(Integer chatId, Integer userId, User reqUser) throws UserException, ChatException;
+    Chat removeFromGroup(Long chatId, Long userId, User reqUser) throws UserException, ChatException;
 
-    void deleteChat(Integer chatId, Integer userId) throws UserException, ChatException;
+    void deleteChat(Long chatId, Long userId) throws UserException, ChatException;
 
 }

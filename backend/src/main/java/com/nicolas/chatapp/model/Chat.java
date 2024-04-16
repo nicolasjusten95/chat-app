@@ -1,7 +1,10 @@
 package com.nicolas.chatapp.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,6 +13,9 @@ import java.util.Set;
 
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Chat {
 
     @Id

@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MyUserService implements UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
