@@ -8,10 +8,14 @@ import java.util.List;
 
 public interface UserService {
 
-    public User findUserById(Long id) throws UserException;
-    public User findUserByProfile(String jwt) throws UserException;
-    public User updateUser(Long id, UpdateUserRequestDTO request) throws UserException;
-    public List<User> searchUser(String query);
-    public List<User> searchUserByName(String name);
+    User findUserById(Long id) throws UserException;
+
+    User findUserByProfile(String jwt) throws UserException;
+
+    User updateUser(Long id, UpdateUserRequestDTO request) throws UserException;
+
+    List<User> searchUser(String query);
+
+    List<User> searchUserByName(String name);
 
 }
