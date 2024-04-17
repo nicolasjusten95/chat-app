@@ -13,10 +13,10 @@ public interface MessageService {
 
     Message sentMessage(SendMessageRequestDTO req) throws UserException, ChatException;
 
-    List<Message> getChatMessages(Integer chatId, User reqUser) throws UserException, ChatException;
+    List<Message> getChatMessages(Long chatId, User reqUser) throws UserException, ChatException;
 
-    Message findMessageById(Integer messageId, User reqUser) throws UserException, MessageException;
+    Message findMessageById(Long messageId) throws MessageException;
 
-    void deleteMessageById(Integer messageId, User reqUser) throws UserException, MessageException;
+    void deleteMessageById(Long messageId, User reqUser) throws UserException, MessageException;
 
 }
