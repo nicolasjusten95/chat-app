@@ -27,9 +27,9 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
 
     @Override
-    public Message sentMessage(SendMessageRequestDTO req) throws UserException, ChatException {
+    public Message sendMessage(SendMessageRequestDTO req, Long userId) throws UserException, ChatException {
 
-        User user = userService.findUserById(req.userId());
+        User user = userService.findUserById(userId);
         Chat chat = chatService.findChatById(req.chatId());
 
         Message message = Message.builder()
