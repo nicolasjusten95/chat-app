@@ -10,6 +10,7 @@ import com.nicolas.chatapp.repository.UserRepository;
 import com.nicolas.chatapp.service.implementation.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,14 +18,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @Slf4j
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -37,50 +36,61 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<LoginResponseDTO> signup(@RequestBody UpdateUserRequestDTO signupRequestDTO) throws UserException {
+
         final String email = signupRequestDTO.email();
         final String password = signupRequestDTO.password();
         final String fullName = signupRequestDTO.fullName();
 
         Optional<User> existingUser = userRepository.findByEmail(email);
+
         if (existingUser.isPresent()) {
             throw new UserException("Account with email " + email + " already exists");
         }
 
-        User newUser = new User();
-        newUser.setEmail(email);
-        newUser.setPassword(passwordEncoder.encode(password));
-        newUser.setFullName(fullName);
+        User newUser = User.builder()
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .fullName(fullName)
+                .build();
+
         userRepository.save(newUser);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
+
         LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder()
                 .token(jwt)
                 .isAuthenticated(true)
                 .build();
+
         log.info("User {} successfully signed up", email);
 
-        return ResponseEntity.accepted().body(loginResponseDTO);
+        return new ResponseEntity<>(loginResponseDTO, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/signin")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
+
         final String email = loginRequestDTO.email();
         final String password = loginRequestDTO.password();
+
         Authentication authentication = authenticateReq(email, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
+
         LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder()
                 .token(jwt)
                 .isAuthenticated(true)
                 .build();
+
         log.info("User {} successfully logged in", loginRequestDTO.email());
 
-        return ResponseEntity.ok(loginResponseDTO);
+        return new ResponseEntity<>(loginResponseDTO, HttpStatus.ACCEPTED);
     }
 
     public Authentication authenticateReq(String username, String password) {
+
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
         if (userDetails == null) {
