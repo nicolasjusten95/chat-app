@@ -20,10 +20,10 @@ public class Chat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     private String chatName;
-    private boolean isGroup;
+    private Boolean isGroup;
 
     @ManyToMany
     private Set<User> admins = new HashSet<>();
