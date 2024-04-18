@@ -1,39 +1,108 @@
 package com.nicolas.chatapp.controllers;
 
-import com.nicolas.chatapp.model.Message;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.stereotype.Controller;
+import com.nicolas.chatapp.config.JwtConstants;
+import com.nicolas.chatapp.dto.request.GroupChatRequestDTO;
+import com.nicolas.chatapp.dto.request.SingleChatRequestDTO;
+import com.nicolas.chatapp.dto.response.ApiResponseDTO;
+import com.nicolas.chatapp.exception.ChatException;
+import com.nicolas.chatapp.exception.UserException;
+import com.nicolas.chatapp.model.Chat;
+import com.nicolas.chatapp.model.User;
+import com.nicolas.chatapp.service.ChatService;
+import com.nicolas.chatapp.service.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
+import java.util.List;
 
-@Controller
+@Slf4j
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/chats")
 public class ChatController {
 
-    private static final Logger log = LoggerFactory.getLogger(ChatController.class);
+    private final UserService userService;
+    private final ChatService chatService;
 
-    @MessageMapping("/chat/sendMessage")
-    @SendTo("/topic/public")
-    public Message sendMessage(@Payload Message message) {
-        return message;
+    @PostMapping("/single")
+    public ResponseEntity<Chat> createSingleChat(@RequestBody SingleChatRequestDTO req,
+                                                 @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+            throws UserException {
+        User user = userService.findUserByProfile(jwt);
+        Chat chat = chatService.createChat(user, req.userId());
+        log.info("Created single chat: {}", chat.getId());
+
+        return new ResponseEntity<>(chat, HttpStatus.OK);
     }
 
-    @MessageMapping("/chat/addUser")
-    @SendTo("/topic/public")
-    public Message addUser(@Payload Message message, SimpMessageHeaderAccessor headerAccessor) {
-        Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", message.getUser().getFullName());
-        return message;
+    @PostMapping("/group")
+    public ResponseEntity<Chat> createGroupChat(@RequestBody GroupChatRequestDTO req,
+                                                @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+            throws UserException {
+        User user = userService.findUserByProfile(jwt);
+        Chat chat = chatService.createGroup(req, user);
+        log.info("Created group chat: {}", chat.getId());
+
+        return new ResponseEntity<>(chat, HttpStatus.OK);
     }
 
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public String greeting(String message) {
-        log.info("Message received: {}", message);
-        return "Hello " + message + "!";
+    @GetMapping("/{id}")
+    public ResponseEntity<Chat> findChatById(@PathVariable("id") Long id,
+                                             @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+            throws ChatException {
+        Chat chat = chatService.findChatById(id);
+
+        return new ResponseEntity<>(chat, HttpStatus.OK);
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<List<Chat>> findAllChatsByUserId(@RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+            throws UserException {
+        User user = userService.findUserByProfile(jwt);
+        List<Chat> chats = chatService.findAllByUserId(user.getId());
+
+        return new ResponseEntity<>(chats, HttpStatus.OK);
+    }
+
+    @PutMapping("/{chatId}/add/{userId}")
+    public ResponseEntity<Chat> addUserToGroup(@PathVariable Long chatId, @PathVariable Long userId,
+                                               @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+            throws UserException, ChatException {
+        User user = userService.findUserByProfile(jwt);
+        Chat chat = chatService.addUserToGroup(chatId, userId, user);
+        log.info("Added user to group: {}", chat.getId());
+
+        return new ResponseEntity<>(chat, HttpStatus.OK);
+    }
+
+    @PutMapping("/{chatId}/remove/{userId}")
+    public ResponseEntity<Chat> removeUserFromGroup(@PathVariable Long chatId, @PathVariable Long userId,
+                                                    @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+            throws UserException, ChatException {
+        User user = userService.findUserByProfile(jwt);
+        Chat chat = chatService.removeFromGroup(chatId, userId, user);
+        log.info("Removed user from group: {}", chat.getId());
+
+        return new ResponseEntity<>(chat, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponseDTO> deleteChat(@PathVariable Long id,
+                                                     @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+            throws UserException, ChatException {
+        User user = userService.findUserByProfile(jwt);
+        chatService.deleteChat(id, user.getId());
+        log.info("Chat deleted: {}", id);
+
+        ApiResponseDTO res = ApiResponseDTO.builder()
+                .message("Chat deleted successfully")
+                .status(true)
+                .build();
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
 }
