@@ -28,7 +28,7 @@ public class UserController {
     public ResponseEntity<User> getUserProfile(@RequestHeader(JwtConstants.TOKEN_HEADER) String token) throws UserException {
         log.info("Token received: {}", token);
         User user = userService.findUserByProfile(token);
-        log.info("User profile logged in: {}", user.getEmail());
+        log.info("User logged in: {}", user.getEmail());
 
         return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
     }
@@ -45,6 +45,8 @@ public class UserController {
                                                      @RequestHeader(JwtConstants.TOKEN_HEADER) String token) throws UserException {
         User user = userService.findUserByProfile(token);
         userService.updateUser(user.getId(), request);
+        log.info("User updated: {}", user.getEmail());
+
         ApiResponseDTO response = ApiResponseDTO.builder()
                 .message("User updated")
                 .status(true)
