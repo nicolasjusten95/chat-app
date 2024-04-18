@@ -131,7 +131,7 @@ public class ChatServiceImpl implements ChatService {
         Chat chat = findChatById(chatId);
         User user = userService.findUserById(userId);
 
-        boolean isSingleChatOrAdmin = !chat.isGroup() || chat.getAdmins().contains(user);
+        boolean isSingleChatOrAdmin = !chat.getIsGroup() || chat.getAdmins().contains(user);
 
         if (isSingleChatOrAdmin) {
             chatRepository.deleteById(chatId);
