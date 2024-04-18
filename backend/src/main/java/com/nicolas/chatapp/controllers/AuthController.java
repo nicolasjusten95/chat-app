@@ -84,7 +84,7 @@ public class AuthController {
                 .isAuthenticated(true)
                 .build();
 
-        log.info("User {} successfully logged in", loginRequestDTO.email());
+        log.info("User {} successfully signed in", loginRequestDTO.email());
 
         return new ResponseEntity<>(loginResponseDTO, HttpStatus.ACCEPTED);
     }

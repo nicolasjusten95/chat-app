@@ -13,6 +13,7 @@ public class HomeController {
 
     @GetMapping("/")
     public ResponseEntity<String> home() {
+        log.info("Welcome to my chat app");
         return new ResponseEntity<>("Welcome to my chat app", HttpStatus.OK);
     }
 

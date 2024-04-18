@@ -33,7 +33,7 @@ public class MessageController {
             throws ChatException, UserException {
         User user = userService.findUserByProfile(jwt);
         Message sendMessage = messageService.sendMessage(req, user.getId());
-        log.info("Message sent from: {}", user.getId());
+        log.info("User {} sent message: {}", user.getEmail(), sendMessage.getId());
 
         return new ResponseEntity<>(sendMessage, HttpStatus.OK);
     }
@@ -44,7 +44,6 @@ public class MessageController {
             throws ChatException, UserException {
         User user = userService.findUserByProfile(jwt);
         List<Message> messages = messageService.getChatMessages(chatId, user);
-        log.info("Getting chat messages: {}", chatId);
 
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
@@ -55,7 +54,7 @@ public class MessageController {
             throws UserException, MessageException {
         User user = userService.findUserByProfile(jwt);
         messageService.deleteMessageById(id, user);
-        log.info("Message deleted: {}", id);
+        log.info("User {} deleted message: {}", user.getEmail(), id);
 
         ApiResponseDTO res = ApiResponseDTO.builder()
                 .message("Message deleted successfully")

@@ -26,9 +26,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<User> getUserProfile(@RequestHeader(JwtConstants.TOKEN_HEADER) String token) throws UserException {
-        log.info("Token received: {}", token);
         User user = userService.findUserByProfile(token);
-        log.info("User logged in: {}", user.getEmail());
 
         return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
     }
@@ -38,6 +36,14 @@ public class UserController {
         List<User> users = userService.searchUser(query);
 
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Set<User>> searchUsersByName(@RequestParam("name") String name) {
+        List<User> users = userService.searchUserByName(name);
+        Set<User> userSet = new HashSet<>(users);
+
+        return new ResponseEntity<>(userSet, HttpStatus.OK);
     }
 
     @PutMapping("/update")
@@ -53,14 +59,6 @@ public class UserController {
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<Set<User>> searchUsersByName(@RequestParam("name") String name) {
-        List<User> users = userService.searchUserByName(name);
-        Set<User> userSet = new HashSet<>(users);
-
-        return new ResponseEntity<>(userSet, HttpStatus.OK);
     }
 
 }

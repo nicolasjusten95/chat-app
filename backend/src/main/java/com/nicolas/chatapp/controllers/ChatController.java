@@ -33,7 +33,7 @@ public class ChatController {
             throws UserException {
         User user = userService.findUserByProfile(jwt);
         Chat chat = chatService.createChat(user, req.userId());
-        log.info("Created single chat: {}", chat.getId());
+        log.info("User {} created single chat: {}", user.getEmail(), chat.getId());
 
         return new ResponseEntity<>(chat, HttpStatus.OK);
     }
@@ -44,7 +44,7 @@ public class ChatController {
             throws UserException {
         User user = userService.findUserByProfile(jwt);
         Chat chat = chatService.createGroup(req, user);
-        log.info("Created group chat: {}", chat.getId());
+        log.info("User {} created group chat: {}", user.getEmail(), chat.getId());
 
         return new ResponseEntity<>(chat, HttpStatus.OK);
     }
@@ -73,7 +73,7 @@ public class ChatController {
             throws UserException, ChatException {
         User user = userService.findUserByProfile(jwt);
         Chat chat = chatService.addUserToGroup(chatId, userId, user);
-        log.info("Added user to group: {}", chat.getId());
+        log.info("User {} added user {} to group chat: {}", user.getEmail(), userId, chat.getId());
 
         return new ResponseEntity<>(chat, HttpStatus.OK);
     }
@@ -84,7 +84,7 @@ public class ChatController {
             throws UserException, ChatException {
         User user = userService.findUserByProfile(jwt);
         Chat chat = chatService.removeFromGroup(chatId, userId, user);
-        log.info("Removed user from group: {}", chat.getId());
+        log.info("User {} removed user {} from group chat: {}", user.getEmail(), userId, chat.getId());
 
         return new ResponseEntity<>(chat, HttpStatus.OK);
     }
@@ -95,7 +95,7 @@ public class ChatController {
             throws UserException, ChatException {
         User user = userService.findUserByProfile(jwt);
         chatService.deleteChat(id, user.getId());
-        log.info("Chat deleted: {}", id);
+        log.info("User {} deleted chat: {}", user.getEmail(), id);
 
         ApiResponseDTO res = ApiResponseDTO.builder()
                 .message("Chat deleted successfully")
