@@ -1,4 +1,6 @@
 package com.nicolas.chatapp.dto.request;
 
-public record SendMessageRequestDTO(Long chatId, String content) {
+import java.util.UUID;
+
+public record SendMessageRequestDTO(UUID chatId, String content) {
 }

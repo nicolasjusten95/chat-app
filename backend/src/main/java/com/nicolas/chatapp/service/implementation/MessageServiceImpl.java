@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
 
     @Override
-    public Message sendMessage(SendMessageRequestDTO req, Long userId) throws UserException, ChatException {
+    public Message sendMessage(SendMessageRequestDTO req, UUID userId) throws UserException, ChatException {
 
         User user = userService.findUserById(userId);
         Chat chat = chatService.findChatById(req.chatId());
@@ -43,7 +44,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> getChatMessages(Long chatId, User reqUser) throws UserException, ChatException {
+    public List<Message> getChatMessages(UUID chatId, User reqUser) throws UserException, ChatException {
 
         Chat chat = chatService.findChatById(chatId);
 
@@ -55,7 +56,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message findMessageById(Long messageId) throws MessageException {
+    public Message findMessageById(UUID messageId) throws MessageException {
 
         Optional<Message> message = messageRepository.findById(messageId);
 
@@ -67,7 +68,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void deleteMessageById(Long messageId, User reqUser) throws UserException, MessageException {
+    public void deleteMessageById(UUID messageId, User reqUser) throws UserException, MessageException {
 
         Message message = findMessageById(messageId);
 

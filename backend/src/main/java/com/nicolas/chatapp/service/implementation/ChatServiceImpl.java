@@ -11,10 +11,7 @@ import com.nicolas.chatapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,14 +21,14 @@ public class ChatServiceImpl implements ChatService {
     private final ChatRepository chatRepository;
 
     @Override
-    public Chat createChat(User reqUser, Long userId2) throws UserException {
+    public Chat createChat(User reqUser, UUID userId2) throws UserException {
 
         User user2 = userService.findUserById(userId2);
 
-        Optional<Chat> isChatExists = chatRepository.findSingleChatByUsers(user2, reqUser);
+        Optional<Chat> existingChatOptional = chatRepository.findSingleChatByUsers(user2, reqUser);
 
-        if (isChatExists.isPresent()) {
-            return isChatExists.get();
+        if (existingChatOptional.isPresent()) {
+            return existingChatOptional.get();
         }
 
         Chat chat = Chat.builder()
@@ -44,19 +41,19 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Chat findChatById(Long id) throws ChatException {
+    public Chat findChatById(UUID id) throws ChatException {
 
-        Optional<Chat> chat = chatRepository.findById(id);
+        Optional<Chat> chatOptional = chatRepository.findById(id);
 
-        if (chat.isPresent()) {
-            return chat.get();
+        if (chatOptional.isPresent()) {
+            return chatOptional.get();
         }
 
         throw new ChatException("No chat found with id " + id);
     }
 
     @Override
-    public List<Chat> findAllByUserId(Long userId) throws UserException {
+    public List<Chat> findAllByUserId(UUID userId) throws UserException {
 
         User user = userService.findUserById(userId);
 
@@ -73,7 +70,7 @@ public class ChatServiceImpl implements ChatService {
                 .admins(new HashSet<>(Set.of(reqUser)))
                 .build();
 
-        for (Long userId : req.userIds()) {
+        for (UUID userId : req.userIds()) {
             User userToAdd = userService.findUserById(userId);
             groupChat.getUsers().add(userToAdd);
         }
@@ -82,7 +79,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Chat addUserToGroup(Long userId, Long chatId, User reqUser) throws UserException, ChatException {
+    public Chat addUserToGroup(UUID userId, UUID chatId, User reqUser) throws UserException, ChatException {
 
         Chat chat = findChatById(chatId);
         User user = userService.findUserById(userId);
@@ -96,7 +93,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Chat renameGroup(Long chatId, String groupName, User reqUser) throws UserException, ChatException {
+    public Chat renameGroup(UUID chatId, String groupName, User reqUser) throws UserException, ChatException {
 
         Chat chat = findChatById(chatId);
 
@@ -109,7 +106,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Chat removeFromGroup(Long chatId, Long userId, User reqUser) throws UserException, ChatException {
+    public Chat removeFromGroup(UUID chatId, UUID userId, User reqUser) throws UserException, ChatException {
 
         Chat chat = findChatById(chatId);
         User user = userService.findUserById(userId);
@@ -126,7 +123,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public void deleteChat(Long chatId, Long userId) throws UserException, ChatException {
+    public void deleteChat(UUID chatId, UUID userId) throws UserException, ChatException {
 
         Chat chat = findChatById(chatId);
         User user = userService.findUserById(userId);

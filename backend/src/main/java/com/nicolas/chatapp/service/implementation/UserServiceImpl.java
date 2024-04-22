@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private final TokenProvider tokenProvider;
 
     @Override
-    public User findUserById(Long id) throws UserException {
+    public User findUserById(UUID id) throws UserException {
         Optional<User> user = userRepository.findById(id);
 
         if (user.isPresent()) {
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(Long id, UpdateUserRequestDTO request) throws UserException {
+    public User updateUser(UUID id, UpdateUserRequestDTO request) throws UserException {
         User user = findUserById(id);
 
         if (Objects.nonNull(request.fullName())) {

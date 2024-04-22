@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -31,6 +32,7 @@ public class ChatController {
     public ResponseEntity<Chat> createSingleChat(@RequestBody SingleChatRequestDTO req,
                                                  @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException {
+
         User user = userService.findUserByProfile(jwt);
         Chat chat = chatService.createChat(user, req.userId());
         log.info("User {} created single chat: {}", user.getEmail(), chat.getId());
@@ -42,6 +44,7 @@ public class ChatController {
     public ResponseEntity<Chat> createGroupChat(@RequestBody GroupChatRequestDTO req,
                                                 @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException {
+
         User user = userService.findUserByProfile(jwt);
         Chat chat = chatService.createGroup(req, user);
         log.info("User {} created group chat: {}", user.getEmail(), chat.getId());
@@ -50,9 +53,9 @@ public class ChatController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Chat> findChatById(@PathVariable("id") Long id,
-                                             @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+    public ResponseEntity<Chat> findChatById(@PathVariable("id") UUID id)
             throws ChatException {
+
         Chat chat = chatService.findChatById(id);
 
         return new ResponseEntity<>(chat, HttpStatus.OK);
@@ -61,6 +64,7 @@ public class ChatController {
     @GetMapping("/user")
     public ResponseEntity<List<Chat>> findAllChatsByUserId(@RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException {
+
         User user = userService.findUserByProfile(jwt);
         List<Chat> chats = chatService.findAllByUserId(user.getId());
 
@@ -68,9 +72,10 @@ public class ChatController {
     }
 
     @PutMapping("/{chatId}/add/{userId}")
-    public ResponseEntity<Chat> addUserToGroup(@PathVariable Long chatId, @PathVariable Long userId,
+    public ResponseEntity<Chat> addUserToGroup(@PathVariable UUID chatId, @PathVariable UUID userId,
                                                @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException, ChatException {
+
         User user = userService.findUserByProfile(jwt);
         Chat chat = chatService.addUserToGroup(chatId, userId, user);
         log.info("User {} added user {} to group chat: {}", user.getEmail(), userId, chat.getId());
@@ -79,9 +84,10 @@ public class ChatController {
     }
 
     @PutMapping("/{chatId}/remove/{userId}")
-    public ResponseEntity<Chat> removeUserFromGroup(@PathVariable Long chatId, @PathVariable Long userId,
+    public ResponseEntity<Chat> removeUserFromGroup(@PathVariable UUID chatId, @PathVariable UUID userId,
                                                     @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException, ChatException {
+
         User user = userService.findUserByProfile(jwt);
         Chat chat = chatService.removeFromGroup(chatId, userId, user);
         log.info("User {} removed user {} from group chat: {}", user.getEmail(), userId, chat.getId());
@@ -90,9 +96,10 @@ public class ChatController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ApiResponseDTO> deleteChat(@PathVariable Long id,
+    public ResponseEntity<ApiResponseDTO> deleteChat(@PathVariable UUID id,
                                                      @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException, ChatException {
+
         User user = userService.findUserByProfile(jwt);
         chatService.deleteChat(id, user.getId());
         log.info("User {} deleted chat: {}", user.getEmail(), id);

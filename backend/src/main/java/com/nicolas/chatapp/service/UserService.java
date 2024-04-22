@@ -5,14 +5,15 @@ import com.nicolas.chatapp.exception.UserException;
 import com.nicolas.chatapp.model.User;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UserService {
 
-    User findUserById(Long id) throws UserException;
+    User findUserById(UUID id) throws UserException;
 
     User findUserByProfile(String jwt) throws UserException;
 
-    User updateUser(Long id, UpdateUserRequestDTO request) throws UserException;
+    User updateUser(UUID id, UpdateUserRequestDTO request) throws UserException;
 
     List<User> searchUser(String query);
 

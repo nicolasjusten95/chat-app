@@ -26,6 +26,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<User> getUserProfile(@RequestHeader(JwtConstants.TOKEN_HEADER) String token) throws UserException {
+
         User user = userService.findUserByProfile(token);
 
         return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
@@ -33,6 +34,7 @@ public class UserController {
 
     @GetMapping("/{query}")
     public ResponseEntity<List<User>> searchUsers(@PathVariable String query) {
+
         List<User> users = userService.searchUser(query);
 
         return new ResponseEntity<>(users, HttpStatus.OK);
@@ -40,6 +42,7 @@ public class UserController {
 
     @GetMapping("/search")
     public ResponseEntity<Set<User>> searchUsersByName(@RequestParam("name") String name) {
+
         List<User> users = userService.searchUserByName(name);
         Set<User> userSet = new HashSet<>(users);
 
@@ -48,7 +51,9 @@ public class UserController {
 
     @PutMapping("/update")
     public ResponseEntity<ApiResponseDTO> updateUser(@RequestBody UpdateUserRequestDTO request,
-                                                     @RequestHeader(JwtConstants.TOKEN_HEADER) String token) throws UserException {
+                                                     @RequestHeader(JwtConstants.TOKEN_HEADER) String token)
+            throws UserException {
+
         User user = userService.findUserByProfile(token);
         userService.updateUser(user.getId(), request);
         log.info("User updated: {}", user.getEmail());

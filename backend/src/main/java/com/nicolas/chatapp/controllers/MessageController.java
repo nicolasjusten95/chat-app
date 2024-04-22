@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -31,6 +32,7 @@ public class MessageController {
     public ResponseEntity<Message> sendMessage(@RequestBody SendMessageRequestDTO req,
                                                @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws ChatException, UserException {
+
         User user = userService.findUserByProfile(jwt);
         Message sendMessage = messageService.sendMessage(req, user.getId());
         log.info("User {} sent message: {}", user.getEmail(), sendMessage.getId());
@@ -39,9 +41,10 @@ public class MessageController {
     }
 
     @GetMapping("/chat/{chatId}")
-    public ResponseEntity<List<Message>> getChatMessages(@PathVariable Long chatId,
+    public ResponseEntity<List<Message>> getChatMessages(@PathVariable UUID chatId,
                                                          @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws ChatException, UserException {
+
         User user = userService.findUserByProfile(jwt);
         List<Message> messages = messageService.getChatMessages(chatId, user);
 
@@ -49,9 +52,10 @@ public class MessageController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponseDTO> deleteMessage(@PathVariable Long id,
+    public ResponseEntity<ApiResponseDTO> deleteMessage(@PathVariable UUID id,
                                                         @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException, MessageException {
+
         User user = userService.findUserByProfile(jwt);
         messageService.deleteMessageById(id, user);
         log.info("User {} deleted message: {}", user.getEmail(), id);
