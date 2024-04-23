@@ -74,9 +74,10 @@ public class MessageServiceImpl implements MessageService {
 
         if (message.getUser().getId().equals(reqUser.getId())) {
             messageRepository.deleteById(messageId);
+            return;
         }
 
-        throw new UserException("User is not related to chat " + message.getChat().getId());
+        throw new UserException("User is not related to message " + message.getId());
     }
 
 }

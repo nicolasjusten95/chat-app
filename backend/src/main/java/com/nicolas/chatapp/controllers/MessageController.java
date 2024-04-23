@@ -3,6 +3,7 @@ package com.nicolas.chatapp.controllers;
 import com.nicolas.chatapp.config.JwtConstants;
 import com.nicolas.chatapp.dto.request.SendMessageRequestDTO;
 import com.nicolas.chatapp.dto.response.ApiResponseDTO;
+import com.nicolas.chatapp.dto.response.MessageDTO;
 import com.nicolas.chatapp.exception.ChatException;
 import com.nicolas.chatapp.exception.MessageException;
 import com.nicolas.chatapp.exception.UserException;
@@ -29,26 +30,26 @@ public class MessageController {
     private final MessageService messageService;
 
     @PostMapping("/create")
-    public ResponseEntity<Message> sendMessage(@RequestBody SendMessageRequestDTO req,
-                                               @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+    public ResponseEntity<MessageDTO> sendMessage(@RequestBody SendMessageRequestDTO req,
+                                                  @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws ChatException, UserException {
 
         User user = userService.findUserByProfile(jwt);
-        Message sendMessage = messageService.sendMessage(req, user.getId());
-        log.info("User {} sent message: {}", user.getEmail(), sendMessage.getId());
+        Message message = messageService.sendMessage(req, user.getId());
+        log.info("User {} sent message: {}", user.getEmail(), message.getId());
 
-        return new ResponseEntity<>(sendMessage, HttpStatus.OK);
+        return new ResponseEntity<>(MessageDTO.fromMessage(message), HttpStatus.OK);
     }
 
     @GetMapping("/chat/{chatId}")
-    public ResponseEntity<List<Message>> getChatMessages(@PathVariable UUID chatId,
+    public ResponseEntity<List<MessageDTO>> getChatMessages(@PathVariable UUID chatId,
                                                          @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws ChatException, UserException {
 
         User user = userService.findUserByProfile(jwt);
         List<Message> messages = messageService.getChatMessages(chatId, user);
 
-        return new ResponseEntity<>(messages, HttpStatus.OK);
+        return new ResponseEntity<>(MessageDTO.fromMessages(messages), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

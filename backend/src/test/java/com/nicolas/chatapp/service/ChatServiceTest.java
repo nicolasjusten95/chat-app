@@ -56,7 +56,7 @@ class ChatServiceTest extends AbstractIntegrationTest {
         assertThat(result.getCreatedBy()).isEqualTo(leia);
         assertThat(result.getIsGroup()).isFalse();
         assertThat(result.getUsers()).containsExactlyInAnyOrderElementsOf(Set.of(leia, han));
-        assertThat(repositoryChat).isNotNull();
+        assertThat(repositoryChat).isEqualTo(result);
 
         // Create already existing chat
         Chat existingChat = chatService.createChat(leia, lukesId);
@@ -109,7 +109,7 @@ class ChatServiceTest extends AbstractIntegrationTest {
         GroupChatRequestDTO request = new GroupChatRequestDTO(List.of(leiasId, hansId), name);
         Chat chat = chatService.createGroup(request, leia);
         Chat repositoryChat = chatService.findChatById(chat.getId());
-        assertThat(repositoryChat).isNotNull();
+        assertThat(repositoryChat).isEqualTo(chat);
         assertThat(chat.getIsGroup()).isTrue();
         assertThat(chat.getId()).isNotNull();
         assertThat(chat.getCreatedBy()).isEqualTo(leia);
