@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserById(UUID id) throws UserException {
+
         Optional<User> user = userRepository.findById(id);
 
         if (user.isPresent()) {
@@ -36,7 +37,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByProfile(String jwt) throws UserException {
-        String email = String.valueOf(tokenProvider.getClaimsFromToken(jwt).get(JwtConstants.EMAIL));
+
+        String email = String.valueOf(tokenProvider.getClaimsFromJwt(jwt).get(JwtConstants.EMAIL));
 
         if (email == null) {
             throw new BadCredentialsException("Invalid token");
@@ -53,6 +55,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(UUID id, UpdateUserRequestDTO request) throws UserException {
+
         User user = findUserById(id);
 
         if (Objects.nonNull(request.fullName())) {

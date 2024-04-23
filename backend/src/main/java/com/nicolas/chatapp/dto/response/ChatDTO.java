@@ -3,10 +3,7 @@ package com.nicolas.chatapp.dto.response;
 import com.nicolas.chatapp.model.Chat;
 import lombok.Builder;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Builder
 public record ChatDTO(
@@ -31,7 +28,7 @@ public record ChatDTO(
                 .build();
     }
 
-    public static List<ChatDTO> fromChats(List<Chat> chats) {
+    public static List<ChatDTO> fromChats(Collection<Chat> chats) {
         if (Objects.isNull(chats)) return List.of();
         return chats.stream()
                 .map(ChatDTO::fromChat)

@@ -4,6 +4,7 @@ import com.nicolas.chatapp.model.Message;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -20,7 +21,7 @@ public record MessageDTO(UUID id, String content, LocalDateTime timeStamp) {
                 .build();
     }
 
-    public static List<MessageDTO> fromMessages(List<Message> messages) {
+    public static List<MessageDTO> fromMessages(Collection<Message> messages) {
         if (Objects.isNull(messages)) return List.of();
         return messages.stream()
                 .map(MessageDTO::fromMessage)

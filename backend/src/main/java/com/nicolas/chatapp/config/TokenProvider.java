@@ -38,6 +38,10 @@ public class TokenProvider {
 
     public Claims getClaimsFromToken(String jwt) {
         jwt = jwt.substring(JwtConstants.TOKEN_PREFIX.length());
+        return getClaimsFromJwt(jwt);
+    }
+
+    public Claims getClaimsFromJwt(String jwt) {
         return jwtParser.parseSignedClaims(jwt).getPayload();
     }
 
