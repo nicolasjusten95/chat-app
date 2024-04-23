@@ -4,6 +4,7 @@ import com.nicolas.chatapp.config.JwtConstants;
 import com.nicolas.chatapp.dto.request.GroupChatRequestDTO;
 import com.nicolas.chatapp.dto.request.SingleChatRequestDTO;
 import com.nicolas.chatapp.dto.response.ApiResponseDTO;
+import com.nicolas.chatapp.dto.response.ChatDTO;
 import com.nicolas.chatapp.exception.ChatException;
 import com.nicolas.chatapp.exception.UserException;
 import com.nicolas.chatapp.model.Chat;
@@ -29,7 +30,7 @@ public class ChatController {
     private final ChatService chatService;
 
     @PostMapping("/single")
-    public ResponseEntity<Chat> createSingleChat(@RequestBody SingleChatRequestDTO req,
+    public ResponseEntity<ChatDTO> createSingleChat(@RequestBody SingleChatRequestDTO req,
                                                  @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException {
 
@@ -37,11 +38,11 @@ public class ChatController {
         Chat chat = chatService.createChat(user, req.userId());
         log.info("User {} created single chat: {}", user.getEmail(), chat.getId());
 
-        return new ResponseEntity<>(chat, HttpStatus.OK);
+        return new ResponseEntity<>(ChatDTO.fromChat(chat), HttpStatus.OK);
     }
 
     @PostMapping("/group")
-    public ResponseEntity<Chat> createGroupChat(@RequestBody GroupChatRequestDTO req,
+    public ResponseEntity<ChatDTO> createGroupChat(@RequestBody GroupChatRequestDTO req,
                                                 @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException {
 
@@ -49,30 +50,30 @@ public class ChatController {
         Chat chat = chatService.createGroup(req, user);
         log.info("User {} created group chat: {}", user.getEmail(), chat.getId());
 
-        return new ResponseEntity<>(chat, HttpStatus.OK);
+        return new ResponseEntity<>(ChatDTO.fromChat(chat), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Chat> findChatById(@PathVariable("id") UUID id)
+    public ResponseEntity<ChatDTO> findChatById(@PathVariable("id") UUID id)
             throws ChatException {
 
         Chat chat = chatService.findChatById(id);
 
-        return new ResponseEntity<>(chat, HttpStatus.OK);
+        return new ResponseEntity<>(ChatDTO.fromChat(chat), HttpStatus.OK);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<Chat>> findAllChatsByUserId(@RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+    public ResponseEntity<List<ChatDTO>> findAllChatsByUserId(@RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException {
 
         User user = userService.findUserByProfile(jwt);
         List<Chat> chats = chatService.findAllByUserId(user.getId());
 
-        return new ResponseEntity<>(chats, HttpStatus.OK);
+        return new ResponseEntity<>(ChatDTO.fromChats(chats), HttpStatus.OK);
     }
 
     @PutMapping("/{chatId}/add/{userId}")
-    public ResponseEntity<Chat> addUserToGroup(@PathVariable UUID chatId, @PathVariable UUID userId,
+    public ResponseEntity<ChatDTO> addUserToGroup(@PathVariable UUID chatId, @PathVariable UUID userId,
                                                @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException, ChatException {
 
@@ -80,11 +81,11 @@ public class ChatController {
         Chat chat = chatService.addUserToGroup(chatId, userId, user);
         log.info("User {} added user {} to group chat: {}", user.getEmail(), userId, chat.getId());
 
-        return new ResponseEntity<>(chat, HttpStatus.OK);
+        return new ResponseEntity<>(ChatDTO.fromChat(chat), HttpStatus.OK);
     }
 
     @PutMapping("/{chatId}/remove/{userId}")
-    public ResponseEntity<Chat> removeUserFromGroup(@PathVariable UUID chatId, @PathVariable UUID userId,
+    public ResponseEntity<ChatDTO> removeUserFromGroup(@PathVariable UUID chatId, @PathVariable UUID userId,
                                                     @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException, ChatException {
 
@@ -92,7 +93,7 @@ public class ChatController {
         Chat chat = chatService.removeFromGroup(chatId, userId, user);
         log.info("User {} removed user {} from group chat: {}", user.getEmail(), userId, chat.getId());
 
-        return new ResponseEntity<>(chat, HttpStatus.OK);
+        return new ResponseEntity<>(ChatDTO.fromChat(chat), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

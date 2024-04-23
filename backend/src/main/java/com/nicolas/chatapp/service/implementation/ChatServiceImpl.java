@@ -68,6 +68,7 @@ public class ChatServiceImpl implements ChatService {
                 .chatName(req.chatName())
                 .createdBy(reqUser)
                 .admins(new HashSet<>(Set.of(reqUser)))
+                .users(new HashSet<>())
                 .build();
 
         for (UUID userId : req.userIds()) {
@@ -132,6 +133,7 @@ public class ChatServiceImpl implements ChatService {
 
         if (isSingleChatOrAdmin) {
             chatRepository.deleteById(chatId);
+            return;
         }
 
         throw new UserException("User doesn't have permissions to delete group chat");
