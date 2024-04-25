@@ -12,7 +12,13 @@
     "@types/react-dom": "^18.2.22",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^9.1.1",
+    "react-router-dom": "^6.23.0",
     "react-scripts": "5.0.1",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
