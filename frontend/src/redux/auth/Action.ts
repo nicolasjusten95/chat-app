@@ -1,4 +1,3 @@
-import {BASE_API_URL, TOKEN} from '../../config/Config.js';
 import {
     IApiResponseDTO,
     ILoginRequestDTO,
@@ -9,6 +8,7 @@ import {
     IUserResponseDTO
 } from "./Model";
 import * as actionTypes from './ActionType';
+import {BASE_API_URL, TOKEN} from "../../config/Config";
 
 const AUTH_PATH = 'auth';
 const USER_PATH = 'api/users';
