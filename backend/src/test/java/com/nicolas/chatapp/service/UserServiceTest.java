@@ -1,6 +1,7 @@
 package com.nicolas.chatapp.service;
 
 import com.nicolas.chatapp.AbstractIntegrationTest;
+import com.nicolas.chatapp.config.JwtConstants;
 import com.nicolas.chatapp.controllers.AuthController;
 import com.nicolas.chatapp.controllers.UserController;
 import com.nicolas.chatapp.dto.request.LoginRequestDTO;
@@ -50,14 +51,16 @@ class UserServiceTest extends AbstractIntegrationTest {
         LoginRequestDTO request = new LoginRequestDTO(mail, "1234");
         LoginResponseDTO response = authController.login(request).getBody();
         assert response != null;
-        User user = userService.findUserByProfile(response.token());
+        String authorization = JwtConstants.TOKEN_PREFIX + response.token();
+        User user = userService.findUserByProfile(authorization);
         assertThat(user.getId()).isEqualTo(lukesId);
         assertThat(user.getEmail()).isEqualTo(mail);
 
         // Get user with invalid jwts
-        assertThrows(IllegalArgumentException.class, () -> userService.findUserByProfile(""));
-        assertThrows(MalformedJwtException.class, () -> userService.findUserByProfile("12345678901234567890"));
-        assertThrows(ExpiredJwtException.class, () -> userService.findUserByProfile("eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjaGF0LWFwcC1iYWNrZW5kIiwiaWF0IjoxNzEyODQzODk4LCJleHAiOjE3MTI4NDc0OTgsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSJ9.-vub9kKf5loCrb0DI03NlwegDYEQPr1WZzpdkhrDfXE"));
+        assertThrows(StringIndexOutOfBoundsException.class, () -> userService.findUserByProfile(""));
+        assertThrows(IllegalArgumentException.class, () -> userService.findUserByProfile(JwtConstants.TOKEN_PREFIX));
+        assertThrows(MalformedJwtException.class, () -> userService.findUserByProfile(JwtConstants.TOKEN_PREFIX + "12345678901234567890"));
+        assertThrows(ExpiredJwtException.class, () -> userService.findUserByProfile(JwtConstants.TOKEN_PREFIX + "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjaGF0LWFwcC1iYWNrZW5kIiwiaWF0IjoxNzEyODQzODk4LCJleHAiOjE3MTI4NDc0OTgsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSJ9.-vub9kKf5loCrb0DI03NlwegDYEQPr1WZzpdkhrDfXE"));
     }
 
     @Test

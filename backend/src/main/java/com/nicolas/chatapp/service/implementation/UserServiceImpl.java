@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByProfile(String jwt) throws UserException {
 
-        String email = String.valueOf(tokenProvider.getClaimsFromJwt(jwt).get(JwtConstants.EMAIL));
+        String email = String.valueOf(tokenProvider.getClaimsFromToken(jwt).get(JwtConstants.EMAIL));
 
         if (email == null) {
             throw new BadCredentialsException("Invalid token");
