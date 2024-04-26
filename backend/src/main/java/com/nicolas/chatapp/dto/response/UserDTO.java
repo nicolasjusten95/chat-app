@@ -7,14 +7,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Builder
-public record UserDTO(UUID id, String email, String fullname) {
+public record UserDTO(UUID id, String email, String fullName) {
 
     public static UserDTO fromUser(User user) {
         if (Objects.isNull(user)) return null;
         return UserDTO.builder()
                 .id(user.getId())
                 .email(user.getEmail())
-                .fullname(user.getFullName())
+                .fullName(user.getFullName())
                 .build();
     }
 

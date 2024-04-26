@@ -86,7 +86,7 @@ class UserServiceTest extends AbstractIntegrationTest {
     @Test
     void searchUser() throws UserException {
 
-        // Search user by fullname
+        // Search user by fullName
         User luke = userService.findUserById(lukesId);
         List<User> result = userService.searchUser("Luke");
         assertThat(result).containsExactly(luke);

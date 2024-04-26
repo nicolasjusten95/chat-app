@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/Store";
 import {AuthReducerState, IUpdateUserRequestDTO} from "../../redux/auth/Model";
 import {TOKEN} from "../../config/Config";
-import {updateUser} from "../../redux/auth/Action";
+import {currentUser, updateUser} from "../../redux/auth/Action";
 import WestIcon from '@mui/icons-material/West';
 import {Avatar, IconButton, TextField} from "@mui/material";
 import CreateIcon from '@mui/icons-material/Create';
@@ -18,13 +18,20 @@ const Profile = () => {
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
     const state: RootState = useSelector((state: AuthReducerState) => state);
+    const token: string | null = localStorage.getItem(TOKEN);
 
     useEffect(() => {
-        const letters = `${state.reqUser?.fullName.split(' ')[0][0]}${state.reqUser?.fullName.split(' ')[1][0]}`;
-        console.log(letters);
-        console.log(state.reqUser);
-        setInitials(letters);
-    }, [state]);
+        if (token) {
+            dispatch(currentUser(token));
+        }
+    }, [token, dispatch]);
+
+    useEffect(() => {
+        if (state.reqUser && state.reqUser.fullName) {
+            const letters = `${state.reqUser.fullName.split(' ')[0][0]}${state.reqUser.fullName.split(' ')[1][0]}`;
+            setInitials(letters);
+        }
+    }, [state.reqUser?.fullName]);
 
     const onCloseProfile = () => {
         navigate("/");
@@ -35,7 +42,6 @@ const Profile = () => {
     };
 
     const onHandleCheck = () => {
-        const token = localStorage.getItem(TOKEN);
         if (fullName && token) {
             const data: IUpdateUserRequestDTO = {
                 token: token,
