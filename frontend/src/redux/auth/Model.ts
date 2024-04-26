@@ -1,18 +1,4 @@
-import {EAuthActionType} from "./ActionType";
 import {UUID} from "node:crypto";
-
-export interface IAuthReducerState {
-    signin: ILoginResponseDTO | null,
-    signup: ILoginResponseDTO | null,
-    reqUser: IUserResponseDTO | null,
-    searchUser: IUserResponseDTO[] | null,
-    updateUser: IApiResponseDTO | null,
-}
-
-export interface IAuthReducerAction {
-    type: EAuthActionType,
-    payload: any,
-}
 
 export interface ISignUpRequestDTO {
     email: string,
@@ -52,3 +38,18 @@ export interface IApiResponseDTO {
     message: string,
     status: boolean,
 }
+
+export type AuthReducerState = {
+    signin: ILoginResponseDTO | null,
+    signup: ILoginResponseDTO | null,
+    reqUser: IUserResponseDTO | null,
+    searchUser: IUserResponseDTO[] | null,
+    updateUser: IApiResponseDTO | null,
+}
+
+export type AuthAction = {
+    type: string,
+    payload: any,
+}
+
+export type DispatchType = (args: AuthAction) => AuthAction;

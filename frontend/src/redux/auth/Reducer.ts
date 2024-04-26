@@ -1,7 +1,7 @@
-import {EAuthActionType} from "./ActionType";
-import {IAuthReducerAction, IAuthReducerState} from "./Model";
+import {AuthAction, AuthReducerState} from "./Model";
+import * as actionTypes from './ActionType';
 
-const initialState: IAuthReducerState = {
+const initialState: AuthReducerState = {
     signin: null,
     signup: null,
     reqUser: null,
@@ -9,19 +9,22 @@ const initialState: IAuthReducerState = {
     updateUser: null,
 };
 
-export const authReducer = (state: IAuthReducerState = initialState, action: IAuthReducerAction): IAuthReducerState => {
+const authReducer = (state: AuthReducerState = initialState, action: AuthAction): AuthReducerState => {
     switch (action.type) {
-        case EAuthActionType.REGISTER:
+        case actionTypes.REGISTER:
             return {...state, signup: action.payload};
-        case EAuthActionType.LOGIN_USER:
+        case actionTypes.LOGIN_USER:
             return {...state, signin: action.payload};
-        case EAuthActionType.REQ_USER:
+        case actionTypes.REQ_USER:
             return {...state, reqUser: action.payload};
-        case EAuthActionType.SEARCH_USER:
+        case actionTypes.SEARCH_USER:
             return {...state, searchUser: action.payload};
-        case EAuthActionType.UPDATE_USER:
+        case actionTypes.UPDATE_USER:
             return {...state, updateUser: action.payload};
-        case EAuthActionType.LOGOUT_USER:
+        case actionTypes.LOGOUT_USER:
             return {...state, signin: null, signup: null, reqUser: null};
     }
-}
+    return state;
+};
+
+export default authReducer;
