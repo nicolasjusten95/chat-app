@@ -6,11 +6,11 @@ import React, {Dispatch, useEffect, useState} from "react";
 import {currentUser, loginUser} from "../../redux/auth/Action";
 import {RootState} from "../../redux/Store";
 import {Button, TextField} from "@mui/material";
+import styles from './SignIn.module.scss';
 
 
 const SignIn = () => {
 
-    const [isOpenSnackBar, setIsOpenSnackBar] = useState<boolean>(false);
     const [signInData, setSignInData] = useState<ILoginRequestDTO>({email: "", password: ""})
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
@@ -26,7 +26,7 @@ const SignIn = () => {
 
     useEffect(() => {
         if (state.reqUser) {
-            console.log('User is logged in. Navigating to homepage.')
+            console.log('User is logged in ... navigating to homepage');
             navigate("/");
         }
     }, [state, navigate]);
@@ -46,24 +46,52 @@ const SignIn = () => {
     };
 
     const onClickCreateNewAccount = (e: any) => {
-        console.log('Navigating to signup page.')
+        console.log('Navigating to signup page')
         navigate("/signup");
     };
 
     return (
         <div>
-            <div>
-                <div>
+            <div className={styles.outerContainer}>
+                <div className={styles.innerContainer}>
                     <form onSubmit={onSubmit}>
-                        <TextField id="outlined-basic" label="Email" variant="outlined" onChange={onChangeEmail} />
-                        <TextField id="outlined-basic" label="Password" variant="outlined" onChange={onChangePassword} />
-                        <Button variant="contained" type="submit">Sign in</Button>
+                        <div>
+                            <p className={styles.text}>Email</p>
+                            <TextField
+                                className={styles.textInput}
+                                id="email"
+                                label="Enter your email"
+                                variant="outlined"
+                                onChange={onChangeEmail} />
+                        </div>
+                        <div>
+                            <p className={styles.text}>Password</p>
+                            <TextField
+                                className={styles.textInput}
+                                id="password"
+                                type="password"
+                                label="Enter your password"
+                                variant="outlined"
+                                onChange={onChangePassword}/>
+                        </div>
+                            <Button
+                                className={styles.button}
+                                variant="contained"
+                                size='large'
+                                type="submit">
+                                Sign in
+                            </Button>
                     </form>
-                    <Button variant="text" onClick={onClickCreateNewAccount}>Create new account</Button>
+                    <Button
+                        variant="text"
+                        size='large'
+                        onClick={onClickCreateNewAccount}>
+                        Create new account
+                    </Button>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default SignIn;

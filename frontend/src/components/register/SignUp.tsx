@@ -1,7 +1,11 @@
+import styles from './SignUp.module.scss'
+
 const SignUp = () => {
     return (
         <div>
-            SignUp
+            <div className={styles.outerContainer}>
+                SignUp
+            </div>
         </div>
     );
 }
