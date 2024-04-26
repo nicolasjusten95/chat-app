@@ -68,7 +68,7 @@ export const currentUser = (token: string) => async (dispatch: any): Promise<voi
         });
 
         const resData: IUserResponseDTO = await res.json();
-        console.log('Fetched current user: ', currentUser);
+        console.log('Fetched current user: ', resData);
         dispatch({type: actionTypes.REQ_USER, payload: resData});
     } catch (error: any) {
         console.error('Fetching user data failed: ', error);
