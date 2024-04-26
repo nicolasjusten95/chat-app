@@ -6,7 +6,7 @@ import React, {Dispatch, useEffect, useState} from "react";
 import {currentUser, loginUser} from "../../redux/auth/Action";
 import {RootState} from "../../redux/Store";
 import {Button, TextField} from "@mui/material";
-import styles from './SignIn.module.scss';
+import styles from "./Register.module.scss";
 
 
 const SignIn = () => {
@@ -19,21 +19,19 @@ const SignIn = () => {
 
     useEffect(() => {
         if (token) {
-            console.log('Found token: ', token);
             dispatch(currentUser(token));
         }
     }, [token, state.reqUser, dispatch]);
 
     useEffect(() => {
         if (state.reqUser) {
-            console.log('User is logged in ... navigating to homepage');
             navigate("/");
         }
     }, [state, navigate]);
 
     const onSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('Sign in form submitted');
+        console.log("Sign in form submitted");
         dispatch(loginUser(signInData));
     };
 
@@ -46,7 +44,6 @@ const SignIn = () => {
     };
 
     const onClickCreateNewAccount = (e: any) => {
-        console.log('Navigating to signup page')
         navigate("/signup");
     };
 
@@ -60,9 +57,11 @@ const SignIn = () => {
                             <TextField
                                 className={styles.textInput}
                                 id="email"
+                                type="email"
                                 label="Enter your email"
                                 variant="outlined"
-                                onChange={onChangeEmail} />
+                                onChange={onChangeEmail}
+                                value={signInData.email}/>
                         </div>
                         <div>
                             <p className={styles.text}>Password</p>
@@ -72,22 +71,23 @@ const SignIn = () => {
                                 type="password"
                                 label="Enter your password"
                                 variant="outlined"
-                                onChange={onChangePassword}/>
+                                onChange={onChangePassword}
+                                value={signInData.password}/>
                         </div>
+                        <div className={styles.button}>
                             <Button
-                                className={styles.button}
+                                fullWidth
                                 variant="contained"
-                                size='large'
+                                size="large"
                                 type="submit">
                                 Sign in
                             </Button>
+                        </div>
                     </form>
-                    <Button
-                        variant="text"
-                        size='large'
-                        onClick={onClickCreateNewAccount}>
-                        Create new account
-                    </Button>
+                    <div className={styles.bottomContainer}>
+                        <p> Create new account</p>
+                        <Button variant='text' size='large' onClick={onClickCreateNewAccount}>Signup</Button>
+                    </div>
                 </div>
             </div>
         </div>
