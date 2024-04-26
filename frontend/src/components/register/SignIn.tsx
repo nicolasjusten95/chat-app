@@ -11,7 +11,7 @@ import styles from "./Register.module.scss";
 
 const SignIn = () => {
 
-    const [signInData, setSignInData] = useState<ILoginRequestDTO>({email: "", password: ""})
+    const [signInData, setSignInData] = useState<ILoginRequestDTO>({email: "", password: ""});
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
     const token: string | null = localStorage.getItem(TOKEN);
