@@ -7,8 +7,8 @@ export interface ISignUpRequestDTO {
 }
 
 export interface IUpdateUserRequestDTO {
-    email: string,
-    password: string,
+    email?: string,
+    password?: string,
     fullName: string,
     token: string,
 }
