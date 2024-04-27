@@ -28,6 +28,7 @@ const Profile = () => {
     }, [token, dispatch]);
 
     // TODO: Test with name with only 1 initial
+    // TODO: Navigate to signin if no valid token
     useEffect(() => {
         if (state.reqUser && state.reqUser.fullName) {
             const letters = `${state.reqUser.fullName.split(' ')[0][0]}${state.reqUser.fullName.split(' ')[1][0]}`;
