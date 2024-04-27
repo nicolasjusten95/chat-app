@@ -9,6 +9,7 @@ import WestIcon from '@mui/icons-material/West';
 import {Avatar, IconButton, TextField} from "@mui/material";
 import CreateIcon from '@mui/icons-material/Create';
 import CheckIcon from '@mui/icons-material/Check';
+import styles from './Profile.module.scss';
 
 const Profile = () => {
 
@@ -26,12 +27,13 @@ const Profile = () => {
         }
     }, [token, dispatch]);
 
+    // TODO: Test with name with only 1 initial
     useEffect(() => {
         if (state.reqUser && state.reqUser.fullName) {
             const letters = `${state.reqUser.fullName.split(' ')[0][0]}${state.reqUser.fullName.split(' ')[1][0]}`;
             setInitials(letters);
         }
-    }, [state.reqUser?.fullName]);
+    }, [state.reqUser]);
 
     const onCloseProfile = () => {
         navigate("/");
@@ -58,41 +60,41 @@ const Profile = () => {
     };
 
     return (
-        <div>
-            <div>
+        <div className={styles.outerContainer}>
+            <div className={styles.headingContainer}>
                 <IconButton onClick={onCloseProfile}>
-                    <WestIcon/>
+                    <WestIcon fontSize='medium'/>
                 </IconButton>
-                <p>Profile</p>
+                <h2>Profile</h2>
             </div>
-            <div>
-                <Avatar>{initials}</Avatar>
+            <div className={styles.avatarContainer}>
+                <Avatar sx={{width: '15vw', height: '15vw', fontSize: '7vw'}}>{initials}</Avatar>
             </div>
-            <div>
-                <p></p>
+            <div className={styles.nameContainer}>
                 {!flag &&
-                    <div>
-                        <p>{fullName || state.reqUser?.fullName}</p>
-                        <IconButton onClick={onHandleFlag}>
+                    <div className={styles.innerNameStaticContainer}>
+                        <p className={styles.nameDistance}>{fullName || state.reqUser?.fullName}</p>
+                        <IconButton sx={{mr: '0.75rem'}} onClick={onHandleFlag}>
                             <CreateIcon/>
                         </IconButton>
                     </div>}
                 {flag &&
-                    <div>
+                    <div className={styles.innerNameDynamicContainer}>
                         <TextField
                             id="fullName"
                             type="test"
                             label="Enter your full name"
                             variant="outlined"
                             onChange={onChangeFullName}
-                            value={fullName}/>
-                        <IconButton onClick={onHandleCheck}>
+                            value={fullName}
+                            sx={{ml: '0.75rem'}}/>
+                        <IconButton sx={{mr: '0.75rem'}} onClick={onHandleCheck}>
                             <CheckIcon/>
                         </IconButton>
                     </div>}
             </div>
-            <div>
-                <p>This name will appear on your message</p>
+            <div className={styles.infoContainer}>
+                <p className={styles.infoText}>This name will appear on your messages</p>
             </div>
         </div>
     );

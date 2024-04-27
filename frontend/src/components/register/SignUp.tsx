@@ -8,6 +8,10 @@ import {AuthReducerState, ISignUpRequestDTO} from "../../redux/auth/Model";
 import {currentUser, register} from "../../redux/auth/Action";
 import {Button, TextField} from "@mui/material";
 
+
+// TODO: Verify email
+// TODO: Check if account already exists
+// TODO: Show error if something went wrong
 const SignUp = () => {
 
     const [createAccountData, setCreateAccountData] = useState<ISignUpRequestDTO>({fullName: "", email: "", password: ""});

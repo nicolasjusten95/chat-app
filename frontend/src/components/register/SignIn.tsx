@@ -9,6 +9,7 @@ import {Button, TextField} from "@mui/material";
 import styles from "./Register.module.scss";
 
 
+// TODO: Show error if something went wrong (like wrong mail/ pw)
 const SignIn = () => {
 
     const [signInData, setSignInData] = useState<ILoginRequestDTO>({email: "", password: ""});
@@ -85,7 +86,7 @@ const SignIn = () => {
                         </div>
                     </form>
                     <div className={styles.bottomContainer}>
-                        <p> Create new account</p>
+                        <p>Create new account</p>
                         <Button variant='text' size='large' onClick={onClickCreateNewAccount}>Signup</Button>
                     </div>
                 </div>
