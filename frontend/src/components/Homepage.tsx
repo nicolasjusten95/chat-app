@@ -1,5 +1,5 @@
 import styles from './Homepage.module.scss';
-import {Dispatch, useEffect, useState} from "react";
+import React, {Dispatch, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../redux/Store";
@@ -7,17 +7,20 @@ import {AuthReducerState} from "../redux/auth/Model";
 import {TOKEN} from "../config/Config";
 import CreateGroup from "./group/CreateGroup";
 import Profile from "./profile/Profile";
-import {Avatar, IconButton, Menu, MenuItem} from "@mui/material";
+import {Avatar, IconButton, InputAdornment, Menu, MenuItem, TextField} from "@mui/material";
 import ChatIcon from '@mui/icons-material/Chat';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {currentUser, logoutUser} from "../redux/auth/Action";
+import SearchIcon from '@mui/icons-material/Search';
 
 const Homepage = () => {
 
     const [isShowCreateGroup, setIsShowCreateGroup] = useState<boolean>(false);
     const [isShowProfile, setIsShowProfile] = useState<boolean>(false);
     const [anchor, setAnchor] = useState(null);
-    const [initials, setInitials] = useState<string>("")
+    const [initials, setInitials] = useState<string>("");
+    const [query, setQuery] = useState<string>("");
+    const [focused, setFocused] = useState<boolean>(false);
     const open = Boolean(anchor);
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
@@ -34,10 +37,14 @@ const Homepage = () => {
     // TODO: Test with name with only 1 initial
     useEffect(() => {
         if (state.reqUser && state.reqUser.fullName) {
-            const letters = `${state.reqUser.fullName.split(' ')[0][0]}${state.reqUser.fullName.split(' ')[1][0]}`;
+            const letters = getInitialsFromName(state.reqUser.fullName);
             setInitials(letters);
         }
     }, [state.reqUser]);
+
+    const getInitialsFromName = (name: string): string => {
+        return `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`;
+    };
 
     const onOpenProfile = () => {
         onCloseMenu();
@@ -56,16 +63,24 @@ const Homepage = () => {
         setAnchor(null);
     };
 
+    const onCreateGroup = () => {
+        setIsShowCreateGroup(true);
+    };
+
     const onLogout = () => {
-      dispatch(logoutUser());
-      navigate("/signin");
+        dispatch(logoutUser());
+        navigate("/signin");
+    };
+
+    // TODO: Add searching for chats
+    const onChangeQuery = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        setQuery(e.target.value);
     };
 
     return (
         <div>
             <div className={styles.outerContainer}>
-                <div className={styles.upperContainer}></div>
-                <div className={styles.lowerContainer}>
+                <div className={styles.innerContainer}>
                     <div className={styles.sideBarContainer}>
                         {isShowCreateGroup && <CreateGroup setIsShowCreateGroup={setIsShowCreateGroup}/>}
                         {isShowProfile &&
@@ -100,10 +115,36 @@ const Homepage = () => {
                                             onClose={onCloseMenu}
                                             MenuListProps={{'aria-labelledby': 'basic-button'}}>
                                             <MenuItem onClick={onOpenProfile}>Profile</MenuItem>
-                                            <MenuItem>Create Group</MenuItem>
+                                            <MenuItem onClick={onCreateGroup}>Create Group</MenuItem>
                                             <MenuItem onClick={onLogout}>Logout</MenuItem>
                                         </Menu>
                                     </div>
+                                </div>
+                                <div className={styles.searchContainer}>
+                                    <TextField
+                                        id='search'
+                                        type='text'
+                                        label='Search your chats ...'
+                                        size='small'
+                                        fullWidth
+                                        value={query}
+                                        onChange={onChangeQuery}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position='start'>
+                                                    <SearchIcon/>
+                                                </InputAdornment>
+                                            )
+                                        }}
+                                    InputLabelProps={{
+                                        shrink: focused || query.length > 0,
+                                        style: {marginLeft: focused || query.length > 0 ? 0 : 30}
+                                    }}
+                                    onFocus={() => setFocused(true)}
+                                    onBlur={() => setFocused(false)}/>
+                                </div>
+                                <div className={styles.chatsContainer}>
+                                    Chats
                                 </div>
                             </div>}
                     </div>

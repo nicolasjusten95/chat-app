@@ -82,7 +82,7 @@ const Profile = (props: ProfileProps) => {
                     <div className={styles.innerNameDynamicContainer}>
                         <TextField
                             id="fullName"
-                            type="test"
+                            type="text"
                             label="Enter your full name"
                             variant="outlined"
                             onChange={onChangeFullName}

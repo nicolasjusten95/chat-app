@@ -2,21 +2,13 @@
   position: relative;
 }
 
-.upperContainer {
-  width: 100%;
-  padding-top: 3.5rem;
-  padding-bottom: 3.5rem;
-  background-color: #63b8f9;
-}
-
-.lowerContainer {
+.innerContainer {
   display: flex;
   background-color: #f0f2f5;
   height: 90vh;
-  position: absolute;
-  top: 5vh;
-  left: 2vw;
   width: 96vw;
+  margin-top: 5vh;
+  margin-left: 2vw;
 }
 
 .sideBarContainer {
@@ -38,17 +30,37 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  height: 11vh;
 }
 
 .userInfoContainer {
   display: flex;
   align-items: center;
-  margin-left: 0.75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
 .optionsContainer {
   display: flex;
   align-items: center;
-  margin-left: 0.75rem;
+}
+
+.searchContainer {
+  height: 9vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.chatsContainer {
+  height: 70vh;
+  background-color: white;
+  overflow-y: auto;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
