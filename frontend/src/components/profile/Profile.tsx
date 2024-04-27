@@ -1,4 +1,3 @@
-import {useNavigate} from "react-router-dom";
 import React, {Dispatch, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/Store";
@@ -10,41 +9,33 @@ import {Avatar, IconButton, TextField} from "@mui/material";
 import CreateIcon from '@mui/icons-material/Create';
 import CheckIcon from '@mui/icons-material/Check';
 import styles from './Profile.module.scss';
+import CloseIcon from '@mui/icons-material/Close';
 
-const Profile = () => {
 
-    const [flag, setFlag] = useState<boolean>(false);
+interface ProfileProps {
+    onCloseProfile: () => void;
+    initials: string;
+}
+
+const Profile = (props: ProfileProps) => {
+
+    const [isEditName, setIsEditName] = useState<boolean>(false);
     const [fullName, setFullName] = useState<string | null>(null);
-    const [initials, setInitials] = useState<string>("")
-    const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
     const state: RootState = useSelector((state: AuthReducerState) => state);
     const token: string | null = localStorage.getItem(TOKEN);
 
     useEffect(() => {
-        if (token) {
-            dispatch(currentUser(token));
-        }
-    }, [token, dispatch]);
-
-    // TODO: Test with name with only 1 initial
-    // TODO: Navigate to signin if no valid token
-    useEffect(() => {
-        if (state.reqUser && state.reqUser.fullName) {
-            const letters = `${state.reqUser.fullName.split(' ')[0][0]}${state.reqUser.fullName.split(' ')[1][0]}`;
-            setInitials(letters);
+        if (state.reqUser) {
+            setFullName(state.reqUser.fullName);
         }
     }, [state.reqUser]);
 
-    const onCloseProfile = () => {
-        navigate("/");
+    const onEditName = () => {
+        setIsEditName(true);
     };
 
-    const onHandleFlag = () => {
-        setFlag(true);
-    };
-
-    const onHandleCheck = () => {
+    const onUpdateUser = () => {
         if (fullName && token) {
             const data: IUpdateUserRequestDTO = {
                 token: token,
@@ -52,8 +43,16 @@ const Profile = () => {
             };
             setFullName(fullName);
             dispatch(updateUser(data));
-            setFlag(false);
+            setIsEditName(false);
+            dispatch(currentUser(token));
         }
+    };
+
+    const onCancelUpdate = () => {
+        if (state.reqUser) {
+            setFullName(state.reqUser?.fullName);
+        }
+        setIsEditName(false);
     };
 
     const onChangeFullName = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -63,23 +62,23 @@ const Profile = () => {
     return (
         <div className={styles.outerContainer}>
             <div className={styles.headingContainer}>
-                <IconButton onClick={onCloseProfile}>
+                <IconButton onClick={props.onCloseProfile}>
                     <WestIcon fontSize='medium'/>
                 </IconButton>
                 <h2>Profile</h2>
             </div>
             <div className={styles.avatarContainer}>
-                <Avatar sx={{width: '15vw', height: '15vw', fontSize: '7vw'}}>{initials}</Avatar>
+                <Avatar sx={{width: '12vw', height: '12vw', fontSize: '5vw'}}>{props.initials}</Avatar>
             </div>
             <div className={styles.nameContainer}>
-                {!flag &&
+                {!isEditName &&
                     <div className={styles.innerNameStaticContainer}>
-                        <p className={styles.nameDistance}>{fullName || state.reqUser?.fullName}</p>
-                        <IconButton sx={{mr: '0.75rem'}} onClick={onHandleFlag}>
+                        <p className={styles.nameDistance}>{state.reqUser?.fullName}</p>
+                        <IconButton sx={{mr: '0.75rem'}} onClick={onEditName}>
                             <CreateIcon/>
                         </IconButton>
                     </div>}
-                {flag &&
+                {isEditName &&
                     <div className={styles.innerNameDynamicContainer}>
                         <TextField
                             id="fullName"
@@ -88,10 +87,15 @@ const Profile = () => {
                             variant="outlined"
                             onChange={onChangeFullName}
                             value={fullName}
-                            sx={{ml: '0.75rem'}}/>
-                        <IconButton sx={{mr: '0.75rem'}} onClick={onHandleCheck}>
-                            <CheckIcon/>
-                        </IconButton>
+                            sx={{ml: '0.75rem', width: '70%'}}/>
+                        <div>
+                            <IconButton onClick={onCancelUpdate}>
+                                <CloseIcon/>
+                            </IconButton>
+                            <IconButton sx={{mr: '0.75rem'}} onClick={onUpdateUser}>
+                                <CheckIcon/>
+                            </IconButton>
+                        </div>
                     </div>}
             </div>
             <div className={styles.infoContainer}>
