@@ -23,26 +23,27 @@ const Homepage = () => {
     const open = Boolean(anchor);
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
-    const state: RootState = useSelector((state: RootState) => state);
+    const {auth, chat, message} = useSelector((state: RootState) => state);
     const token: string | null = localStorage.getItem(TOKEN);
 
-    // TODO: Navigate to signin if no valid token
     useEffect(() => {
-        if (token && !state.auth.reqUser) {
+        if (token && !auth.reqUser) {
             dispatch(currentUser(token));
+        } else if (!token) {
+            navigate('/signin');
         }
-    }, [token, dispatch, state.auth.reqUser]);
+    }, [token, dispatch, auth.reqUser, navigate]);
 
-    // TODO: Test with name with only 1 initial
     useEffect(() => {
-        if (state.auth.reqUser && state.auth.reqUser.fullName) {
-            const letters = getInitialsFromName(state.auth.reqUser.fullName);
+        if (auth.reqUser && auth.reqUser.fullName) {
+            const letters = getInitialsFromName(auth.reqUser.fullName);
             setInitials(letters);
         }
-    }, [state.auth.reqUser]);
+    }, [auth.reqUser]);
 
     const getInitialsFromName = (name: string): string => {
-        return `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`;
+        const splitName: string[] = name.split(' ');
+        return splitName.length > 1 ? `${splitName[0][0]}${splitName[1][0]}` : splitName[0][0];
     };
 
     const onOpenProfile = () => {
@@ -98,7 +99,7 @@ const Homepage = () => {
                                         }}>
                                             {initials}
                                         </Avatar>
-                                        <p>{state.auth.reqUser?.fullName}</p>
+                                        <p>{auth.reqUser?.fullName}</p>
                                     </div>
                                     <div>
                                         <IconButton>

@@ -22,14 +22,20 @@ const Profile = (props: ProfileProps) => {
     const [isEditName, setIsEditName] = useState<boolean>(false);
     const [fullName, setFullName] = useState<string | null>(null);
     const dispatch: Dispatch<any> = useDispatch();
-    const state: AuthReducerState = useSelector((state: RootState) => state.auth);
+    const auth: AuthReducerState = useSelector((state: RootState) => state.auth);
     const token: string | null = localStorage.getItem(TOKEN);
 
     useEffect(() => {
-        if (state.reqUser) {
-            setFullName(state.reqUser.fullName);
+        if (auth.reqUser) {
+            setFullName(auth.reqUser.fullName);
         }
-    }, [state.reqUser]);
+    }, [auth.reqUser]);
+
+    useEffect(() => {
+        if (token && auth.updateUser) {
+            dispatch(currentUser(token));
+        }
+    }, [auth.updateUser, token, dispatch]);
 
     const onEditName = () => {
         setIsEditName(true);
@@ -43,13 +49,12 @@ const Profile = (props: ProfileProps) => {
             setFullName(fullName);
             dispatch(updateUser(data, token));
             setIsEditName(false);
-            dispatch(currentUser(token));
         }
     };
 
     const onCancelUpdate = () => {
-        if (state.reqUser) {
-            setFullName(state.reqUser?.fullName);
+        if (auth.reqUser) {
+            setFullName(auth.reqUser?.fullName);
         }
         setIsEditName(false);
     };
@@ -72,7 +77,7 @@ const Profile = (props: ProfileProps) => {
             <div className={styles.nameContainer}>
                 {!isEditName &&
                     <div className={styles.innerNameStaticContainer}>
-                        <p className={styles.nameDistance}>{state.reqUser?.fullName}</p>
+                        <p className={styles.nameDistance}>{auth.reqUser?.fullName}</p>
                         <IconButton sx={{mr: '0.75rem'}} onClick={onEditName}>
                             <CreateIcon/>
                         </IconButton>
