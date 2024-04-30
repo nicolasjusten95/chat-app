@@ -9,11 +9,12 @@ import {
 import * as actionTypes from './AuthActionType';
 import {BASE_API_URL, TOKEN} from "../../config/Config";
 import {AUTHORIZATION_PREFIX} from "../Constants";
+import {AppDispatch} from "../Store";
 
 const AUTH_PATH = 'auth';
 const USER_PATH = 'api/users';
 
-export const register = (data: SignUpRequestDTO) => async (dispatch: any): Promise<void> => {
+export const register = (data: SignUpRequestDTO) => async (dispatch: AppDispatch): Promise<void> => {
     try {
         const res: Response = await fetch(`${BASE_API_URL}/${AUTH_PATH}/signup`, {
             method: 'POST',
@@ -35,7 +36,7 @@ export const register = (data: SignUpRequestDTO) => async (dispatch: any): Promi
     }
 };
 
-export const loginUser = (data: LoginRequestDTO) => async (dispatch: any): Promise<void> => {
+export const loginUser = (data: LoginRequestDTO) => async (dispatch: AppDispatch): Promise<void> => {
     try {
         const res: Response = await fetch(`${BASE_API_URL}/${AUTH_PATH}/signin`, {
             method: 'POST',
@@ -57,7 +58,7 @@ export const loginUser = (data: LoginRequestDTO) => async (dispatch: any): Promi
     }
 };
 
-export const currentUser = (token: string) => async (dispatch: any): Promise<void> => {
+export const currentUser = (token: string) => async (dispatch: AppDispatch): Promise<void> => {
     try {
         const res: Response = await fetch(`${BASE_API_URL}/${USER_PATH}/profile`, {
             method: 'GET',
@@ -75,7 +76,7 @@ export const currentUser = (token: string) => async (dispatch: any): Promise<voi
     }
 };
 
-export const searchUser = (data: string, token: string) => async (dispatch: any): Promise<void> => {
+export const searchUser = (data: string, token: string) => async (dispatch: AppDispatch): Promise<void> => {
     try {
         const res: Response = await fetch(`${BASE_API_URL}/${USER_PATH}/search?name=${data}`, {
             method: 'GET',
@@ -93,7 +94,7 @@ export const searchUser = (data: string, token: string) => async (dispatch: any)
     }
 };
 
-export const updateUser = (data: UpdateUserRequestDTO, token: string) => async (dispatch: any): Promise<void> => {
+export const updateUser = (data: UpdateUserRequestDTO, token: string) => async (dispatch: AppDispatch): Promise<void> => {
     try {
         const res = await fetch(`${BASE_API_URL}/${USER_PATH}/update`, {
             method: 'PUT',
@@ -112,7 +113,7 @@ export const updateUser = (data: UpdateUserRequestDTO, token: string) => async (
     }
 };
 
-export const logoutUser = () => async (dispatch: any): Promise<void> => {
+export const logoutUser = () => async (dispatch: AppDispatch): Promise<void> => {
     localStorage.removeItem(TOKEN);
     dispatch({type: actionTypes.LOGOUT_USER, payload: null});
     dispatch({type: actionTypes.REQ_USER, payload: null});

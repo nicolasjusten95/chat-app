@@ -3,10 +3,11 @@ import * as actionTypes from './ChatActionType';
 import {UUID} from "node:crypto";
 import {ChatDTO, GroupChatRequestDTO} from "./ChatModel";
 import {AUTHORIZATION_PREFIX} from "../Constants";
+import {AppDispatch} from "../Store";
 
 const CHAT_PATH = 'api/chats';
 
-export const createChat = (data: UUID, token: string) => async (dispatch: any): Promise<void> => {
+export const createChat = (data: UUID, token: string) => async (dispatch: AppDispatch): Promise<void> => {
     try {
         const res: Response = await fetch(`${BASE_API_URL}/${CHAT_PATH}/single`, {
             method: 'POST',
@@ -25,7 +26,7 @@ export const createChat = (data: UUID, token: string) => async (dispatch: any): 
     }
 };
 
-export const createGroupChat = (data: GroupChatRequestDTO, token: string) => async (dispatch: any): Promise<void> => {
+export const createGroupChat = (data: GroupChatRequestDTO, token: string) => async (dispatch: AppDispatch): Promise<void> => {
     try {
         const res: Response = await fetch(`${BASE_API_URL}/${CHAT_PATH}/group`, {
             method: 'POST',
@@ -44,7 +45,7 @@ export const createGroupChat = (data: GroupChatRequestDTO, token: string) => asy
     }
 };
 
-export const getUserChat = (token: string) => async (dispatch: any): Promise<void> => {
+export const getUserChat = (token: string) => async (dispatch: AppDispatch): Promise<void> => {
   try {
     const res: Response = await fetch(`${BASE_API_URL}/${CHAT_PATH}/user`, {
         method: 'GET',
