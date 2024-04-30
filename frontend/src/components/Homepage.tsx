@@ -3,14 +3,13 @@ import React, {Dispatch, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../redux/Store";
-import {AuthReducerState} from "../redux/auth/Model";
 import {TOKEN} from "../config/Config";
 import CreateGroup from "./group/CreateGroup";
 import Profile from "./profile/Profile";
 import {Avatar, IconButton, InputAdornment, Menu, MenuItem, TextField} from "@mui/material";
 import ChatIcon from '@mui/icons-material/Chat';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {currentUser, logoutUser} from "../redux/auth/Action";
+import {currentUser, logoutUser} from "../redux/auth/AuthAction";
 import SearchIcon from '@mui/icons-material/Search';
 
 const Homepage = () => {
@@ -24,23 +23,23 @@ const Homepage = () => {
     const open = Boolean(anchor);
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
-    const state: RootState = useSelector((state: AuthReducerState) => state);
+    const state: RootState = useSelector((state: RootState) => state);
     const token: string | null = localStorage.getItem(TOKEN);
 
     // TODO: Navigate to signin if no valid token
     useEffect(() => {
-        if (token && !state.reqUser) {
+        if (token && !state.auth.reqUser) {
             dispatch(currentUser(token));
         }
-    }, [token, dispatch, state.reqUser]);
+    }, [token, dispatch, state.auth.reqUser]);
 
     // TODO: Test with name with only 1 initial
     useEffect(() => {
-        if (state.reqUser && state.reqUser.fullName) {
-            const letters = getInitialsFromName(state.reqUser.fullName);
+        if (state.auth.reqUser && state.auth.reqUser.fullName) {
+            const letters = getInitialsFromName(state.auth.reqUser.fullName);
             setInitials(letters);
         }
-    }, [state.reqUser]);
+    }, [state.auth.reqUser]);
 
     const getInitialsFromName = (name: string): string => {
         return `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`;
@@ -99,7 +98,7 @@ const Homepage = () => {
                                         }}>
                                             {initials}
                                         </Avatar>
-                                        <p>{state.reqUser?.fullName}</p>
+                                        <p>{state.auth.reqUser?.fullName}</p>
                                     </div>
                                     <div>
                                         <IconButton>
@@ -136,12 +135,12 @@ const Homepage = () => {
                                                 </InputAdornment>
                                             )
                                         }}
-                                    InputLabelProps={{
-                                        shrink: focused || query.length > 0,
-                                        style: {marginLeft: focused || query.length > 0 ? 0 : 30}
-                                    }}
-                                    onFocus={() => setFocused(true)}
-                                    onBlur={() => setFocused(false)}/>
+                                        InputLabelProps={{
+                                            shrink: focused || query.length > 0,
+                                            style: {marginLeft: focused || query.length > 0 ? 0 : 30}
+                                        }}
+                                        onFocus={() => setFocused(true)}
+                                        onBlur={() => setFocused(false)}/>
                                 </div>
                                 <div className={styles.chatsContainer}>
                                     Chats

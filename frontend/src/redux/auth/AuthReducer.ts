@@ -1,5 +1,6 @@
-import {AuthAction, AuthReducerState} from "./Model";
-import * as actionTypes from './ActionType';
+import {AuthReducerState} from "./AuthModel";
+import * as actionTypes from './AuthActionType';
+import {Action} from "../CommonModel";
 
 const initialState: AuthReducerState = {
     signin: null,
@@ -9,7 +10,7 @@ const initialState: AuthReducerState = {
     updateUser: null,
 };
 
-const authReducer = (state: AuthReducerState = initialState, action: AuthAction): AuthReducerState => {
+const authReducer = (state: AuthReducerState = initialState, action: Action): AuthReducerState => {
     switch (action.type) {
         case actionTypes.REGISTER:
             return {...state, signup: action.payload};

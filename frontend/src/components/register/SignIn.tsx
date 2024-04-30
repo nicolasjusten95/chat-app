@@ -1,9 +1,9 @@
 import {TOKEN} from "../../config/Config";
 import {useDispatch, useSelector} from "react-redux";
-import {AuthReducerState, ILoginRequestDTO} from "../../redux/auth/Model";
+import {AuthReducerState, LoginRequestDTO} from "../../redux/auth/AuthModel";
 import {useNavigate} from "react-router-dom";
 import React, {Dispatch, useEffect, useState} from "react";
-import {currentUser, loginUser} from "../../redux/auth/Action";
+import {currentUser, loginUser} from "../../redux/auth/AuthAction";
 import {RootState} from "../../redux/Store";
 import {Button, TextField} from "@mui/material";
 import styles from "./Register.module.scss";
@@ -12,11 +12,11 @@ import styles from "./Register.module.scss";
 // TODO: Show error if something went wrong (like wrong mail/ pw)
 const SignIn = () => {
 
-    const [signInData, setSignInData] = useState<ILoginRequestDTO>({email: "", password: ""});
+    const [signInData, setSignInData] = useState<LoginRequestDTO>({email: "", password: ""});
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
     const token: string | null = localStorage.getItem(TOKEN);
-    const state: RootState = useSelector((state: AuthReducerState) => state);
+    const state: AuthReducerState = useSelector((state: RootState) => state.auth);
 
     useEffect(() => {
         if (token) {

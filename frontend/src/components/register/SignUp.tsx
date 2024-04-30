@@ -4,8 +4,8 @@ import React, {Dispatch, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {TOKEN} from "../../config/Config";
 import {RootState} from "../../redux/Store";
-import {AuthReducerState, ISignUpRequestDTO} from "../../redux/auth/Model";
-import {currentUser, register} from "../../redux/auth/Action";
+import {AuthReducerState, SignUpRequestDTO} from "../../redux/auth/AuthModel";
+import {currentUser, register} from "../../redux/auth/AuthAction";
 import {Button, TextField} from "@mui/material";
 
 
@@ -14,11 +14,15 @@ import {Button, TextField} from "@mui/material";
 // TODO: Show error if something went wrong
 const SignUp = () => {
 
-    const [createAccountData, setCreateAccountData] = useState<ISignUpRequestDTO>({fullName: "", email: "", password: ""});
+    const [createAccountData, setCreateAccountData] = useState<SignUpRequestDTO>({
+        fullName: "",
+        email: "",
+        password: ""
+    });
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
     const token: string | null = localStorage.getItem(TOKEN);
-    const state: RootState = useSelector((state: AuthReducerState) => state);
+    const state: AuthReducerState = useSelector((state: RootState) => state.auth);
 
     useEffect(() => {
         if (token && !state.reqUser) {
@@ -103,7 +107,7 @@ const SignUp = () => {
                         </div>
                     </form>
                     <div className={styles.bottomContainer}>
-                        <p >Already signed up?</p>
+                        <p>Already signed up?</p>
                         <Button variant='text' size='large' onClick={onNavigateToSignIn}>Login</Button>
                     </div>
                 </div>

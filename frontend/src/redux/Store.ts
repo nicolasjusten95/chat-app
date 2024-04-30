@@ -1,11 +1,16 @@
-import reducer from "./auth/Reducer";
-import {AuthAction, AuthReducerState, DispatchType} from "./auth/Model";
-import {applyMiddleware, legacy_createStore, Store} from "redux";
-import {thunk} from "redux-thunk";
+import authReducer from "./auth/AuthReducer";
+import {combineReducers} from "redux";
+import {configureStore} from "@reduxjs/toolkit";
+import chatReducer from "./chat/ChatReducer";
 
-export const store: Store<AuthReducerState, AuthAction> & {
-    dispatch: DispatchType
-} = legacy_createStore(reducer, applyMiddleware(thunk));
+const rootReducer = combineReducers({
+    auth: authReducer,
+    chat: chatReducer,
+});
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export const store = configureStore({
+    reducer: rootReducer
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

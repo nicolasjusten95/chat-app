@@ -1,9 +1,9 @@
 import React, {Dispatch, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/Store";
-import {AuthReducerState, IUpdateUserRequestDTO} from "../../redux/auth/Model";
+import {AuthReducerState, UpdateUserRequestDTO} from "../../redux/auth/AuthModel";
 import {TOKEN} from "../../config/Config";
-import {currentUser, updateUser} from "../../redux/auth/Action";
+import {currentUser, updateUser} from "../../redux/auth/AuthAction";
 import WestIcon from '@mui/icons-material/West';
 import {Avatar, IconButton, TextField} from "@mui/material";
 import CreateIcon from '@mui/icons-material/Create';
@@ -22,7 +22,7 @@ const Profile = (props: ProfileProps) => {
     const [isEditName, setIsEditName] = useState<boolean>(false);
     const [fullName, setFullName] = useState<string | null>(null);
     const dispatch: Dispatch<any> = useDispatch();
-    const state: RootState = useSelector((state: AuthReducerState) => state);
+    const state: AuthReducerState = useSelector((state: RootState) => state.auth);
     const token: string | null = localStorage.getItem(TOKEN);
 
     useEffect(() => {
@@ -37,12 +37,11 @@ const Profile = (props: ProfileProps) => {
 
     const onUpdateUser = () => {
         if (fullName && token) {
-            const data: IUpdateUserRequestDTO = {
-                token: token,
+            const data: UpdateUserRequestDTO = {
                 fullName: fullName,
             };
             setFullName(fullName);
-            dispatch(updateUser(data));
+            dispatch(updateUser(data, token));
             setIsEditName(false);
             dispatch(currentUser(token));
         }
