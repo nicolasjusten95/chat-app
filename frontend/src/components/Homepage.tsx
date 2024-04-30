@@ -11,6 +11,10 @@ import ChatIcon from '@mui/icons-material/Chat';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {currentUser, logoutUser} from "../redux/auth/AuthAction";
 import SearchIcon from '@mui/icons-material/Search';
+import {getUserChat} from "../redux/chat/ChatAction";
+import {ChatDTO} from "../redux/chat/ChatModel";
+import ChatCard from "./chatCard/ChatCard";
+import {getInitialsFromName} from "./utils/Utils";
 
 const Homepage = () => {
 
@@ -41,10 +45,11 @@ const Homepage = () => {
         }
     }, [auth.reqUser]);
 
-    const getInitialsFromName = (name: string): string => {
-        const splitName: string[] = name.split(' ');
-        return splitName.length > 1 ? `${splitName[0][0]}${splitName[1][0]}` : splitName[0][0];
-    };
+    useEffect(() => {
+        if (token) {
+            dispatch(getUserChat(token));
+        }
+    }, [chat.createdChat, chat.createdGroup, dispatch, token, message.newMessage]);
 
     const onOpenProfile = () => {
         onCloseMenu();
@@ -144,7 +149,14 @@ const Homepage = () => {
                                         onBlur={() => setFocused(false)}/>
                                 </div>
                                 <div className={styles.chatsContainer}>
-                                    Chats
+                                    {query.length === 0 && chat.chats?.map((chat: ChatDTO) => (
+                                        <div key={chat.id}>
+                                            <hr/>
+                                            {chat.isGroup ? (<ChatCard name={chat.chatName}/>) :
+                                                (<ChatCard
+                                                    name={chat.users[0].id === auth.reqUser?.id ? chat.users[1].fullName : chat.users[0].fullName}/>)}
+                                        </div>
+                                    ))}
                                 </div>
                             </div>}
                     </div>

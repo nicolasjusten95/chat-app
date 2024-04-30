@@ -1,0 +1,36 @@
+.chatCardOuterContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.chatCardAvatarContainer {
+  width: 20%;
+  padding-left: 1rem;
+}
+
+.chatCardContentContainer {
+  width: 80%;
+}
+
+.chatCardContentInnerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 1rem;
+}
+
+.chatCardLargeTextContainer {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.chatCardSmallTextContainer {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
