@@ -22,7 +22,7 @@ export const createChat = (data: UUID, token: string) => async (dispatch: AppDis
         console.log('Created single chat: ', resData);
         dispatch({type: actionTypes.CREATE_CHAT, payload: resData});
     } catch (error: any) {
-        console.error('Create chat failed: ', error);
+        console.error('Creating single chat failed: ', error);
     }
 };
 
@@ -41,24 +41,24 @@ export const createGroupChat = (data: GroupChatRequestDTO, token: string) => asy
         console.log('Created group chat: ', resData);
         dispatch({type: actionTypes.CREATE_GROUP, payload: resData});
     } catch (error: any) {
-        console.error('Create group chat failed: ', error);
+        console.error('Creating group chat failed: ', error);
     }
 };
 
 export const getUserChat = (token: string) => async (dispatch: AppDispatch): Promise<void> => {
-  try {
-    const res: Response = await fetch(`${BASE_API_URL}/${CHAT_PATH}/user`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `${AUTHORIZATION_PREFIX}${token}`,
-        }
-    });
+    try {
+        const res: Response = await fetch(`${BASE_API_URL}/${CHAT_PATH}/user`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${AUTHORIZATION_PREFIX}${token}`,
+            }
+        });
 
-    const resData: ChatDTO[] = await res.json();
-    console.log('Retrieved user chats: ', resData);
-    dispatch({type: actionTypes.GET_ALL_CHATS, payload: resData});
-  }  catch (error: any) {
-      console.error('Retrieving user chats failed ', error);
-  }
+        const resData: ChatDTO[] = await res.json();
+        console.log('Getting user chats: ', resData);
+        dispatch({type: actionTypes.GET_ALL_CHATS, payload: resData});
+    } catch (error: any) {
+        console.error('Getting user chats failed ', error);
+    }
 };

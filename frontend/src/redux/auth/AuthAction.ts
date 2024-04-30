@@ -72,7 +72,7 @@ export const currentUser = (token: string) => async (dispatch: AppDispatch): Pro
         console.log('Fetched current user: ', resData);
         dispatch({type: actionTypes.REQ_USER, payload: resData});
     } catch (error: any) {
-        console.error('Fetching user data failed: ', error);
+        console.error('Fetching current user failed: ', error);
     }
 };
 
@@ -109,7 +109,7 @@ export const updateUser = (data: UpdateUserRequestDTO, token: string) => async (
         console.log('User updated: ', resData);
         dispatch({type: actionTypes.UPDATE_USER, payload: resData});
     } catch (error: any) {
-        console.error('Update user failed: ', error);
+        console.error('User update failed: ', error);
     }
 };
 
