@@ -1,13 +1,28 @@
 import {Avatar} from "@mui/material";
 import React from "react";
-import {getInitialsFromName} from "../utils/Utils";
+import {getInitialsFromName, transformDateToString} from "../utils/Utils";
 import styles from './ChatCard.module.scss';
+import {ChatDTO} from "../../redux/chat/ChatModel";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/Store";
+import {MessageDTO} from "../../redux/message/MessageModel";
 
 interface ChatCardProps {
-    name: string,
+    chat: ChatDTO;
 }
 
 const ChatCard = (props: ChatCardProps) => {
+
+    const {auth} = useSelector((state: RootState) => state);
+
+    const name: string = props.chat.isGroup ? props.chat.chatName : props.chat.users[0].id === auth.reqUser?.id ? props.chat.users[1].fullName : props.chat.users[0].fullName;
+    const initials: string = getInitialsFromName(name);
+    const sortedMessages: MessageDTO[] = props.chat.messages.sort((a, b) => +new Date(a.timeStamp) - +new Date(b.timeStamp));
+    const lastMessage: MessageDTO | undefined = sortedMessages.length > 0 ? sortedMessages[0] : undefined;
+    const lastMessageContent = lastMessage ? lastMessage.content.length > 20 ? lastMessage.content.slice(0, 20) + "..." : lastMessage.content : "";
+    const lastMessageString: string = lastMessage ? lastMessage.user.fullName + ": " + lastMessageContent : "";
+    const lastDate: string = lastMessage ? transformDateToString(new Date(lastMessage.timeStamp)) : "";
+
     return (
         <div className={styles.chatCardOuterContainer}>
             <div className={styles.chatCardAvatarContainer}>
@@ -17,19 +32,17 @@ const ChatCard = (props: ChatCardProps) => {
                     fontSize: '1rem',
                     mr: '0.75rem'
                 }}>
-                    {getInitialsFromName(props.name)}
+                    {initials}
                 </Avatar>
             </div>
             <div className={styles.chatCardContentContainer}>
                 <div className={styles.chatCardContentInnerContainer}>
-                    <p className={styles.chatCardLargeTextContainer}>{props.name}</p>
-                    <p className={styles.chatCardSmallTextContainer}>timestamp</p>
+                    <p className={styles.chatCardLargeTextContainer}>{name}</p>
+                    <p className={styles.chatCardSmallTextContainer}>{lastDate}</p>
                 </div>
                 <div className={styles.chatCardContentInnerContainer}>
-                    <p className={styles.chatCardSmallTextContainer}>first message ...</p>
-                    <div>
-                        <p className={styles.chatCardSmallTextContainer}>5</p>
-                    </div>
+                    <p className={styles.chatCardSmallTextContainer}>{lastMessageString}</p>
+                    {/* TODO: Add bubble with new messages*/}
                 </div>
             </div>
         </div>

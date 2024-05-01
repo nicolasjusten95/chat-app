@@ -15,6 +15,7 @@ import {getUserChat} from "../redux/chat/ChatAction";
 import {ChatDTO} from "../redux/chat/ChatModel";
 import ChatCard from "./chatCard/ChatCard";
 import {getInitialsFromName} from "./utils/Utils";
+import ClearIcon from '@mui/icons-material/Clear';
 
 const Homepage = () => {
 
@@ -33,10 +34,14 @@ const Homepage = () => {
     useEffect(() => {
         if (token && !auth.reqUser) {
             dispatch(currentUser(token));
-        } else if (!token) {
-            navigate('/signin');
         }
     }, [token, dispatch, auth.reqUser, navigate]);
+
+    useEffect(() => {
+        if (!token) {
+            navigate("/signin");
+        }
+    }, [token, navigate]);
 
     useEffect(() => {
         if (auth.reqUser && auth.reqUser.fullName) {
@@ -77,10 +82,22 @@ const Homepage = () => {
         navigate("/signin");
     };
 
-    // TODO: Add searching for chats
     const onChangeQuery = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        setQuery(e.target.value);
+        setQuery(e.target.value.toLowerCase());
     };
+
+    const onClearQuery = () => {
+        setQuery("");
+    };
+
+    const getSearchEndAdornment = () => {
+        return query.length > 0 &&
+            <InputAdornment position='end'>
+            <IconButton onClick={onClearQuery}>
+                <ClearIcon/>
+            </IconButton>
+        </InputAdornment>
+    }
 
     return (
         <div>
@@ -139,7 +156,8 @@ const Homepage = () => {
                                                 <InputAdornment position='start'>
                                                     <SearchIcon/>
                                                 </InputAdornment>
-                                            )
+                                            ),
+                                            endAdornment: getSearchEndAdornment(),
                                         }}
                                         InputLabelProps={{
                                             shrink: focused || query.length > 0,
@@ -149,14 +167,23 @@ const Homepage = () => {
                                         onBlur={() => setFocused(false)}/>
                                 </div>
                                 <div className={styles.chatsContainer}>
+                                    {query.length > 0 && chat.chats?.filter(x =>
+                                        x.isGroup ? x.chatName.toLowerCase().includes(query) :
+                                            x.users[0].id === auth.reqUser?.id ? x.users[1].fullName.toLowerCase().includes(query) :
+                                                x.users[0].fullName.toLowerCase().includes(query))
+                                        .map((chat: ChatDTO) => (
+                                            <div key={chat.id}>
+                                                <hr/>
+                                                <ChatCard chat={chat}/>
+                                            </div>
+                                        ))}
                                     {query.length === 0 && chat.chats?.map((chat: ChatDTO) => (
                                         <div key={chat.id}>
                                             <hr/>
-                                            {chat.isGroup ? (<ChatCard name={chat.chatName}/>) :
-                                                (<ChatCard
-                                                    name={chat.users[0].id === auth.reqUser?.id ? chat.users[1].fullName : chat.users[0].fullName}/>)}
+                                            <ChatCard chat={chat}/>
                                         </div>
                                     ))}
+                                    {chat.chats?.length > 0 ? <hr/> : <div></div>}
                                 </div>
                             </div>}
                     </div>

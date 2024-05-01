@@ -2,6 +2,7 @@ package com.nicolas.chatapp.service;
 
 import com.nicolas.chatapp.AbstractIntegrationTest;
 import com.nicolas.chatapp.dto.request.SendMessageRequestDTO;
+import com.nicolas.chatapp.dto.response.UserDTO;
 import com.nicolas.chatapp.exception.ChatException;
 import com.nicolas.chatapp.exception.MessageException;
 import com.nicolas.chatapp.exception.UserException;

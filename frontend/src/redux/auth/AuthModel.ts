@@ -28,6 +28,11 @@ export interface UserDTO {
     fullName: string,
 }
 
+export interface AuthenticationErrorDTO {
+    details: string,
+    message: string,
+}
+
 export interface ApiResponseDTO {
     message: string,
     status: boolean,

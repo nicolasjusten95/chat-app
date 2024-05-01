@@ -1,5 +1,5 @@
 import {
-    ApiResponseDTO,
+    ApiResponseDTO, AuthenticationErrorDTO,
     LoginRequestDTO,
     LoginResponseDTO,
     SignUpRequestDTO,
@@ -68,7 +68,12 @@ export const currentUser = (token: string) => async (dispatch: AppDispatch): Pro
             },
         });
 
-        const resData: UserDTO = await res.json();
+        const resData: UserDTO | AuthenticationErrorDTO = await res.json();
+        if ('message' in resData && resData.message === 'Authentication Error') {
+            localStorage.removeItem(TOKEN);
+            console.log('Removed invalid token from local storage');
+            return;
+        }
         console.log('Fetched current user: ', resData);
         dispatch({type: actionTypes.REQ_USER, payload: resData});
     } catch (error: any) {

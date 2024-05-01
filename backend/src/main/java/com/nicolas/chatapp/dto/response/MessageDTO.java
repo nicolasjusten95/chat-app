@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Builder
-public record MessageDTO(UUID id, String content, LocalDateTime timeStamp) {
+public record MessageDTO(UUID id, String content, LocalDateTime timeStamp, UserDTO user) {
 
     public static MessageDTO fromMessage(Message message) {
         if (Objects.isNull(message)) return null;
@@ -18,6 +18,7 @@ public record MessageDTO(UUID id, String content, LocalDateTime timeStamp) {
                 .id(message.getId())
                 .content(message.getContent())
                 .timeStamp(message.getTimeStamp())
+                .user(UserDTO.fromUser(message.getUser()))
                 .build();
     }
 

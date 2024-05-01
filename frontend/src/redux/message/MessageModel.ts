@@ -1,9 +1,11 @@
 import {UUID} from "node:crypto";
+import {UserDTO} from "../auth/AuthModel";
 
 export interface MessageDTO {
     id: UUID;
     content: string;
-    timeStamp: Date;
+    timeStamp: string;
+    user: UserDTO;
 }
 
 export interface SendMessageRequestDTO {
