@@ -21,6 +21,6 @@ export const transformDateToString = (date: Date): string => {
 };
 
 export const getChatName = (chat: ChatDTO, reqUser: UserDTO | null): string => {
-    return chat.isGroup ? chat.chatName : chat.users[0].id === reqUser?.fullName ?
-        chat.users[1].fullName : chat.users[0].fullName
+    return chat.isGroup ? chat.chatName : chat.users[0].id === reqUser?.id ?
+        chat.users[1].fullName : chat.users[0].fullName;
 };

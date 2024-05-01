@@ -22,7 +22,8 @@ const MessageCard = (props: MessageCardProps) => {
 
     return (
         <div className={isOwnMessage ? styles.ownMessage : styles.othersMessage} key={props.message.id}>
-            <Chip label={label} sx={{height: 'auto', width: 'auto', backgroundColor: isOwnMessage ? '#d3fdd3' : 'white'}}/>
+            <Chip label={label}
+                  sx={{height: 'auto', width: 'auto', backgroundColor: isOwnMessage ? '#d3fdd3' : 'white'}}/>
         </div>
     );
 };

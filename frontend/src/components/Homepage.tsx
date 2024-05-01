@@ -148,8 +148,8 @@ const Homepage = () => {
                                         <IconButton>
                                             <ChatIcon/>
                                         </IconButton>
-                                        <IconButton>
-                                            <MoreVertIcon onClick={onOpenMenu}/>
+                                        <IconButton  onClick={onOpenMenu}>
+                                            <MoreVertIcon/>
                                         </IconButton>
                                         <Menu
                                             id="basic-menu"
