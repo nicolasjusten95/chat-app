@@ -1,0 +1,25 @@
+.ownMessage {
+  align-self: flex-end;
+  margin-top: 1rem;
+}
+
+.othersMessage {
+  align-self: flex-start;
+  margin-top: 1rem;
+}
+
+.bubbleContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.contentContainer {
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.timeContainer {
+  align-self: flex-end;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}

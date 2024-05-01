@@ -1,6 +1,6 @@
 import {Avatar} from "@mui/material";
 import React from "react";
-import {getInitialsFromName, transformDateToString} from "../utils/Utils";
+import {getChatName, getInitialsFromName, transformDateToString} from "../utils/Utils";
 import styles from './ChatCard.module.scss';
 import {ChatDTO} from "../../redux/chat/ChatModel";
 import {useSelector} from "react-redux";
@@ -15,7 +15,7 @@ const ChatCard = (props: ChatCardProps) => {
 
     const {auth} = useSelector((state: RootState) => state);
 
-    const name: string = props.chat.isGroup ? props.chat.chatName : props.chat.users[0].id === auth.reqUser?.id ? props.chat.users[1].fullName : props.chat.users[0].fullName;
+    const name: string = getChatName(props.chat, auth.reqUser);
     const initials: string = getInitialsFromName(name);
     const sortedMessages: MessageDTO[] = props.chat.messages.sort((a, b) => +new Date(a.timeStamp) - +new Date(b.timeStamp));
     const lastMessage: MessageDTO | undefined = sortedMessages.length > 0 ? sortedMessages[0] : undefined;

@@ -1,0 +1,48 @@
+.outerMessagePageContainer {
+  width: 100%;
+  position: relative;
+}
+
+.messagePageHeaderContainer {
+  width: 100%;
+  background-color: #f0f2f5;
+  height: 11vh;
+}
+
+.messagePageInnerHeaderContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.messagePageHeaderNameContainer {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.75rem;
+}
+
+.messageContentContainer {
+  padding-left: 3rem;
+  padding-right: 3rem;
+  overflow-y: auto;
+  background-color: rgb(243 244 246);
+  height: 66vh;
+}
+
+.messageContentInnerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.footerContainer {
+  background-color: #f0f2f5;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 13vh;
+}
+
+.innerFooterContainer {
+  width: 75%;
+}

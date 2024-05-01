@@ -68,22 +68,3 @@
 .messagesContainer {
   width: 70%;
 }
-
-.welcomeContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.innerWelcomeContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.textWelcomeContainer {
-  text-align: center;
-}

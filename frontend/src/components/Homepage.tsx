@@ -16,7 +16,10 @@ import {ChatDTO} from "../redux/chat/ChatModel";
 import ChatCard from "./chatCard/ChatCard";
 import {getInitialsFromName} from "./utils/Utils";
 import ClearIcon from '@mui/icons-material/Clear';
-import ForumIcon from '@mui/icons-material/Forum';
+import WelcomePage from "./welcomePage/WelcomePage";
+import MessagePage from "./messagePage/MessagePage";
+import {MessageDTO} from "../redux/message/MessageModel";
+import {getAllMessages} from "../redux/message/MessageAction";
 
 const Homepage = () => {
 
@@ -27,6 +30,8 @@ const Homepage = () => {
     const [query, setQuery] = useState<string>("");
     const [focused, setFocused] = useState<boolean>(false);
     const [currentChat, setCurrentChat] = useState<ChatDTO | null>(null);
+    const [messages, setMessages] = useState<MessageDTO[]>([]);
+    const [newMessage, setNewMessage] = useState<string>("");
     const open = Boolean(anchor);
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
@@ -37,13 +42,13 @@ const Homepage = () => {
         if (token && !auth.reqUser) {
             dispatch(currentUser(token));
         }
-    }, [token, dispatch, auth.reqUser, navigate]);
+    }, [token, dispatch, auth.reqUser, navigate, auth]);
 
     useEffect(() => {
-        if (!token) {
+        if (!token || auth.reqUser === null) {
             navigate("/signin");
         }
-    }, [token, navigate]);
+    }, [token, navigate, auth, auth.reqUser]);
 
     useEffect(() => {
         if (auth.reqUser && auth.reqUser.fullName) {
@@ -57,6 +62,16 @@ const Homepage = () => {
             dispatch(getUserChat(token));
         }
     }, [chat.createdChat, chat.createdGroup, dispatch, token, message.newMessage]);
+
+    useEffect(() => {
+        if (currentChat?.id && token) {
+            dispatch(getAllMessages(currentChat.id, token));
+        }
+    }, [currentChat, dispatch, token, message.newMessage]);
+
+    useEffect(() => {
+        setMessages(message.messages);
+    }, [message.messages]);
 
     const onOpenProfile = () => {
         onCloseMenu();
@@ -92,14 +107,18 @@ const Homepage = () => {
         setQuery("");
     };
 
+    const onClickChat = (chat: ChatDTO) => {
+        setCurrentChat(chat);
+    };
+
     const getSearchEndAdornment = () => {
         return query.length > 0 &&
             <InputAdornment position='end'>
-            <IconButton onClick={onClearQuery}>
-                <ClearIcon/>
-            </IconButton>
-        </InputAdornment>
-    }
+                <IconButton onClick={onClearQuery}>
+                    <ClearIcon/>
+                </IconButton>
+            </InputAdornment>
+    };
 
     return (
         <div>
@@ -174,13 +193,13 @@ const Homepage = () => {
                                             x.users[0].id === auth.reqUser?.id ? x.users[1].fullName.toLowerCase().includes(query) :
                                                 x.users[0].fullName.toLowerCase().includes(query))
                                         .map((chat: ChatDTO) => (
-                                            <div key={chat.id}>
+                                            <div key={chat.id} onClick={() => onClickChat(chat)}>
                                                 <hr/>
                                                 <ChatCard chat={chat}/>
                                             </div>
                                         ))}
                                     {query.length === 0 && chat.chats?.map((chat: ChatDTO) => (
-                                        <div key={chat.id}>
+                                        <div key={chat.id} onClick={() => onClickChat(chat)}>
                                             <hr/>
                                             <ChatCard chat={chat}/>
                                         </div>
@@ -190,18 +209,13 @@ const Homepage = () => {
                             </div>}
                     </div>
                     <div className={styles.messagesContainer}>
-                        {!currentChat &&
-                            <div className={styles.welcomeContainer}>
-                                    <div className={styles.textWelcomeContainer}>
-                                        <ForumIcon sx={{
-                                            width: '10rem',
-                                            height: '10rem',
-                                        }} />
-                                        <h1>Welcome, {auth.reqUser?.fullName}!</h1>
-                                        <p>Chat App designed and developed by Nicolas Justen.</p>
-                                    </div>
-                            </div>
-                        }
+                        {!currentChat && <WelcomePage reqUser={auth.reqUser}/>}
+                        {currentChat && <MessagePage
+                            chat={currentChat}
+                            reqUser={auth.reqUser}
+                            messages={messages}
+                            newMessage={newMessage}
+                            setNewMessage={setNewMessage}/>}
                     </div>
                 </div>
             </div>
