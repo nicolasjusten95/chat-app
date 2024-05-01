@@ -16,6 +16,7 @@ import {ChatDTO} from "../redux/chat/ChatModel";
 import ChatCard from "./chatCard/ChatCard";
 import {getInitialsFromName} from "./utils/Utils";
 import ClearIcon from '@mui/icons-material/Clear';
+import ForumIcon from '@mui/icons-material/Forum';
 
 const Homepage = () => {
 
@@ -25,6 +26,7 @@ const Homepage = () => {
     const [initials, setInitials] = useState<string>("");
     const [query, setQuery] = useState<string>("");
     const [focused, setFocused] = useState<boolean>(false);
+    const [currentChat, setCurrentChat] = useState<ChatDTO | null>(null);
     const open = Boolean(anchor);
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
@@ -186,6 +188,20 @@ const Homepage = () => {
                                     {chat.chats?.length > 0 ? <hr/> : <div></div>}
                                 </div>
                             </div>}
+                    </div>
+                    <div className={styles.messagesContainer}>
+                        {!currentChat &&
+                            <div className={styles.welcomeContainer}>
+                                    <div className={styles.textWelcomeContainer}>
+                                        <ForumIcon sx={{
+                                            width: '10rem',
+                                            height: '10rem',
+                                        }} />
+                                        <h1>Welcome, {auth.reqUser?.fullName}!</h1>
+                                        <p>Chat App designed and developed by Nicolas Justen.</p>
+                                    </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
