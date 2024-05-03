@@ -16,6 +16,8 @@
 .bubbleContainer {
   display: flex;
   flex-direction: column;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .contentContainer {
@@ -27,6 +29,8 @@
   align-self: flex-end;
   margin-top: 0;
   margin-bottom: 0.5rem;
+  font-style: italic;
+  font-size: 0.75rem;
 }
 
 .messageCardInnerContainer {
