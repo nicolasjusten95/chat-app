@@ -80,10 +80,6 @@ const Homepage = () => {
     }, [message.messages]);
 
     useEffect(() => {
-        connect();
-    }, []);
-
-    useEffect(() => {
         if (message.newMessage && stompClient && currentChat && isConnected) {
             const webSocketMessage: WebSocketMessageDTO = {...message.newMessage, chat: currentChat};
             stompClient.send("/app/messages", {}, JSON.stringify(webSocketMessage));
@@ -108,6 +104,10 @@ const Homepage = () => {
         }
         setMessageReceived(false);
     }, [messageReceived]);
+
+    useEffect(() => {
+        connect();
+    }, []);
 
     const connect = () => {
 
