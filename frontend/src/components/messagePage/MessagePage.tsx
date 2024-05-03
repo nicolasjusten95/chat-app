@@ -1,6 +1,6 @@
 import {Avatar, IconButton, InputAdornment, TextField} from "@mui/material";
 import {getChatName, getInitialsFromName} from "../utils/Utils";
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {ChatDTO} from "../../redux/chat/ChatModel";
 import {UserDTO} from "../../redux/auth/AuthModel";
 import styles from './MesaggePage.module.scss';
@@ -25,6 +25,17 @@ const MessagePage = (props: MessagePageProps) => {
     const [messageQuery, setMessageQuery] = useState<string>("");
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const [isSearch, setIsSearch] = useState<boolean>(false);
+    const lastMessageRef = useRef<null | HTMLDivElement>(null);
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [props]);
+
+    const scrollToBottom = () => {
+        if (lastMessageRef.current) {
+            lastMessageRef.current.scrollIntoView({behavior: "smooth"});
+        }
+    };
 
     const onChangeNewMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
         props.setNewMessage(e.target.value);
@@ -108,9 +119,10 @@ const MessagePage = (props: MessagePageProps) => {
                 <div className={styles.messageContentInnerContainer}>
                     {messageQuery.length > 0 &&
                         props.messages.filter(x => x.content.toLowerCase().includes(messageQuery))
-                            .map((message) => <MessageCard message={message} reqUser={props.reqUser}/>)}
+                            .map((message) => <MessageCard message={message} reqUser={props.reqUser} key={message.id}/>)}
                     {messageQuery.length === 0 &&
-                        props.messages.map((message) => <MessageCard message={message} reqUser={props.reqUser}/>)}
+                        props.messages.map((message) => <MessageCard message={message} reqUser={props.reqUser} key={message.id}/>)}
+                    <div ref={lastMessageRef}></div>
                 </div>
             </div>
 

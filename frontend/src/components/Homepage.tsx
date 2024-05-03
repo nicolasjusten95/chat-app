@@ -11,7 +11,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {currentUser, logoutUser} from "../redux/auth/AuthAction";
 import SearchIcon from '@mui/icons-material/Search';
-import {getUserChat} from "../redux/chat/ChatAction";
+import {getUserChats} from "../redux/chat/ChatAction";
 import {ChatDTO} from "../redux/chat/ChatModel";
 import ChatCard from "./chatCard/ChatCard";
 import {getInitialsFromName} from "./utils/Utils";
@@ -47,24 +47,24 @@ const Homepage = () => {
         if (token && !auth.reqUser) {
             dispatch(currentUser(token));
         }
-    }, [token, dispatch, auth.reqUser, navigate, auth]);
+    }, [token, dispatch, auth.reqUser, navigate]);
 
     useEffect(() => {
         if (!token || auth.reqUser === null) {
             navigate("/signin");
         }
-    }, [token, navigate, auth, auth.reqUser]);
+    }, [token, navigate, auth.reqUser]);
 
     useEffect(() => {
         if (auth.reqUser && auth.reqUser.fullName) {
             const letters = getInitialsFromName(auth.reqUser.fullName);
             setInitials(letters);
         }
-    }, [auth.reqUser]);
+    }, [auth.reqUser?.fullName]);
 
     useEffect(() => {
         if (token) {
-            dispatch(getUserChat(token));
+            dispatch(getUserChats(token));
         }
     }, [chat.createdChat, chat.createdGroup, dispatch, token, message.newMessage]);
 
@@ -86,21 +86,20 @@ const Homepage = () => {
 
     useEffect(() => {
         if (message.newMessage && stompClient && currentChat) {
-            setMessages([...messages, message.newMessage]);
             const webSocketMessage: WebSocketMessageDTO = {...message.newMessage, chat: currentChat};
             stompClient.send("/app/messages", {}, JSON.stringify(webSocketMessage));
         }
     }, [message.newMessage]);
 
     useEffect(() => {
-        if (isConnected && stompClient && auth.reqUser && currentChat) {
+        if (isConnected && stompClient && currentChat) {
             const subscription: Subscription = stompClient.subscribe("/topic/" + currentChat.id.toString(), onMessageReceiver);
 
             return () => {
                 subscription.unsubscribe();
             };
         }
-    }, [isConnected, stompClient, auth.reqUser, currentChat]);
+    }, [isConnected, stompClient, currentChat]);
 
     const connect = () => {
 
@@ -122,10 +121,10 @@ const Homepage = () => {
         console.error("WebSocket connection error", error);
     };
 
-    const onMessageReceiver = (payload: any) => {
-        const receivedMessage: MessageDTO = JSON.parse(payload.body);
-        console.log("Received message: ", receivedMessage);
-        setMessages([...messages, receivedMessage]);
+    const onMessageReceiver = () => {
+        if (currentChat && token) {
+            dispatch(getAllMessages(currentChat.id, token));
+        }
     };
 
     const onSendMessage = () => {

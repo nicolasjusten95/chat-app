@@ -45,7 +45,7 @@ export const createGroupChat = (data: GroupChatRequestDTO, token: string) => asy
     }
 };
 
-export const getUserChat = (token: string) => async (dispatch: AppDispatch): Promise<void> => {
+export const getUserChats = (token: string) => async (dispatch: AppDispatch): Promise<void> => {
     try {
         const res: Response = await fetch(`${BASE_API_URL}/${CHAT_PATH}/user`, {
             method: 'GET',
