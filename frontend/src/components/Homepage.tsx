@@ -80,10 +80,8 @@ const Homepage = () => {
     }, [message.messages]);
 
     useEffect(() => {
-        if (token && !isConnected) {
-            connect();
-        }
-    }, [token]);
+        connect();
+    }, []);
 
     useEffect(() => {
         if (message.newMessage && stompClient && currentChat && isConnected) {
