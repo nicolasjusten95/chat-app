@@ -18,10 +18,10 @@ import {getInitialsFromName} from "./utils/Utils";
 import ClearIcon from '@mui/icons-material/Clear';
 import WelcomePage from "./welcomePage/WelcomePage";
 import MessagePage from "./messagePage/MessagePage";
-import {MessageDTO} from "../redux/message/MessageModel";
-import {getAllMessages} from "../redux/message/MessageAction";
+import {MessageDTO, WebSocketMessageDTO} from "../redux/message/MessageModel";
+import {createMessage, getAllMessages} from "../redux/message/MessageAction";
 import SockJS from 'sockjs-client';
-import {Client, over} from "stompjs";
+import {Client, over, Subscription} from "stompjs";
 import {AUTHORIZATION_PREFIX} from "../redux/Constants";
 
 const Homepage = () => {
@@ -84,6 +84,24 @@ const Homepage = () => {
         }
     }, [token]);
 
+    useEffect(() => {
+        if (message.newMessage && stompClient && currentChat) {
+            setMessages([...messages, message.newMessage]);
+            const webSocketMessage: WebSocketMessageDTO = {...message.newMessage, chat: currentChat};
+            stompClient.send("/app/messages", {}, JSON.stringify(webSocketMessage));
+        }
+    }, [message.newMessage]);
+
+    useEffect(() => {
+        if (isConnected && stompClient && auth.reqUser && currentChat) {
+            const subscription: Subscription = stompClient.subscribe("/topic/" + currentChat.id.toString(), onMessageReceiver);
+
+            return () => {
+                subscription.unsubscribe();
+            };
+        }
+    }, [isConnected, stompClient, auth.reqUser, currentChat]);
+
     const connect = () => {
 
         const headers = {
@@ -97,12 +115,24 @@ const Homepage = () => {
     };
 
     const onConnect = () => {
-        console.log("WebSocket connected");
         setIsConnected(true);
     };
 
     const onError = (error: any) => {
         console.error("WebSocket connection error", error);
+    };
+
+    const onMessageReceiver = (payload: any) => {
+        const receivedMessage: MessageDTO = JSON.parse(payload.body);
+        console.log("Received message: ", receivedMessage);
+        setMessages([...messages, receivedMessage]);
+    };
+
+    const onSendMessage = () => {
+        if (currentChat && token) {
+            dispatch(createMessage({chatId: currentChat.id, content: newMessage}, token));
+            setNewMessage("");
+        }
     };
 
     const onOpenProfile = () => {
@@ -247,7 +277,8 @@ const Homepage = () => {
                             reqUser={auth.reqUser}
                             messages={messages}
                             newMessage={newMessage}
-                            setNewMessage={setNewMessage}/>}
+                            setNewMessage={setNewMessage}
+                            onSendMessage={onSendMessage}/>}
                     </div>
                 </div>
             </div>

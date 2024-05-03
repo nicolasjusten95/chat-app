@@ -17,6 +17,7 @@ interface MessagePageProps {
     messages: MessageDTO[];
     newMessage: string;
     setNewMessage: (newMessage: string) => void;
+    onSendMessage: () => void;
 }
 
 const MessagePage = (props: MessagePageProps) => {
@@ -121,6 +122,7 @@ const MessagePage = (props: MessagePageProps) => {
                         type='text'
                         label='Enter new message ...'
                         size='small'
+                        onSubmit={props.onSendMessage}
                         fullWidth
                         value={props.newMessage}
                         onChange={onChangeNewMessage}
@@ -128,7 +130,7 @@ const MessagePage = (props: MessagePageProps) => {
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position='end'>
-                                    <IconButton>
+                                    <IconButton onClick={props.onSendMessage}>
                                         <SendIcon/>
                                     </IconButton>
                                 </InputAdornment>),
