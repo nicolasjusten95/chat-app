@@ -56,10 +56,31 @@ const MessagePage = (props: MessagePageProps) => {
 
     const getSearchEndAdornment = () => {
         return <InputAdornment position='end'>
-                <IconButton onClick={onClearQuery}>
-                    <ClearIcon/>
-                </IconButton>
-            </InputAdornment>
+            <IconButton onClick={onClearQuery}>
+                <ClearIcon/>
+            </IconButton>
+        </InputAdornment>
+    };
+
+    const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            props.onSendMessage();
+        }
+    };
+
+    let lastDay = -1;
+    let lastMonth = -1;
+    let lastYear = -1;
+
+    const getMessageCard = (message: MessageDTO) => {
+        const date: Date = new Date(message.timeStamp);
+        const isNewDate = lastDay !== date.getDate() || lastMonth !== date.getMonth() || lastYear !== date.getFullYear();
+        if (isNewDate) {
+            lastDay = date.getDate();
+            lastMonth = date.getMonth();
+            lastYear = date.getFullYear();
+        }
+        return <MessageCard message={message} reqUser={props.reqUser} key={message.id} isNewDate={isNewDate}/>
     };
 
     return (
@@ -82,31 +103,31 @@ const MessagePage = (props: MessagePageProps) => {
                     <div className={styles.messagePageHeaderNameContainer}>
                         {!isSearch &&
                             <IconButton onClick={onChangeSearch}>
-                            <SearchIcon/>
-                        </IconButton>}
+                                <SearchIcon/>
+                            </IconButton>}
                         {isSearch &&
                             <TextField
-                            id='searchMessages'
-                            type='text'
-                            label='Search for messages ...'
-                            size='small'
-                            fullWidth
-                            value={messageQuery}
-                            onChange={onChangeMessageQuery}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position='start'>
-                                        <SearchIcon/>
-                                    </InputAdornment>
-                                ),
-                                endAdornment: getSearchEndAdornment(),
-                            }}
-                            InputLabelProps={{
-                                shrink: isFocused || messageQuery.length > 0,
-                                style: {marginLeft: isFocused || messageQuery.length > 0 ? 0 : 30}
-                            }}
-                            onFocus={() => setIsFocused(true)}
-                            onBlur={() => setIsFocused(false)}/>}
+                                id='searchMessages'
+                                type='text'
+                                label='Search for messages ...'
+                                size='small'
+                                fullWidth
+                                value={messageQuery}
+                                onChange={onChangeMessageQuery}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position='start'>
+                                            <SearchIcon/>
+                                        </InputAdornment>
+                                    ),
+                                    endAdornment: getSearchEndAdornment(),
+                                }}
+                                InputLabelProps={{
+                                    shrink: isFocused || messageQuery.length > 0,
+                                    style: {marginLeft: isFocused || messageQuery.length > 0 ? 0 : 30}
+                                }}
+                                onFocus={() => setIsFocused(true)}
+                                onBlur={() => setIsFocused(false)}/>}
                         <IconButton>
                             <MoreVertIcon/>
                         </IconButton>
@@ -116,14 +137,12 @@ const MessagePage = (props: MessagePageProps) => {
 
             {/*Message Page Content*/}
             <div className={styles.messageContentContainer}>
-                <div className={styles.messageContentInnerContainer}>
-                    {messageQuery.length > 0 &&
-                        props.messages.filter(x => x.content.toLowerCase().includes(messageQuery))
-                            .map((message) => <MessageCard message={message} reqUser={props.reqUser} key={message.id}/>)}
-                    {messageQuery.length === 0 &&
-                        props.messages.map((message) => <MessageCard message={message} reqUser={props.reqUser} key={message.id}/>)}
-                    <div ref={lastMessageRef}></div>
-                </div>
+                {messageQuery.length > 0 &&
+                    props.messages.filter(x => x.content.toLowerCase().includes(messageQuery))
+                        .map(message => getMessageCard(message))}
+                {messageQuery.length === 0 &&
+                    props.messages.map(message => getMessageCard(message))}
+                <div ref={lastMessageRef}></div>
             </div>
 
             {/*Message Page Footer*/}
@@ -134,7 +153,7 @@ const MessagePage = (props: MessagePageProps) => {
                         type='text'
                         label='Enter new message ...'
                         size='small'
-                        onSubmit={props.onSendMessage}
+                        onKeyDown={onKeyDown}
                         fullWidth
                         value={props.newMessage}
                         onChange={onChangeNewMessage}

@@ -6,7 +6,7 @@ import {RootState} from "../redux/Store";
 import {TOKEN} from "../config/Config";
 import CreateGroup from "./group/CreateGroup";
 import Profile from "./profile/Profile";
-import {Avatar, IconButton, InputAdornment, Menu, MenuItem, TextField} from "@mui/material";
+import {Avatar, Divider, IconButton, InputAdornment, Menu, MenuItem, TextField} from "@mui/material";
 import ChatIcon from '@mui/icons-material/Chat';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {currentUser, logoutUser} from "../redux/auth/AuthAction";
@@ -261,17 +261,17 @@ const Homepage = () => {
                                                 x.users[0].fullName.toLowerCase().includes(query))
                                         .map((chat: ChatDTO) => (
                                             <div key={chat.id} onClick={() => onClickChat(chat)}>
-                                                <hr/>
+                                                <Divider />
                                                 <ChatCard chat={chat}/>
                                             </div>
                                         ))}
                                     {query.length === 0 && chat.chats?.map((chat: ChatDTO) => (
                                         <div key={chat.id} onClick={() => onClickChat(chat)}>
-                                            <hr/>
+                                            <Divider />
                                             <ChatCard chat={chat}/>
                                         </div>
                                     ))}
-                                    {chat.chats?.length > 0 ? <hr/> : <div></div>}
+                                    {chat.chats?.length > 0 ? <Divider /> : null}
                                 </div>
                             </div>}
                     </div>

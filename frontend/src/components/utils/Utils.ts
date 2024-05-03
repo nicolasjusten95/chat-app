@@ -14,7 +14,7 @@ export const transformDateToString = (date: Date): string => {
     }
 
     if (date.getDate() !== currentDate.getDate()) {
-        return date.getDate() + '.' + (date.getMonth() + 1) + '.' + (date.getFullYear());
+        return getDateFormat(date);
     }
 
     return date.getHours() + ":" + date.getMinutes();
@@ -23,4 +23,10 @@ export const transformDateToString = (date: Date): string => {
 export const getChatName = (chat: ChatDTO, reqUser: UserDTO | null): string => {
     return chat.isGroup ? chat.chatName : chat.users[0].id === reqUser?.id ?
         chat.users[1].fullName : chat.users[0].fullName;
+};
+
+export const getDateFormat = (date: Date): string => {
+    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+    const month = date.getMonth() < 9 ? `0${(date.getMonth() + 1)}` : (date.getMonth() + 1);
+    return day + '.' + month + '.' + (date.getFullYear());
 };

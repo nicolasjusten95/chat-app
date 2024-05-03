@@ -5,8 +5,10 @@
 
 .messagePageHeaderContainer {
   width: 100%;
-  background-color: #f0f2f5;
+  background-color: #e8e9ec;
   height: 11vh;
+  border-left: solid 1px white;
+  box-sizing: border-box;
 }
 
 .messagePageInnerHeaderContainer {
