@@ -37,6 +37,7 @@ const Homepage = () => {
     const [newMessage, setNewMessage] = useState<string>("");
     const [stompClient, setStompClient] = useState<Client | undefined>();
     const [isConnected, setIsConnected] = useState<boolean>(false);
+    const [messageReceived, setMessageReceived] = useState<boolean>(false);
     const open = Boolean(anchor);
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
@@ -79,27 +80,36 @@ const Homepage = () => {
     }, [message.messages]);
 
     useEffect(() => {
-        if (token) {
+        if (token && !isConnected) {
             connect();
         }
     }, [token]);
 
     useEffect(() => {
-        if (message.newMessage && stompClient && currentChat) {
+        if (message.newMessage && stompClient && currentChat && isConnected) {
             const webSocketMessage: WebSocketMessageDTO = {...message.newMessage, chat: currentChat};
             stompClient.send("/app/messages", {}, JSON.stringify(webSocketMessage));
         }
     }, [message.newMessage]);
 
     useEffect(() => {
-        if (isConnected && stompClient && currentChat) {
-            const subscription: Subscription = stompClient.subscribe("/topic/" + currentChat.id.toString(), onMessageReceiver);
+        if (isConnected && stompClient && auth.reqUser) {
+            console.log("Connected to ws: ", isConnected);
+            const subscription: Subscription = stompClient.subscribe("/topic/" + auth.reqUser.id.toString(), onMessageReceive);
 
             return () => {
                 subscription.unsubscribe();
             };
         }
-    }, [isConnected, stompClient, currentChat]);
+    }, [isConnected, stompClient, auth.reqUser]);
+
+    useEffect(() => {
+        if (messageReceived && currentChat?.id && token) {
+            dispatch(getUserChats(token));
+            dispatch(getAllMessages(currentChat.id, token));
+        }
+        setMessageReceived(false);
+    }, [messageReceived]);
 
     const connect = () => {
 
@@ -121,14 +131,12 @@ const Homepage = () => {
         console.error("WebSocket connection error", error);
     };
 
-    const onMessageReceiver = () => {
-        if (currentChat && token) {
-            dispatch(getAllMessages(currentChat.id, token));
-        }
+    const onMessageReceive = () => {
+        setMessageReceived(true);
     };
 
     const onSendMessage = () => {
-        if (currentChat && token) {
+        if (currentChat?.id && token) {
             dispatch(createMessage({chatId: currentChat.id, content: newMessage}, token));
             setNewMessage("");
         }

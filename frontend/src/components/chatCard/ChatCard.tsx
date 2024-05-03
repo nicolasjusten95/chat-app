@@ -18,7 +18,7 @@ const ChatCard = (props: ChatCardProps) => {
     const name: string = getChatName(props.chat, auth.reqUser);
     const initials: string = getInitialsFromName(name);
     const sortedMessages: MessageDTO[] = props.chat.messages.sort((a, b) => +new Date(a.timeStamp) - +new Date(b.timeStamp));
-    const lastMessage: MessageDTO | undefined = sortedMessages.length > 0 ? sortedMessages[0] : undefined;
+    const lastMessage: MessageDTO | undefined = sortedMessages.length > 0 ? sortedMessages[sortedMessages.length - 1] : undefined;
     const lastMessageContent: string = lastMessage ? lastMessage.content.length > 25 ? lastMessage.content.slice(0, 25) + "..." : lastMessage.content : "";
     const lastMessageName: string = lastMessage ? lastMessage.user.fullName === auth.reqUser?.fullName ? "You" : lastMessage.user.fullName : "";
     const lastMessageString: string = lastMessage ? lastMessageName + ": " + lastMessageContent : "";

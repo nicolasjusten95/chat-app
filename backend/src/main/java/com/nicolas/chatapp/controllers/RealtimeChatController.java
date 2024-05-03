@@ -1,6 +1,7 @@
 package com.nicolas.chatapp.controllers;
 
 import com.nicolas.chatapp.model.Message;
+import com.nicolas.chatapp.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -18,8 +19,10 @@ public class RealtimeChatController {
 
     @MessageMapping("/messages")
     public void receiveMessage(@Payload Message message) {
-        final String destination = "/topic/" + message.getChat().getId().toString();
-        messagingTemplate.convertAndSend(destination, message);
+        for (User user : message.getChat().getUsers()) {
+            final String destination = "/topic/" + user.getId();
+            messagingTemplate.convertAndSend(destination, message);
+        }
     }
 
 }
