@@ -20,6 +20,9 @@ import WelcomePage from "./welcomePage/WelcomePage";
 import MessagePage from "./messagePage/MessagePage";
 import {MessageDTO} from "../redux/message/MessageModel";
 import {getAllMessages} from "../redux/message/MessageAction";
+import SockJS from 'sockjs-client';
+import {Client, over} from "stompjs";
+import {AUTHORIZATION_PREFIX} from "../redux/Constants";
 
 const Homepage = () => {
 
@@ -32,6 +35,8 @@ const Homepage = () => {
     const [currentChat, setCurrentChat] = useState<ChatDTO | null>(null);
     const [messages, setMessages] = useState<MessageDTO[]>([]);
     const [newMessage, setNewMessage] = useState<string>("");
+    const [stompClient, setStompClient] = useState<Client | undefined>();
+    const [isConnected, setIsConnected] = useState<boolean>(false);
     const open = Boolean(anchor);
     const navigate = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
@@ -72,6 +77,33 @@ const Homepage = () => {
     useEffect(() => {
         setMessages(message.messages);
     }, [message.messages]);
+
+    useEffect(() => {
+        if (token) {
+            connect();
+        }
+    }, [token]);
+
+    const connect = () => {
+
+        const headers = {
+            Authorization: `${AUTHORIZATION_PREFIX}${token}`
+        };
+
+        const socket: WebSocket = new SockJS("http://localhost:8080/ws");
+        const client: Client = over(socket);
+        setStompClient(client);
+        client.connect(headers, onConnect, onError);
+    };
+
+    const onConnect = () => {
+        console.log("WebSocket connected");
+        setIsConnected(true);
+    };
+
+    const onError = (error: any) => {
+        console.error("WebSocket connection error", error);
+    };
 
     const onOpenProfile = () => {
         onCloseMenu();
@@ -148,7 +180,7 @@ const Homepage = () => {
                                         <IconButton>
                                             <ChatIcon/>
                                         </IconButton>
-                                        <IconButton  onClick={onOpenMenu}>
+                                        <IconButton onClick={onOpenMenu}>
                                             <MoreVertIcon/>
                                         </IconButton>
                                         <Menu

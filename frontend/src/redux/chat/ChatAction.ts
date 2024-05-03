@@ -13,7 +13,7 @@ export const createChat = (data: UUID, token: string) => async (dispatch: AppDis
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `${AUTHORIZATION_PREFIX}${token}`,
+                Authorization: `${AUTHORIZATION_PREFIX}${token}`,
             },
             body: JSON.stringify(data),
         });
@@ -32,7 +32,7 @@ export const createGroupChat = (data: GroupChatRequestDTO, token: string) => asy
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `${AUTHORIZATION_PREFIX}${token}`,
+                Authorization: `${AUTHORIZATION_PREFIX}${token}`,
             },
             body: JSON.stringify(data),
         });
@@ -51,7 +51,7 @@ export const getUserChat = (token: string) => async (dispatch: AppDispatch): Pro
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `${AUTHORIZATION_PREFIX}${token}`,
+                Authorization: `${AUTHORIZATION_PREFIX}${token}`,
             }
         });
 

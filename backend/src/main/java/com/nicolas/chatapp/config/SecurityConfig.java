@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private static final String[] WHITE_LIST_URL = {"/auth/**"};
+    private static final String[] WHITE_LIST_URL = {"/auth/**", "/ws/**"};
 
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
@@ -45,8 +45,6 @@ public class SecurityConfig {
                     return cfg;
                 }))
                 .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults())
                 .build();
     }
 

@@ -64,7 +64,7 @@ export const currentUser = (token: string) => async (dispatch: AppDispatch): Pro
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `${AUTHORIZATION_PREFIX}${token}`,
+                Authorization: `${AUTHORIZATION_PREFIX}${token}`,
             },
         });
 
@@ -87,7 +87,7 @@ export const searchUser = (data: string, token: string) => async (dispatch: AppD
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `${AUTHORIZATION_PREFIX}${token}`,
+                Authorization: `${AUTHORIZATION_PREFIX}${token}`,
             }
         });
 
@@ -105,7 +105,7 @@ export const updateUser = (data: UpdateUserRequestDTO, token: string) => async (
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `${AUTHORIZATION_PREFIX}${token}`,
+                Authorization: `${AUTHORIZATION_PREFIX}${token}`,
             },
             body: JSON.stringify(data),
         });

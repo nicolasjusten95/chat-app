@@ -13,7 +13,7 @@ export const createMessage = (data: SendMessageRequestDTO, token: string) => asy
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `${AUTHORIZATION_PREFIX}${token}`,
+                Authorization: `${AUTHORIZATION_PREFIX}${token}`,
             },
             body: JSON.stringify(data),
         });
@@ -32,7 +32,7 @@ export const getAllMessages = (chatId: UUID, token: string) => async (dispatch: 
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `${AUTHORIZATION_PREFIX}${token}`,
+                Authorization: `${AUTHORIZATION_PREFIX}${token}`,
             }
         });
 
