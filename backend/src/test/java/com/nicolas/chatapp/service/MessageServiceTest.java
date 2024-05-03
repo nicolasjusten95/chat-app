@@ -53,6 +53,7 @@ class MessageServiceTest extends AbstractIntegrationTest {
         assertThat(message.getContent()).isEqualTo(content);
         assertThat(message.getTimeStamp()).isNotNull();
         assertThat(repositoryMessage).isEqualTo(message);
+        assertThat(chat.getMessages()).contains(message);
 
         // Message from non-existing user
         assertThrows(UserException.class, () -> messageService.sendMessage(request, notExistingId));
