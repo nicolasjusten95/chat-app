@@ -1,9 +1,9 @@
-.createSingleChatOuterContainer {
+.createGroupChatOuterContainer {
   width: 100%;
   height: 90vh;
 }
 
-.createSingleChatNavContainer {
+.createGroupChatNavContainer {
   height: 15vh;
   display: flex;
   align-items: center;
@@ -14,7 +14,7 @@
   padding-right: 2.5rem;
 }
 
-.createSingleChatTextField {
+.createGroupChatTextField {
   height: 10vh;
   display: flex;
   justify-content: center;
@@ -23,19 +23,19 @@
   padding-right: 0.75rem;
 }
 
-.createSingleChatText {
+.createGroupChatText {
   height: 5vh;
   padding-left: 1rem;
   margin-top: 0;
   margin-bottom: 0;
 }
 
-.createSingleChatUserContainer {
+.createGroupChatUserContainer {
   height: 20vh;
   overflow-y: auto;
 }
 
-.createSingleChatButton {
+.createGroupChatButton {
   height: 10vh;
   display: flex;
   align-items: center;

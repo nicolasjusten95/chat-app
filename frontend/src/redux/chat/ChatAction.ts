@@ -60,7 +60,7 @@ export const getUserChats = (token: string) => async (dispatch: AppDispatch): Pr
         console.log('Getting user chats: ', resData);
         dispatch({type: actionTypes.GET_ALL_CHATS, payload: resData});
     } catch (error: any) {
-        console.error('Getting user chats failed ', error);
+        console.error('Getting user chats failed: ', error);
     }
 };
 
@@ -78,6 +78,42 @@ export const deleteChat = (id: UUID, token: string) => async (dispatch: AppDispa
         console.log('Deleted chat: ', resData);
         dispatch({type: actionTypes.DELETE_CHAT, payload: resData});
     } catch (error: any) {
-        console.error('Deleting chat failed ', error);
+        console.error('Deleting chat failed: ', error);
+    }
+};
+
+export const addUserToGroupChat = (chatId: UUID, userId: UUID, token: string) => async (dispatch: AppDispatch): Promise<void> => {
+    try {
+        const res: Response = await fetch(`${BASE_API_URL}/${CHAT_PATH}/${chatId}/add/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${AUTHORIZATION_PREFIX}${token}`,
+            }
+        });
+
+        const resData: ChatDTO = await res.json();
+        console.log('Added user to group chat: ', resData);
+        dispatch({type: actionTypes.ADD_MEMBER_TO_GROUP, payload: resData});
+    } catch (error: any) {
+        console.error('Adding user to group chat failed: ', error);
+    }
+};
+
+export const removeUserFromGroupChat = (chatId: UUID, userId: UUID, token: string) => async (dispatch: AppDispatch): Promise<void> => {
+    try {
+        const res: Response = await fetch(`${BASE_API_URL}/${CHAT_PATH}/${chatId}/remove/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${AUTHORIZATION_PREFIX}${token}`,
+            }
+        });
+
+        const resData: ChatDTO = await res.json();
+        console.log('Removed user from group chat: ', resData);
+        dispatch({type: actionTypes.ADD_MEMBER_TO_GROUP, payload: resData});
+    } catch (error: any) {
+        console.error('Removing user from group chat failed: ', error);
     }
 };

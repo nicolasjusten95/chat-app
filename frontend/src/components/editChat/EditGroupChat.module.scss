@@ -1,13 +1,41 @@
-.createSingleChatOuterContainer {
+.outerEditGroupChatContainer {
   width: 100%;
-  height: 100%;
+  height: 90vh;
 }
 
-.createSingleChatNavContainer {
+.editGroupChatNavContainer {
+  height: 15vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: rgb(8 145 178);
   color: white;
-  padding: 4rem 2.5rem 1.25rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.editGroupChatText {
+  padding-left: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.editGroupChatTextContainer {
+  display: flex;
+  align-items: center;
+  height: 10vh;
+}
+
+.editGroupChatUserContainer {
+  height: 21vh;
+  overflow-y: auto;
+}
+
+.editGroupChatTextField {
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }

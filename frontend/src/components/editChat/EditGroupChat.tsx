@@ -10,20 +10,21 @@ import styles from './EditGroupChat.module.scss';
 import GroupMember from "./GroupMember";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import {ChatDTO} from "../../redux/chat/ChatModel";
+import {addUserToGroupChat, removeUserFromGroupChat} from "../../redux/chat/ChatAction";
 
 interface CreateGroupProps {
     setIsShowEditGroupChat: (showCreateGroup: boolean) => void;
+    currentChat: ChatDTO | null;
 }
 
 const EditGroupChat = (props: CreateGroupProps) => {
 
-    const [isNewGroup, setIsNewGroup] = useState<boolean>(false);
-    const [groupMember, setGroupMember] = useState<Set<UserDTO>>(new Set());
     const [userQuery, setUserQuery] = useState<string>("");
+    const [focused, setFocused] = useState<boolean>(false);
     const dispatch: AppDispatch = useDispatch();
     const token = localStorage.getItem(TOKEN);
-    const {auth, chat} = useSelector((state: RootState) => state);
-    const [focused, setFocused] = useState<boolean>(false);
+    const {auth} = useSelector((state: RootState) => state);
 
     useEffect(() => {
         if (token && userQuery.length > 0) {
@@ -31,16 +32,16 @@ const EditGroupChat = (props: CreateGroupProps) => {
         }
     }, [userQuery, token]);
 
-    const onRemoveMember = (member: UserDTO) => {
-        const updatedMembers: Set<UserDTO> = new Set(groupMember);
-        updatedMembers.delete(member);
-        setGroupMember(updatedMembers);
+    const onRemoveMember = (user: UserDTO) => {
+        if (token && props.currentChat) {
+            dispatch(removeUserFromGroupChat(props.currentChat.id, user.id, token));
+        }
     };
 
-    const onAddMember = (member: UserDTO) => {
-        const updatedMembers: Set<UserDTO> = new Set(groupMember);
-        updatedMembers.add(member);
-        setGroupMember(updatedMembers);
+    const onAddMember = (user: UserDTO) => {
+        if (token && props.currentChat) {
+            dispatch(addUserToGroupChat(props.currentChat.id, user.id, token));
+        }
     };
 
     const handleBack = () => {
@@ -65,59 +66,59 @@ const EditGroupChat = (props: CreateGroupProps) => {
     };
 
     return (
-        <>
-            <div className={styles.outerEditGroupChatContainer}>
-                {!isNewGroup &&
-                    <div>
-                        {/*Header section*/}
-                        <div className={styles.editGroupChatNavContainer}>
-                            <IconButton onClick={handleBack}>
-                                <WestIcon fontSize='medium'/>
-
-                            </IconButton>
-                            <h2>Edit Group Chat</h2>
-                        </div>
-
-                        <div>
-                            <div>
-                                {groupMember.size > 0 && Array.from(groupMember)
-                                    .map(member => <GroupMember member={member} onRemoveMember={onRemoveMember}
-                                                                key={member.id}/>)
-                                }
-                            </div>
-                            <TextField
-                                id='searchUser'
-                                type='text'
-                                label='Search user ...'
-                                size='small'
-                                fullWidth
-                                value={userQuery}
-                                onChange={onChangeQuery}
-                                sx={{backgroundColor: 'white'}}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position='start'>
-                                            <SearchIcon/>
-                                        </InputAdornment>
-                                    ),
-                                    endAdornment: getSearchEndAdornment(),
-                                }}
-                                InputLabelProps={{
-                                    shrink: focused || userQuery.length > 0,
-                                    style: {marginLeft: focused || userQuery.length > 0 ? 0 : 30}
-                                }}
-                                onFocus={() => setFocused(true)}
-                                onBlur={() => setFocused(false)}/>
-                        </div>
-                        <div>
-                            {userQuery.length > 0 && auth.searchUser?.map(user => <GroupMember member={user}
-                                                                                               onAddMember={onAddMember}
-                                                                                               key={user.id}/>)}
-                        </div>
-                    </div>
-                }
+        <div className={styles.outerEditGroupChatContainer}>
+            <div className={styles.editGroupChatNavContainer}>
+                <IconButton onClick={handleBack}>
+                    <WestIcon fontSize='medium'/>
+                </IconButton>
+                <h2>Edit Group Chat</h2>
             </div>
-        </>
+            <div>
+                <div className={styles.editGroupChatTextContainer}>
+                    <p className={styles.editGroupChatText}>Remove user</p>
+                </div>
+                <div className={styles.editGroupChatUserContainer}>
+                    {props.currentChat?.users.map(user =>
+                        <GroupMember member={user} onRemoveMember={onRemoveMember} key={user.id}/>)
+                    }
+                </div>
+                <div className={styles.editGroupChatTextContainer}>
+                    <p className={styles.editGroupChatText}>Add user</p>
+                </div>
+                <div className={styles.editGroupChatTextField}>
+                    <TextField
+                        id='searchUser'
+                        type='text'
+                        label='Search user ...'
+                        size='small'
+                        fullWidth
+                        value={userQuery}
+                        onChange={onChangeQuery}
+                        sx={{backgroundColor: 'white'}}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position='start'>
+                                    <SearchIcon/>
+                                </InputAdornment>
+                            ),
+                            endAdornment: getSearchEndAdornment(),
+                        }}
+                        InputLabelProps={{
+                            shrink: focused || userQuery.length > 0,
+                            style: {marginLeft: focused || userQuery.length > 0 ? 0 : 30}
+                        }}
+                        onFocus={() => setFocused(true)}
+                        onBlur={() => setFocused(false)}/>
+                </div>
+            </div>
+            <div className={styles.editGroupChatUserContainer}>
+                {userQuery.length > 0 && auth.searchUser?.filter(user => {
+                    const existingUser = props.currentChat?.users.find(existingUser => existingUser.id === user.id);
+                    return existingUser === undefined;
+                })
+                    .map(user => <GroupMember member={user} onAddMember={onAddMember} key={user.id}/>)}
+            </div>
+        </div>
     );
 };
 

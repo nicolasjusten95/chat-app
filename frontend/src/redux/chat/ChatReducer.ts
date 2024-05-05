@@ -7,6 +7,7 @@ const initialState: ChatReducerState = {
     createdGroup: null,
     createdChat: null,
     deletedChat: null,
+    editedGroup: null,
 };
 
 const chatReducer = (state: ChatReducerState = initialState, action: Action): ChatReducerState => {
@@ -19,6 +20,10 @@ const chatReducer = (state: ChatReducerState = initialState, action: Action): Ch
             return {...state, chats: action.payload};
         case actionTypes.DELETE_CHAT:
             return {...state, deletedChat: action.payload};
+        case actionTypes.ADD_MEMBER_TO_GROUP:
+            return {...state, editedGroup: action.payload};
+        case actionTypes.REMOVE_MEMBER_FROM_GROUP:
+            return {...state, editedGroup: action.payload};
     }
     return state;
 };

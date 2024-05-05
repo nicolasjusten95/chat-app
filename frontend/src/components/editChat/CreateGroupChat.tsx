@@ -6,12 +6,12 @@ import {TOKEN} from "../../config/Config";
 import {searchUser} from "../../redux/auth/AuthAction";
 import {Button, IconButton, InputAdornment, TextField} from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-import styles from "./CreateGroupChat.module.scss";
 import WestIcon from "@mui/icons-material/West";
 import GroupMember from "./GroupMember";
 import SearchIcon from "@mui/icons-material/Search";
 import {createGroupChat} from "../../redux/chat/ChatAction";
 import {UUID} from "node:crypto";
+import styles from './CreateGroupChat.module.scss';
 
 interface CreateGroupChatProps {
     setIsShowCreateGroupChat: (isShowCreateGroupChat: boolean) => void;

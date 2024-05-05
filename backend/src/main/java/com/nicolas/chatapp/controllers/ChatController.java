@@ -77,7 +77,7 @@ public class ChatController {
             throws UserException, ChatException {
 
         User user = userService.findUserByProfile(jwt);
-        Chat chat = chatService.addUserToGroup(chatId, userId, user);
+        Chat chat = chatService.addUserToGroup(userId, chatId, user);
         log.info("User {} added user {} to group chat: {}", user.getEmail(), userId, chat.getId());
 
         return new ResponseEntity<>(ChatDTO.fromChat(chat), HttpStatus.OK);

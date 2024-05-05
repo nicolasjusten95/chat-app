@@ -71,7 +71,11 @@ const Homepage = () => {
         if (token) {
             dispatch(getUserChats(token));
         }
-    }, [chat.createdChat, chat.createdGroup, dispatch, token, message.newMessage, chat.deletedChat]);
+    }, [chat.createdChat, chat.createdGroup, dispatch, token, message.newMessage, chat.deletedChat, chat.editedGroup]);
+
+    useEffect(() => {
+        setCurrentChat(chat.editedGroup);
+    }, [chat.editedGroup]);
 
     useEffect(() => {
         if (currentChat?.id && token) {
@@ -161,10 +165,6 @@ const Homepage = () => {
         setAnchor(null);
     };
 
-    const onEditGroupChat = () => {
-        setIsShowEditGroupChat(true);
-    };
-
     const onCreateGroupChat = () => {
         onCloseMenu();
         setIsShowCreateGroupChat(true);
@@ -206,10 +206,10 @@ const Homepage = () => {
                 <div className={styles.innerContainer}>
                     <div className={styles.sideBarContainer}>
                         {isShowCreateSingleChat &&
-                            <CreateSingleChat setIsShowCreateSingleChat={setIsShowCreateSingleChat}/>}
+                            <CreateSingleChat setIsShowCreateSingleChat={setIsShowCreateSingleChat} />}
                         {isShowCreateGroupChat &&
-                            <CreateGroupChat setIsShowCreateGroupChat={setIsShowCreateGroupChat}/>}
-                        {isShowEditGroupChat && <EditGroupChat setIsShowEditGroupChat={setIsShowEditGroupChat}/>}
+                            <CreateGroupChat setIsShowCreateGroupChat={setIsShowCreateGroupChat} />}
+                        {isShowEditGroupChat && <EditGroupChat setIsShowEditGroupChat={setIsShowEditGroupChat} currentChat={currentChat} />}
                         {isShowProfile &&
                             <div className={styles.profileContainer}>
                                 <Profile onCloseProfile={onCloseProfile} initials={initials}/>
