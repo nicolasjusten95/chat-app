@@ -1,11 +1,13 @@
 .ownMessage {
   align-self: flex-end;
   margin-top: 1rem;
+  max-width: 75%;
 }
 
 .othersMessage {
   align-self: flex-start;
   margin-top: 1rem;
+  max-width: 75%;
 }
 
 .date {
@@ -25,6 +27,8 @@
 .contentContainer {
   margin-top: 0.5rem;
   margin-bottom: 0.25rem;
+  text-wrap: wrap;
+  word-break: break-word;
 }
 
 .timeContainer {
