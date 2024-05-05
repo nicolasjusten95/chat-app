@@ -17,6 +17,7 @@
     "@types/react-dom": "^18.2.22",
     "@types/sockjs-client": "^1.5.4",
     "@types/stompjs": "^2.3.9",
+    "emoji-picker-react": "^4.9.2",
     "net": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

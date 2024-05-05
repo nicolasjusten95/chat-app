@@ -14,6 +14,9 @@ import {AppDispatch} from "../../redux/Store";
 import {useDispatch} from "react-redux";
 import {deleteChat} from "../../redux/chat/ChatAction";
 import {TOKEN} from "../../config/Config";
+import EmojiPicker from "emoji-picker-react";
+import MoodIcon from '@mui/icons-material/Mood';
+import {EmojiClickData} from "emoji-picker-react/dist/types/exposedTypes";
 
 interface MessagePageProps {
     chat: ChatDTO;
@@ -32,6 +35,7 @@ const MessagePage = (props: MessagePageProps) => {
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const [isSearch, setIsSearch] = useState<boolean>(false);
     const [anchor, setAnchor] = useState(null);
+    const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState<boolean>(false);
     const lastMessageRef = useRef<null | HTMLDivElement>(null);
     const dispatch: AppDispatch = useDispatch();
     const open = Boolean(anchor);
@@ -69,6 +73,7 @@ const MessagePage = (props: MessagePageProps) => {
     };
 
     const onChangeNewMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsEmojiPickerOpen(false);
         props.setNewMessage(e.target.value);
     };
 
@@ -99,6 +104,15 @@ const MessagePage = (props: MessagePageProps) => {
         }
     };
 
+    const onOpenEmojiPicker = () => {
+        setIsEmojiPickerOpen(!isEmojiPickerOpen);
+    };
+
+    const onEmojiClick = (e: EmojiClickData) => {
+        setIsEmojiPickerOpen(false);
+        props.setNewMessage(props.newMessage + e.emoji);
+    };
+
     let lastDay = -1;
     let lastMonth = -1;
     let lastYear = -1;
@@ -111,7 +125,8 @@ const MessagePage = (props: MessagePageProps) => {
             lastMonth = date.getMonth();
             lastYear = date.getFullYear();
         }
-        return <MessageCard message={message} reqUser={props.reqUser} key={message.id} isNewDate={isNewDate} isGroup={props.chat.isGroup}/>
+        return <MessageCard message={message} reqUser={props.reqUser} key={message.id} isNewDate={isNewDate}
+                            isGroup={props.chat.isGroup}/>
     };
 
     return (
@@ -189,6 +204,17 @@ const MessagePage = (props: MessagePageProps) => {
 
             {/*Message Page Footer*/}
             <div className={styles.footerContainer}>
+                {isEmojiPickerOpen ?
+                    <div className={styles.emojiOuterContainer}>
+                        <div className={styles.emojiContainer}>
+                            <EmojiPicker onEmojiClick={onEmojiClick} searchDisabled={true} skinTonesDisabled={true}/>
+                        </div>
+                    </div> :
+                    <div className={styles.emojiButton}>
+                        <IconButton onClick={onOpenEmojiPicker}>
+                            <MoodIcon/>
+                        </IconButton>
+                    </div>}
                 <div className={styles.innerFooterContainer}>
                     <TextField
                         id='newMessage'

@@ -46,5 +46,20 @@
 }
 
 .innerFooterContainer {
-  width: 75%;
+  width: 60%;
+}
+
+.emojiButton {
+  margin-right: 1rem;
+}
+
+.emojiOuterContainer {
+  position: relative;
+}
+
+.emojiContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-105%, -95.5%);
 }
