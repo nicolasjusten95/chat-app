@@ -1,10 +1,10 @@
 import styles from './Homepage.module.scss';
 import React, {Dispatch, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {NavigateFunction, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../redux/Store";
 import {TOKEN} from "../config/Config";
-import CreateGroup from "./group/CreateGroup";
+import EditGroupChat from "./group/EditGroupChat";
 import Profile from "./profile/Profile";
 import {Avatar, Divider, IconButton, InputAdornment, Menu, MenuItem, TextField} from "@mui/material";
 import ChatIcon from '@mui/icons-material/Chat';
@@ -23,10 +23,12 @@ import {createMessage, getAllMessages} from "../redux/message/MessageAction";
 import SockJS from 'sockjs-client';
 import {Client, over, Subscription} from "stompjs";
 import {AUTHORIZATION_PREFIX} from "../redux/Constants";
+import CreateGroupChat from "./group/CreateGroupChat";
 
 const Homepage = () => {
 
-    const [isShowCreateGroup, setIsShowCreateGroup] = useState<boolean>(false);
+    const [isShowEditGroupChat, setIsShowEditGroupChat] = useState<boolean>(false);
+    const [isShowCreateGroupChat, setIsShowCreateGroupChat] = useState<boolean>(false);
     const [isShowProfile, setIsShowProfile] = useState<boolean>(false);
     const [anchor, setAnchor] = useState(null);
     const [initials, setInitials] = useState<string>("");
@@ -39,7 +41,7 @@ const Homepage = () => {
     const [isConnected, setIsConnected] = useState<boolean>(false);
     const [messageReceived, setMessageReceived] = useState<boolean>(false);
     const open = Boolean(anchor);
-    const navigate = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
     const dispatch: Dispatch<any> = useDispatch();
     const {auth, chat, message} = useSelector((state: RootState) => state);
     const token: string | null = localStorage.getItem(TOKEN);
@@ -157,8 +159,13 @@ const Homepage = () => {
         setAnchor(null);
     };
 
-    const onCreateGroup = () => {
-        setIsShowCreateGroup(true);
+    const onEditGroupChat = () => {
+        setIsShowEditGroupChat(true);
+    };
+
+    const onCreateGroupChat = () => {
+        onCloseMenu();
+        setIsShowCreateGroupChat(true);
     };
 
     const onLogout = () => {
@@ -192,12 +199,13 @@ const Homepage = () => {
             <div className={styles.outerContainer}>
                 <div className={styles.innerContainer}>
                     <div className={styles.sideBarContainer}>
-                        {isShowCreateGroup && <CreateGroup setIsShowCreateGroup={setIsShowCreateGroup}/>}
+                        {isShowCreateGroupChat && <CreateGroupChat setIsShowCreateGroupChat={setIsShowCreateGroupChat} />}
+                        {isShowEditGroupChat && <EditGroupChat setIsShowEditGroupChat={setIsShowEditGroupChat}/>}
                         {isShowProfile &&
                             <div className={styles.profileContainer}>
                                 <Profile onCloseProfile={onCloseProfile} initials={initials}/>
                             </div>}
-                        {!isShowCreateGroup && !isShowProfile &&
+                        {!isShowEditGroupChat && !isShowCreateGroupChat && !isShowProfile &&
                             <div className={styles.sideBarInnerContainer}>
                                 <div className={styles.navContainer}>
                                     <div onClick={onOpenProfile} className={styles.userInfoContainer}>
@@ -225,7 +233,7 @@ const Homepage = () => {
                                             onClose={onCloseMenu}
                                             MenuListProps={{'aria-labelledby': 'basic-button'}}>
                                             <MenuItem onClick={onOpenProfile}>Profile</MenuItem>
-                                            <MenuItem onClick={onCreateGroup}>Create Group</MenuItem>
+                                            <MenuItem onClick={onCreateGroupChat}>Create Group</MenuItem>
                                             <MenuItem onClick={onLogout}>Logout</MenuItem>
                                         </Menu>
                                     </div>

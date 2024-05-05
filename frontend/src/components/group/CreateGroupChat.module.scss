@@ -1,0 +1,43 @@
+.createGroupChatOuterContainer {
+  width: 100%;
+  height: 90vh;
+}
+
+.createGroupChatNavContainer {
+  height: 15vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(8 145 178);
+  color: white;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.createGroupChatTextField {
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.createGroupChatText {
+  height: 5vh;
+  padding-left: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.createGroupChatUserContainer {
+  height: 20vh;
+  overflow-y: auto;
+}
+
+.createGroupChatButton {
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
