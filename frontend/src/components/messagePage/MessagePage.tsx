@@ -111,7 +111,7 @@ const MessagePage = (props: MessagePageProps) => {
             lastMonth = date.getMonth();
             lastYear = date.getFullYear();
         }
-        return <MessageCard message={message} reqUser={props.reqUser} key={message.id} isNewDate={isNewDate}/>
+        return <MessageCard message={message} reqUser={props.reqUser} key={message.id} isNewDate={isNewDate} isGroup={props.chat.isGroup}/>
     };
 
     return (

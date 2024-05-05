@@ -9,6 +9,7 @@ interface MessageCardProps {
     message: MessageDTO;
     reqUser: UserDTO | null;
     isNewDate: boolean;
+    isGroup: boolean;
 }
 
 const MessageCard = (props: MessageCardProps) => {
@@ -19,6 +20,7 @@ const MessageCard = (props: MessageCardProps) => {
     const minutes = date.getMinutes() > 9 ? date.getMinutes().toString() : "0" + date.getMinutes();
     const label: React.ReactElement = (
         <div className={styles.bubbleContainer}>
+            {props.isGroup && !isOwnMessage && <h4 className={styles.contentContainer}>{props.message.user.fullName}:</h4>}
             <p className={styles.contentContainer}>{props.message.content}</p>
             <p className={styles.timeContainer}>{hours + ":" + minutes}</p>
         </div>
@@ -34,7 +36,7 @@ const MessageCard = (props: MessageCardProps) => {
                                                                     sx={{height: 'auto', width: 'auto', backgroundColor: '#faebd7'}}/>}</div>}
             <div className={isOwnMessage ? styles.ownMessage : styles.othersMessage}>
                 <Chip label={label}
-                      sx={{height: 'auto', width: 'auto', backgroundColor: isOwnMessage ? '#d3fdd3' : 'white'}}/>
+                      sx={{height: 'auto', width: 'auto', backgroundColor: isOwnMessage ? '#d3fdd3' : 'white', ml: '0.75rem'}}/>
             </div>
         </div>
     );
