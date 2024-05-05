@@ -169,7 +169,9 @@ const MessagePage = (props: MessagePageProps) => {
                             onClose={onCloseMenu}
                             MenuListProps={{'aria-labelledby': 'basic-button'}}>
                             {props.chat.isGroup && <MenuItem onClick={onEditGroupChat}>Edit Group Chat</MenuItem>}
-                            <MenuItem onClick={onDeleteChat}>Delete Chat</MenuItem>
+                            <MenuItem onClick={onDeleteChat}>
+                                {props.chat.isGroup ? 'Delete Group Chat' : 'Delete Chat'}
+                            </MenuItem>
                         </Menu>
                     </div>
                 </div>
