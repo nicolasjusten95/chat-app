@@ -33,6 +33,6 @@ public class Chat {
     @ManyToOne
     private User createdBy;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
 }

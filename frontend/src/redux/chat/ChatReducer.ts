@@ -6,6 +6,7 @@ const initialState: ChatReducerState = {
     chats: [],
     createdGroup: null,
     createdChat: null,
+    deletedChat: null,
 };
 
 const chatReducer = (state: ChatReducerState = initialState, action: Action): ChatReducerState => {
@@ -16,6 +17,8 @@ const chatReducer = (state: ChatReducerState = initialState, action: Action): Ch
             return {...state, createdGroup: action.payload};
         case actionTypes.GET_ALL_CHATS:
             return {...state, chats: action.payload};
+        case actionTypes.DELETE_CHAT:
+            return {...state, deletedChat: action.payload};
     }
     return state;
 };

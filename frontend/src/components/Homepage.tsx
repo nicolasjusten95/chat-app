@@ -1,8 +1,8 @@
 import styles from './Homepage.module.scss';
-import React, {Dispatch, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {NavigateFunction, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../redux/Store";
+import {AppDispatch, RootState} from "../redux/Store";
 import {TOKEN} from "../config/Config";
 import EditGroupChat from "./group/EditGroupChat";
 import Profile from "./profile/Profile";
@@ -42,7 +42,7 @@ const Homepage = () => {
     const [messageReceived, setMessageReceived] = useState<boolean>(false);
     const open = Boolean(anchor);
     const navigate: NavigateFunction = useNavigate();
-    const dispatch: Dispatch<any> = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const {auth, chat, message} = useSelector((state: RootState) => state);
     const token: string | null = localStorage.getItem(TOKEN);
 
@@ -69,7 +69,7 @@ const Homepage = () => {
         if (token) {
             dispatch(getUserChats(token));
         }
-    }, [chat.createdChat, chat.createdGroup, dispatch, token, message.newMessage]);
+    }, [chat.createdChat, chat.createdGroup, dispatch, token, message.newMessage, chat.deletedChat]);
 
     useEffect(() => {
         if (currentChat?.id && token) {
@@ -199,7 +199,8 @@ const Homepage = () => {
             <div className={styles.outerContainer}>
                 <div className={styles.innerContainer}>
                     <div className={styles.sideBarContainer}>
-                        {isShowCreateGroupChat && <CreateGroupChat setIsShowCreateGroupChat={setIsShowCreateGroupChat} />}
+                        {isShowCreateGroupChat &&
+                            <CreateGroupChat setIsShowCreateGroupChat={setIsShowCreateGroupChat}/>}
                         {isShowEditGroupChat && <EditGroupChat setIsShowEditGroupChat={setIsShowEditGroupChat}/>}
                         {isShowProfile &&
                             <div className={styles.profileContainer}>
@@ -269,17 +270,17 @@ const Homepage = () => {
                                                 x.users[0].fullName.toLowerCase().includes(query))
                                         .map((chat: ChatDTO) => (
                                             <div key={chat.id} onClick={() => onClickChat(chat)}>
-                                                <Divider />
+                                                <Divider/>
                                                 <ChatCard chat={chat}/>
                                             </div>
                                         ))}
                                     {query.length === 0 && chat.chats?.map((chat: ChatDTO) => (
                                         <div key={chat.id} onClick={() => onClickChat(chat)}>
-                                            <Divider />
+                                            <Divider/>
                                             <ChatCard chat={chat}/>
                                         </div>
                                     ))}
-                                    {chat.chats?.length > 0 ? <Divider /> : null}
+                                    {chat.chats?.length > 0 ? <Divider/> : null}
                                 </div>
                             </div>}
                     </div>
@@ -291,7 +292,9 @@ const Homepage = () => {
                             messages={messages}
                             newMessage={newMessage}
                             setNewMessage={setNewMessage}
-                            onSendMessage={onSendMessage}/>}
+                            onSendMessage={onSendMessage}
+                            setIsShowEditGroupChat={setIsShowEditGroupChat}
+                            setCurrentChat={setCurrentChat}/>}
                     </div>
                 </div>
             </div>

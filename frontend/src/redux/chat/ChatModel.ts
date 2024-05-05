@@ -1,5 +1,5 @@
 import {UUID} from "node:crypto";
-import {UserDTO} from "../auth/AuthModel";
+import {ApiResponseDTO, UserDTO} from "../auth/AuthModel";
 import {MessageDTO} from "../message/MessageModel";
 
 export interface GroupChatRequestDTO {
@@ -21,4 +21,5 @@ export type ChatReducerState = {
     chats: ChatDTO[];
     createdGroup: ChatDTO | null;
     createdChat: ChatDTO | null;
+    deletedChat: ApiResponseDTO | null;
 }

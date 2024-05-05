@@ -11,6 +11,7 @@ import com.nicolas.chatapp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -57,7 +58,20 @@ public class ChatServiceImpl implements ChatService {
 
         User user = userService.findUserById(userId);
 
-        return chatRepository.findChatByUserId(user.getId());
+        return chatRepository.findChatByUserId(user.getId()).stream()
+                .sorted((chat1, chat2) -> {
+                    if (chat1.getMessages().isEmpty() && chat2.getMessages().isEmpty()) {
+                        return 0;
+                    } else if (chat1.getMessages().isEmpty()) {
+                        return 1;
+                    } else if (chat2.getMessages().isEmpty()) {
+                        return -1;
+                    }
+                    LocalDateTime timeStamp1 = chat1.getMessages().get(chat1.getMessages().size() - 1).getTimeStamp();
+                    LocalDateTime timeStamp2 = chat2.getMessages().get(chat2.getMessages().size() - 1).getTimeStamp();
+                    return timeStamp2.compareTo(timeStamp1);
+                })
+                .toList();
     }
 
     @Override

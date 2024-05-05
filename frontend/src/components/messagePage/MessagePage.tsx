@@ -1,4 +1,4 @@
-import {Avatar, IconButton, InputAdornment, TextField} from "@mui/material";
+import {Avatar, IconButton, InputAdornment, Menu, MenuItem, TextField} from "@mui/material";
 import {getChatName, getInitialsFromName} from "../utils/Utils";
 import React, {useEffect, useRef, useState} from "react";
 import {ChatDTO} from "../../redux/chat/ChatModel";
@@ -10,6 +10,10 @@ import {MessageDTO} from "../../redux/message/MessageModel";
 import MessageCard from "../messageCard/MessageCard";
 import SendIcon from '@mui/icons-material/Send';
 import ClearIcon from "@mui/icons-material/Clear";
+import {AppDispatch} from "../../redux/Store";
+import {useDispatch} from "react-redux";
+import {deleteChat} from "../../redux/chat/ChatAction";
+import {TOKEN} from "../../config/Config";
 
 interface MessagePageProps {
     chat: ChatDTO;
@@ -18,6 +22,8 @@ interface MessagePageProps {
     newMessage: string;
     setNewMessage: (newMessage: string) => void;
     onSendMessage: () => void;
+    setIsShowEditGroupChat: (isShowEditGroupChat: boolean) => void;
+    setCurrentChat: (chat: ChatDTO | null) => void;
 }
 
 const MessagePage = (props: MessagePageProps) => {
@@ -25,7 +31,11 @@ const MessagePage = (props: MessagePageProps) => {
     const [messageQuery, setMessageQuery] = useState<string>("");
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const [isSearch, setIsSearch] = useState<boolean>(false);
+    const [anchor, setAnchor] = useState(null);
     const lastMessageRef = useRef<null | HTMLDivElement>(null);
+    const dispatch: AppDispatch = useDispatch();
+    const open = Boolean(anchor);
+    const token: string | null = localStorage.getItem(TOKEN);
 
     useEffect(() => {
         scrollToBottom();
@@ -34,6 +44,27 @@ const MessagePage = (props: MessagePageProps) => {
     const scrollToBottom = () => {
         if (lastMessageRef.current) {
             lastMessageRef.current.scrollIntoView({behavior: "smooth"});
+        }
+    };
+
+    const onOpenMenu = (e: any) => {
+        setAnchor(e.currentTarget);
+    };
+
+    const onCloseMenu = () => {
+        setAnchor(null);
+    };
+
+    const onEditGroupChat = () => {
+        onCloseMenu();
+        props.setIsShowEditGroupChat(true);
+    };
+
+    const onDeleteChat = () => {
+        onCloseMenu();
+        if (token) {
+            dispatch(deleteChat(props.chat.id, token));
+            props.setCurrentChat(null);
         }
     };
 
@@ -128,9 +159,18 @@ const MessagePage = (props: MessagePageProps) => {
                                 }}
                                 onFocus={() => setIsFocused(true)}
                                 onBlur={() => setIsFocused(false)}/>}
-                        <IconButton>
+                        <IconButton onClick={onOpenMenu}>
                             <MoreVertIcon/>
                         </IconButton>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchor}
+                            open={open}
+                            onClose={onCloseMenu}
+                            MenuListProps={{'aria-labelledby': 'basic-button'}}>
+                            {props.chat.isGroup && <MenuItem onClick={onEditGroupChat}>Edit Group Chat</MenuItem>}
+                            <MenuItem onClick={onDeleteChat}>Delete Chat</MenuItem>
+                        </Menu>
                     </div>
                 </div>
             </div>

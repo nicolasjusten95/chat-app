@@ -4,6 +4,7 @@ import {UUID} from "node:crypto";
 import {ChatDTO, GroupChatRequestDTO} from "./ChatModel";
 import {AUTHORIZATION_PREFIX} from "../Constants";
 import {AppDispatch} from "../Store";
+import {ApiResponseDTO} from "../auth/AuthModel";
 
 const CHAT_PATH = 'api/chats';
 
@@ -60,5 +61,23 @@ export const getUserChats = (token: string) => async (dispatch: AppDispatch): Pr
         dispatch({type: actionTypes.GET_ALL_CHATS, payload: resData});
     } catch (error: any) {
         console.error('Getting user chats failed ', error);
+    }
+};
+
+export const deleteChat = (id: UUID, token: string) => async (dispatch: AppDispatch): Promise<void> => {
+    try {
+        const res: Response = await fetch(`${BASE_API_URL}/${CHAT_PATH}/delete/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${AUTHORIZATION_PREFIX}${token}`,
+            }
+        });
+
+        const resData: ApiResponseDTO = await res.json();
+        console.log('Deleted chat: ', resData);
+        dispatch({type: actionTypes.DELETE_CHAT, payload: resData});
+    } catch (error: any) {
+        console.error('Deleting chat failed ', error);
     }
 };
