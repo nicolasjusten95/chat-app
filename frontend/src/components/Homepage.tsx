@@ -4,7 +4,7 @@ import {NavigateFunction, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../redux/Store";
 import {TOKEN} from "../config/Config";
-import EditGroupChat from "./group/EditGroupChat";
+import EditGroupChat from "./editChat/EditGroupChat";
 import Profile from "./profile/Profile";
 import {Avatar, Divider, IconButton, InputAdornment, Menu, MenuItem, TextField} from "@mui/material";
 import ChatIcon from '@mui/icons-material/Chat';
@@ -23,12 +23,14 @@ import {createMessage, getAllMessages} from "../redux/message/MessageAction";
 import SockJS from 'sockjs-client';
 import {Client, over, Subscription} from "stompjs";
 import {AUTHORIZATION_PREFIX} from "../redux/Constants";
-import CreateGroupChat from "./group/CreateGroupChat";
+import CreateGroupChat from "./editChat/CreateGroupChat";
+import CreateSingleChat from "./editChat/CreateSingleChat";
 
 const Homepage = () => {
 
     const [isShowEditGroupChat, setIsShowEditGroupChat] = useState<boolean>(false);
     const [isShowCreateGroupChat, setIsShowCreateGroupChat] = useState<boolean>(false);
+    const [isShowCreateSingleChat, setIsShowCreateSingleChat] = useState<boolean>(false);
     const [isShowProfile, setIsShowProfile] = useState<boolean>(false);
     const [anchor, setAnchor] = useState(null);
     const [initials, setInitials] = useState<string>("");
@@ -168,6 +170,10 @@ const Homepage = () => {
         setIsShowCreateGroupChat(true);
     };
 
+    const onCreateSingleChat = () => {
+        setIsShowCreateSingleChat(true);
+    };
+
     const onLogout = () => {
         dispatch(logoutUser());
         navigate("/signin");
@@ -199,6 +205,8 @@ const Homepage = () => {
             <div className={styles.outerContainer}>
                 <div className={styles.innerContainer}>
                     <div className={styles.sideBarContainer}>
+                        {isShowCreateSingleChat &&
+                            <CreateSingleChat setIsShowCreateSingleChat={setIsShowCreateSingleChat}/>}
                         {isShowCreateGroupChat &&
                             <CreateGroupChat setIsShowCreateGroupChat={setIsShowCreateGroupChat}/>}
                         {isShowEditGroupChat && <EditGroupChat setIsShowEditGroupChat={setIsShowEditGroupChat}/>}
@@ -206,7 +214,7 @@ const Homepage = () => {
                             <div className={styles.profileContainer}>
                                 <Profile onCloseProfile={onCloseProfile} initials={initials}/>
                             </div>}
-                        {!isShowEditGroupChat && !isShowCreateGroupChat && !isShowProfile &&
+                        {!isShowCreateSingleChat && !isShowEditGroupChat && !isShowCreateGroupChat && !isShowProfile &&
                             <div className={styles.sideBarInnerContainer}>
                                 <div className={styles.navContainer}>
                                     <div onClick={onOpenProfile} className={styles.userInfoContainer}>
@@ -221,7 +229,7 @@ const Homepage = () => {
                                         <p>{auth.reqUser?.fullName}</p>
                                     </div>
                                     <div>
-                                        <IconButton>
+                                        <IconButton onClick={onCreateSingleChat}>
                                             <ChatIcon/>
                                         </IconButton>
                                         <IconButton onClick={onOpenMenu}>

@@ -79,7 +79,7 @@ const CreateGroupChat = (props: CreateGroupChatProps) => {
 
     const onClearQuery = () => {
         setUserQuery("");
-    }
+    };
 
     const getSearchEndAdornment = () => {
         return userQuery.length > 0 &&
@@ -91,67 +91,65 @@ const CreateGroupChat = (props: CreateGroupChatProps) => {
     };
 
     return (
-        <>
-            <div className={styles.createGroupChatOuterContainer}>
-                <div className={styles.createGroupChatNavContainer}>
-                    <IconButton onClick={handleBack}>
-                        <WestIcon fontSize='medium'/>
-                    </IconButton>
-                    <h2>Create New Group Chat</h2>
-                </div>
-                <div className={styles.createGroupChatTextField}>
-                    <TextField
-                        id='chatName'
-                        type='text'
-                        label='Enter name ...'
-                        size='small'
-                        fullWidth
-                        value={name}
-                        onChange={onChangeName}
-                        sx={{backgroundColor: 'white'}}/>
-                </div>
-                <p className={styles.createGroupChatText}>User</p>
-                <div className={styles.createGroupChatUserContainer}>
-                    {groupMember.size > 0 && Array.from(groupMember)
-                        .map(member =>
-                            <GroupMember member={member} onRemoveMember={onRemoveMember} key={member.id}/>)
-                    }
-                </div>
-                <div className={styles.createGroupChatTextField}>
-                    <TextField
-                        id='searchUser'
-                        type='text'
-                        label='Search user to add ...'
-                        size='small'
-                        fullWidth
-                        value={userQuery}
-                        onChange={onChangeQuery}
-                        sx={{backgroundColor: 'white'}}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position='start'>
-                                    <SearchIcon/>
-                                </InputAdornment>
-                            ),
-                            endAdornment: getSearchEndAdornment(),
-                        }}
-                        InputLabelProps={{
-                            shrink: focused || userQuery.length > 0,
-                            style: {marginLeft: focused || userQuery.length > 0 ? 0 : 30}
-                        }}
-                        onFocus={() => setFocused(true)}
-                        onBlur={() => setFocused(false)}/>
-                </div>
-                <div className={styles.createGroupChatUserContainer}>
-                    {userQuery.length > 0 && auth.searchUser?.filter(user =>
-                        Array.from(groupMember).filter(member => member.id === user.id).length <= 0)
-                        .map(user => <GroupMember member={user} onAddMember={onAddMember} key={user.id}/>)}
-                </div>
-                <div className={styles.createGroupChatButton}>
-                    <Button variant={"contained"} onClick={onCreate}>Create Group Chat</Button>
-                </div>
+        <div className={styles.createGroupChatOuterContainer}>
+            <div className={styles.createGroupChatNavContainer}>
+                <IconButton onClick={handleBack}>
+                    <WestIcon fontSize='medium'/>
+                </IconButton>
+                <h2>Create New Group Chat</h2>
             </div>
-        </>
+            <div className={styles.createGroupChatTextField}>
+                <TextField
+                    id='chatName'
+                    type='text'
+                    label='Enter name ...'
+                    size='small'
+                    fullWidth
+                    value={name}
+                    onChange={onChangeName}
+                    sx={{backgroundColor: 'white'}}/>
+            </div>
+            <p className={styles.createGroupChatText}>User</p>
+            <div className={styles.createGroupChatUserContainer}>
+                {groupMember.size > 0 && Array.from(groupMember)
+                    .map(member =>
+                        <GroupMember member={member} onRemoveMember={onRemoveMember} key={member.id}/>)
+                }
+            </div>
+            <div className={styles.createGroupChatTextField}>
+                <TextField
+                    id='searchUser'
+                    type='text'
+                    label='Search user to add ...'
+                    size='small'
+                    fullWidth
+                    value={userQuery}
+                    onChange={onChangeQuery}
+                    sx={{backgroundColor: 'white'}}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position='start'>
+                                <SearchIcon/>
+                            </InputAdornment>
+                        ),
+                        endAdornment: getSearchEndAdornment(),
+                    }}
+                    InputLabelProps={{
+                        shrink: focused || userQuery.length > 0,
+                        style: {marginLeft: focused || userQuery.length > 0 ? 0 : 30}
+                    }}
+                    onFocus={() => setFocused(true)}
+                    onBlur={() => setFocused(false)}/>
+            </div>
+            <div className={styles.createGroupChatUserContainer}>
+                {userQuery.length > 0 && auth.searchUser?.filter(user =>
+                    Array.from(groupMember).filter(member => member.id === user.id).length <= 0)
+                    .map(user => <GroupMember member={user} onAddMember={onAddMember} key={user.id}/>)}
+            </div>
+            <div className={styles.createGroupChatButton}>
+                <Button variant={"contained"} onClick={onCreate}>Create Group Chat</Button>
+            </div>
+        </div>
     );
 };
 

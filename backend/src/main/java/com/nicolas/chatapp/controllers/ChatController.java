@@ -2,7 +2,6 @@ package com.nicolas.chatapp.controllers;
 
 import com.nicolas.chatapp.config.JwtConstants;
 import com.nicolas.chatapp.dto.request.GroupChatRequestDTO;
-import com.nicolas.chatapp.dto.request.SingleChatRequestDTO;
 import com.nicolas.chatapp.dto.response.ApiResponseDTO;
 import com.nicolas.chatapp.dto.response.ChatDTO;
 import com.nicolas.chatapp.exception.ChatException;
@@ -30,12 +29,12 @@ public class ChatController {
     private final ChatService chatService;
 
     @PostMapping("/single")
-    public ResponseEntity<ChatDTO> createSingleChat(@RequestBody SingleChatRequestDTO req,
-                                                 @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+    public ResponseEntity<ChatDTO> createSingleChat(@RequestBody UUID userId,
+                                                    @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException {
 
         User user = userService.findUserByProfile(jwt);
-        Chat chat = chatService.createChat(user, req.userId());
+        Chat chat = chatService.createChat(user, userId);
         log.info("User {} created single chat: {}", user.getEmail(), chat.getId());
 
         return new ResponseEntity<>(ChatDTO.fromChat(chat), HttpStatus.OK);
@@ -43,7 +42,7 @@ public class ChatController {
 
     @PostMapping("/group")
     public ResponseEntity<ChatDTO> createGroupChat(@RequestBody GroupChatRequestDTO req,
-                                                @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+                                                   @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException {
 
         User user = userService.findUserByProfile(jwt);
@@ -74,7 +73,7 @@ public class ChatController {
 
     @PutMapping("/{chatId}/add/{userId}")
     public ResponseEntity<ChatDTO> addUserToGroup(@PathVariable UUID chatId, @PathVariable UUID userId,
-                                               @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+                                                  @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException, ChatException {
 
         User user = userService.findUserByProfile(jwt);
@@ -86,7 +85,7 @@ public class ChatController {
 
     @PutMapping("/{chatId}/remove/{userId}")
     public ResponseEntity<ChatDTO> removeUserFromGroup(@PathVariable UUID chatId, @PathVariable UUID userId,
-                                                    @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+                                                       @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException, ChatException {
 
         User user = userService.findUserByProfile(jwt);

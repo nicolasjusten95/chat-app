@@ -8,7 +8,7 @@ import {ApiResponseDTO} from "../auth/AuthModel";
 
 const CHAT_PATH = 'api/chats';
 
-export const createChat = (data: UUID, token: string) => async (dispatch: AppDispatch): Promise<void> => {
+export const createChat = (userId: UUID, token: string) => async (dispatch: AppDispatch): Promise<void> => {
     try {
         const res: Response = await fetch(`${BASE_API_URL}/${CHAT_PATH}/single`, {
             method: 'POST',
@@ -16,7 +16,7 @@ export const createChat = (data: UUID, token: string) => async (dispatch: AppDis
                 'Content-Type': 'application/json',
                 Authorization: `${AUTHORIZATION_PREFIX}${token}`,
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(userId),
         });
 
         const resData: ChatDTO = await res.json();
