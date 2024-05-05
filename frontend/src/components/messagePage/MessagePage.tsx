@@ -105,7 +105,11 @@ const MessagePage = (props: MessagePageProps) => {
     };
 
     const onOpenEmojiPicker = () => {
-        setIsEmojiPickerOpen(!isEmojiPickerOpen);
+        setIsEmojiPickerOpen(true);
+    };
+
+    const onCloseEmojiPicker = () => {
+        setIsEmojiPickerOpen(false);
     };
 
     const onEmojiClick = (e: EmojiClickData) => {
@@ -193,7 +197,7 @@ const MessagePage = (props: MessagePageProps) => {
             </div>
 
             {/*Message Page Content*/}
-            <div className={styles.messageContentContainer}>
+            <div className={styles.messageContentContainer} onClick={onCloseEmojiPicker}>
                 {messageQuery.length > 0 &&
                     props.messages.filter(x => x.content.toLowerCase().includes(messageQuery))
                         .map(message => getMessageCard(message))}
