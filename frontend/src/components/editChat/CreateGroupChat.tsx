@@ -20,13 +20,13 @@ interface CreateGroupChatProps {
 
 const CreateGroupChat = (props: CreateGroupChatProps) => {
 
+    const authState = useSelector((state: RootState) => state.auth);
     const [groupMember, setGroupMember] = useState<Set<UserDTO>>(new Set());
     const [userQuery, setUserQuery] = useState<string>("");
     const [name, setName] = useState<string>("");
     const [focused, setFocused] = useState<boolean>(false);
     const dispatch: AppDispatch = useDispatch();
     const token = localStorage.getItem(TOKEN);
-    const {auth} = useSelector((state: RootState) => state);
 
     useEffect(() => {
         setName("New Group Chat")
@@ -39,11 +39,11 @@ const CreateGroupChat = (props: CreateGroupChatProps) => {
     }, [userQuery, token]);
 
     useEffect(() => {
-        if (auth.reqUser) {
-            const newGroupMember: Set<UserDTO> = groupMember.add(auth.reqUser);
+        if (authState.reqUser) {
+            const newGroupMember: Set<UserDTO> = groupMember.add(authState.reqUser);
             setGroupMember(newGroupMember);
         }
-    }, [auth.reqUser, groupMember]);
+    }, [authState.reqUser, groupMember]);
 
     const onCreate = () => {
         if (token) {
@@ -142,7 +142,7 @@ const CreateGroupChat = (props: CreateGroupChatProps) => {
                     onBlur={() => setFocused(false)}/>
             </div>
             <div className={styles.createGroupChatUserContainer}>
-                {userQuery.length > 0 && auth.searchUser?.filter(user =>
+                {userQuery.length > 0 && authState.searchUser?.filter(user =>
                     Array.from(groupMember).filter(member => member.id === user.id).length <= 0)
                     .map(user => <GroupMember member={user} onAddMember={onAddMember} key={user.id}/>)}
             </div>

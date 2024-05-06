@@ -28,6 +28,12 @@ import CreateSingleChat from "./editChat/CreateSingleChat";
 
 const Homepage = () => {
 
+    const authState = useSelector((state: RootState) => state.auth);
+    const chatState = useSelector((state: RootState) => state.chat);
+    const messageState = useSelector((state: RootState) => state.message);
+    const navigate: NavigateFunction = useNavigate();
+    const dispatch: AppDispatch = useDispatch();
+    const token: string | null = localStorage.getItem(TOKEN);
     const [isShowEditGroupChat, setIsShowEditGroupChat] = useState<boolean>(false);
     const [isShowCreateGroupChat, setIsShowCreateGroupChat] = useState<boolean>(false);
     const [isShowCreateSingleChat, setIsShowCreateSingleChat] = useState<boolean>(false);
@@ -42,73 +48,73 @@ const Homepage = () => {
     const [stompClient, setStompClient] = useState<Client | undefined>();
     const [isConnected, setIsConnected] = useState<boolean>(false);
     const [messageReceived, setMessageReceived] = useState<boolean>(false);
+    const [subscribeTry, setSubscribeTry] = useState<number>(1);
     const open = Boolean(anchor);
-    const navigate: NavigateFunction = useNavigate();
-    const dispatch: AppDispatch = useDispatch();
-    const {auth, chat, message} = useSelector((state: RootState) => state);
-    const token: string | null = localStorage.getItem(TOKEN);
 
     useEffect(() => {
-        if (token && !auth.reqUser) {
+        if (token && !authState.reqUser) {
             dispatch(currentUser(token));
         }
-    }, [token, dispatch, auth.reqUser, navigate]);
+    }, [token, dispatch, authState.reqUser, navigate]);
 
     useEffect(() => {
-        if (!token || auth.reqUser === null) {
+        if (!token || authState.reqUser === null) {
             navigate("/signin");
         }
-    }, [token, navigate, auth.reqUser]);
+    }, [token, navigate, authState.reqUser]);
 
     useEffect(() => {
-        if (auth.reqUser && auth.reqUser.fullName) {
-            const letters = getInitialsFromName(auth.reqUser.fullName);
+        if (authState.reqUser && authState.reqUser.fullName) {
+            const letters = getInitialsFromName(authState.reqUser.fullName);
             setInitials(letters);
         }
-    }, [auth.reqUser?.fullName]);
+    }, [authState.reqUser?.fullName]);
 
     useEffect(() => {
         if (token) {
             dispatch(getUserChats(token));
         }
-    }, [chat.createdChat, chat.createdGroup, dispatch, token, message.newMessage, chat.deletedChat, chat.editedGroup, chat.markedAsReadChat]);
+    }, [chatState.createdChat, chatState.createdGroup, dispatch, token, messageState.newMessage, chatState.deletedChat, chatState.editedGroup, chatState.markedAsReadChat]);
 
     useEffect(() => {
-        setCurrentChat(chat.editedGroup);
-    }, [chat.editedGroup]);
+        setCurrentChat(chatState.editedGroup);
+    }, [chatState.editedGroup]);
 
     useEffect(() => {
         if (currentChat?.id && token) {
             dispatch(getAllMessages(currentChat.id, token));
         }
-    }, [currentChat, dispatch, token, message.newMessage]);
+    }, [currentChat, dispatch, token, messageState.newMessage]);
 
     useEffect(() => {
-        setMessages(message.messages);
-    }, [message.messages]);
+        setMessages(messageState.messages);
+    }, [messageState.messages]);
 
     useEffect(() => {
-        if (message.newMessage && stompClient && currentChat && isConnected) {
-            const webSocketMessage: WebSocketMessageDTO = {...message.newMessage, chat: currentChat};
+        if (messageState.newMessage && stompClient && currentChat && isConnected) {
+            const webSocketMessage: WebSocketMessageDTO = {...messageState.newMessage, chat: currentChat};
             stompClient.send("/app/messages", {}, JSON.stringify(webSocketMessage));
         }
-    }, [message.newMessage]);
+    }, [messageState.newMessage]);
 
     useEffect(() => {
-        if (isConnected && stompClient && stompClient.connected && auth.reqUser) {
-            console.log("Connected to ws: ", isConnected);
-            const subscription: Subscription = stompClient.subscribe("/topic/" + auth.reqUser.id.toString(), onMessageReceive);
+        console.log("Attempting to subscribe to ws: ", subscribeTry);
+        if (isConnected && stompClient && stompClient.connected && authState.reqUser) {
+            const subscription: Subscription = stompClient.subscribe("/topic/" + authState.reqUser.id.toString(), onMessageReceive);
 
-            return () => {
-                subscription.unsubscribe();
-            };
+            return () => subscription.unsubscribe();
+        } else {
+            const timeout = setTimeout(() => setSubscribeTry(subscribeTry + 1), 500);
+            return () => clearTimeout(timeout);
         }
-    }, [isConnected, stompClient, auth.reqUser]);
+    }, [subscribeTry, isConnected, stompClient, authState.reqUser]);
 
     useEffect(() => {
         if (messageReceived && currentChat?.id && token) {
             dispatch(markChatAsRead(currentChat.id, token));
             dispatch(getAllMessages(currentChat.id, token));
+        }
+        if (token) {
             dispatch(getUserChats(token));
         }
         setMessageReceived(false);
@@ -119,19 +125,18 @@ const Homepage = () => {
     }, []);
 
     const connect = () => {
-
         const headers = {
             Authorization: `${AUTHORIZATION_PREFIX}${token}`
         };
 
         const socket: WebSocket = new SockJS("http://localhost:8080/ws");
         const client: Client = over(socket);
-        setStompClient(client);
         client.connect(headers, onConnect, onError);
+        setStompClient(client);
     };
 
-    const onConnect = () => {
-        setIsConnected(true);
+    const onConnect = async () => {
+        setTimeout(() => setIsConnected(true), 1000);
     };
 
     const onError = (error: any) => {
@@ -210,10 +215,11 @@ const Homepage = () => {
                 <div className={styles.innerContainer}>
                     <div className={styles.sideBarContainer}>
                         {isShowCreateSingleChat &&
-                            <CreateSingleChat setIsShowCreateSingleChat={setIsShowCreateSingleChat} />}
+                            <CreateSingleChat setIsShowCreateSingleChat={setIsShowCreateSingleChat}/>}
                         {isShowCreateGroupChat &&
-                            <CreateGroupChat setIsShowCreateGroupChat={setIsShowCreateGroupChat} />}
-                        {isShowEditGroupChat && <EditGroupChat setIsShowEditGroupChat={setIsShowEditGroupChat} currentChat={currentChat} />}
+                            <CreateGroupChat setIsShowCreateGroupChat={setIsShowCreateGroupChat}/>}
+                        {isShowEditGroupChat &&
+                            <EditGroupChat setIsShowEditGroupChat={setIsShowEditGroupChat} currentChat={currentChat}/>}
                         {isShowProfile &&
                             <div className={styles.profileContainer}>
                                 <Profile onCloseProfile={onCloseProfile} initials={initials}/>
@@ -230,7 +236,7 @@ const Homepage = () => {
                                         }}>
                                             {initials}
                                         </Avatar>
-                                        <p>{auth.reqUser?.fullName}</p>
+                                        <p>{authState.reqUser?.fullName}</p>
                                     </div>
                                     <div>
                                         <IconButton onClick={onCreateSingleChat}>
@@ -276,9 +282,9 @@ const Homepage = () => {
                                         onBlur={() => setFocused(false)}/>
                                 </div>
                                 <div className={styles.chatsContainer}>
-                                    {query.length > 0 && chat.chats?.filter(x =>
+                                    {query.length > 0 && chatState.chats?.filter(x =>
                                         x.isGroup ? x.chatName.toLowerCase().includes(query) :
-                                            x.users[0].id === auth.reqUser?.id ? x.users[1].fullName.toLowerCase().includes(query) :
+                                            x.users[0].id === authState.reqUser?.id ? x.users[1].fullName.toLowerCase().includes(query) :
                                                 x.users[0].fullName.toLowerCase().includes(query))
                                         .map((chat: ChatDTO) => (
                                             <div key={chat.id} onClick={() => onClickChat(chat)}>
@@ -286,21 +292,21 @@ const Homepage = () => {
                                                 <ChatCard chat={chat}/>
                                             </div>
                                         ))}
-                                    {query.length === 0 && chat.chats?.map((chat: ChatDTO) => (
+                                    {query.length === 0 && chatState.chats?.map((chat: ChatDTO) => (
                                         <div key={chat.id} onClick={() => onClickChat(chat)}>
                                             <Divider/>
                                             <ChatCard chat={chat}/>
                                         </div>
                                     ))}
-                                    {chat.chats?.length > 0 ? <Divider/> : null}
+                                    {chatState.chats?.length > 0 ? <Divider/> : null}
                                 </div>
                             </div>}
                     </div>
                     <div className={styles.messagesContainer}>
-                        {!currentChat && <WelcomePage reqUser={auth.reqUser}/>}
+                        {!currentChat && <WelcomePage reqUser={authState.reqUser}/>}
                         {currentChat && <MessagePage
                             chat={currentChat}
-                            reqUser={auth.reqUser}
+                            reqUser={authState.reqUser}
                             messages={messages}
                             newMessage={newMessage}
                             setNewMessage={setNewMessage}

@@ -13,18 +13,18 @@ interface ChatCardProps {
 
 const ChatCard = (props: ChatCardProps) => {
 
-    const {auth} = useSelector((state: RootState) => state);
+    const authState = useSelector((state: RootState) => state.auth);
 
-    const name: string = getChatName(props.chat, auth.reqUser);
+    const name: string = getChatName(props.chat, authState.reqUser);
     const initials: string = getInitialsFromName(name);
     const sortedMessages: MessageDTO[] = props.chat.messages.sort((a, b) => +new Date(a.timeStamp) - +new Date(b.timeStamp));
     const lastMessage: MessageDTO | undefined = sortedMessages.length > 0 ? sortedMessages[sortedMessages.length - 1] : undefined;
     const lastMessageContent: string = lastMessage ? lastMessage.content.length > 25 ? lastMessage.content.slice(0, 25) + "..." : lastMessage.content : "";
-    const lastMessageName: string = lastMessage ? lastMessage.user.fullName === auth.reqUser?.fullName ? "You" : lastMessage.user.fullName : "";
+    const lastMessageName: string = lastMessage ? lastMessage.user.fullName === authState.reqUser?.fullName ? "You" : lastMessage.user.fullName : "";
     const lastMessageString: string = lastMessage ? lastMessageName + ": " + lastMessageContent : "";
     const lastDate: string = lastMessage ? transformDateToString(new Date(lastMessage.timeStamp)) : "";
     const numberOfReadMessages: number = props.chat.messages.filter(msg =>
-        msg.user.id === auth.reqUser?.id || msg.readBy.includes(auth.reqUser!.id)).length;
+        msg.user.id === authState.reqUser?.id || msg.readBy.includes(authState.reqUser!.id)).length;
     const numberOfUnreadMessages: number = props.chat.messages.length - numberOfReadMessages;
 
     return (

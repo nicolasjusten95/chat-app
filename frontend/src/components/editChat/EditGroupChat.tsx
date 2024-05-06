@@ -20,11 +20,11 @@ interface CreateGroupProps {
 
 const EditGroupChat = (props: CreateGroupProps) => {
 
+    const authState = useSelector((state: RootState) => state.auth);
     const [userQuery, setUserQuery] = useState<string>("");
     const [focused, setFocused] = useState<boolean>(false);
     const dispatch: AppDispatch = useDispatch();
     const token = localStorage.getItem(TOKEN);
-    const {auth} = useSelector((state: RootState) => state);
 
     useEffect(() => {
         if (token && userQuery.length > 0) {
@@ -112,7 +112,7 @@ const EditGroupChat = (props: CreateGroupProps) => {
                 </div>
             </div>
             <div className={styles.editGroupChatUserContainer}>
-                {userQuery.length > 0 && auth.searchUser?.filter(user => {
+                {userQuery.length > 0 && authState.searchUser?.filter(user => {
                     const existingUser = props.currentChat?.users.find(existingUser => existingUser.id === user.id);
                     return existingUser === undefined;
                 })

@@ -20,12 +20,12 @@ interface CreateSingleChatProps {
 
 const CreateSingleChat = (props: CreateSingleChatProps) => {
 
+    const authState = useSelector((state: RootState) => state.auth);
+    const token = localStorage.getItem(TOKEN);
+    const dispatch: AppDispatch = useDispatch();
     const [selectedUser, setSelectedUser] = useState<UserDTO | null>(null);
     const [focused, setFocused] = useState<boolean>(false);
     const [userQuery, setUserQuery] = useState<string>("");
-    const {auth} = useSelector((state: RootState) => state);
-    const token = localStorage.getItem(TOKEN);
-    const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
         if (token && userQuery.length > 0) {
@@ -105,7 +105,7 @@ const CreateSingleChat = (props: CreateSingleChatProps) => {
                     onBlur={() => setFocused(false)}/>
             </div>
             <div className={styles.createSingleChatUserContainer}>
-                {userQuery.length > 0 && auth.searchUser?.map(user =>
+                {userQuery.length > 0 && authState.searchUser?.map(user =>
                     <GroupMember member={user} onAddMember={onSetUser} key={user.id}/>)}
             </div>
             <div className={styles.createSingleChatButton}>
