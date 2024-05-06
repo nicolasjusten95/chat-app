@@ -90,9 +90,9 @@ class ChatServiceTest extends AbstractIntegrationTest {
 
         // Find all by existing user
         List<Chat> result = chatService.findAllByUserId(lukesId);
-        Chat chat1 = chatService.findChatById(vaderAndLukeChatId);
+        Chat chat1 = chatService.findChatById(theGoodiesChatId);
         Chat chat2 = chatService.findChatById(lukesAndLeiasChatId);
-        Chat chat3 = chatService.findChatById(theGoodiesChatId);
+        Chat chat3 = chatService.findChatById(vaderAndLukeChatId);
         assertThat(result).containsExactlyElementsOf(List.of(chat1, chat2, chat3));
 
         // Find all by non-existing user
