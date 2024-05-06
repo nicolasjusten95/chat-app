@@ -95,7 +95,7 @@ const Homepage = () => {
     }, [message.newMessage]);
 
     useEffect(() => {
-        if (isConnected && stompClient && auth.reqUser) {
+        if (isConnected && stompClient && stompClient.connected && auth.reqUser) {
             console.log("Connected to ws: ", isConnected);
             const subscription: Subscription = stompClient.subscribe("/topic/" + auth.reqUser.id.toString(), onMessageReceive);
 
