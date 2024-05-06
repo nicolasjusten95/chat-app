@@ -98,9 +98,9 @@ public class ChatController {
         return new ResponseEntity<>(ChatDTO.fromChat(chat), HttpStatus.OK);
     }
 
-    @PutMapping("/markAsRead")
-    public ResponseEntity<ChatDTO> markAsRead(@RequestBody UUID chatId,
-                                                 @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+    @PutMapping("/{chatId}/markAsRead")
+    public ResponseEntity<ChatDTO> markAsRead(@PathVariable UUID chatId,
+                                              @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
             throws UserException, ChatException {
 
         User user = userService.findUserByProfile(jwt);

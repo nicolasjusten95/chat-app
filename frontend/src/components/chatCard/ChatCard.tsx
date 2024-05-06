@@ -24,7 +24,7 @@ const ChatCard = (props: ChatCardProps) => {
     const lastMessageString: string = lastMessage ? lastMessageName + ": " + lastMessageContent : "";
     const lastDate: string = lastMessage ? transformDateToString(new Date(lastMessage.timeStamp)) : "";
     const numberOfReadMessages: number = props.chat.messages.filter(msg =>
-        msg.user.id === auth.reqUser?.id || msg.readBy.find(id => auth.reqUser?.id)).length;
+        msg.user.id === auth.reqUser?.id || msg.readBy.includes(auth.reqUser!.id)).length;
     const numberOfUnreadMessages: number = props.chat.messages.length - numberOfReadMessages;
 
     return (

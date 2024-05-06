@@ -11,7 +11,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {currentUser, logoutUser} from "../redux/auth/AuthAction";
 import SearchIcon from '@mui/icons-material/Search';
-import {getUserChats} from "../redux/chat/ChatAction";
+import {getUserChats, markChatAsRead} from "../redux/chat/ChatAction";
 import {ChatDTO} from "../redux/chat/ChatModel";
 import ChatCard from "./chatCard/ChatCard";
 import {getInitialsFromName} from "./utils/Utils";
@@ -71,7 +71,7 @@ const Homepage = () => {
         if (token) {
             dispatch(getUserChats(token));
         }
-    }, [chat.createdChat, chat.createdGroup, dispatch, token, message.newMessage, chat.deletedChat, chat.editedGroup]);
+    }, [chat.createdChat, chat.createdGroup, dispatch, token, message.newMessage, chat.deletedChat, chat.editedGroup, chat.markedAsReadChat]);
 
     useEffect(() => {
         setCurrentChat(chat.editedGroup);
@@ -188,6 +188,9 @@ const Homepage = () => {
     };
 
     const onClickChat = (chat: ChatDTO) => {
+        if (token) {
+            dispatch(markChatAsRead(chat.id, token));
+        }
         setCurrentChat(chat);
     };
 

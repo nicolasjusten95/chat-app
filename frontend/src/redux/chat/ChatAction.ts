@@ -117,3 +117,21 @@ export const removeUserFromGroupChat = (chatId: UUID, userId: UUID, token: strin
         console.error('Removing user from group chat failed: ', error);
     }
 };
+
+export const markChatAsRead = (chatId: UUID, token: string) => async (dispatch: AppDispatch): Promise<void> => {
+    try {
+        const res: Response = await fetch(`${BASE_API_URL}/${CHAT_PATH}/${chatId}/markAsRead`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${AUTHORIZATION_PREFIX}${token}`,
+            }
+        });
+
+        const resData: ChatDTO = await res.json();
+        console.log('Marked chat as read: ', resData);
+        dispatch({type: actionTypes.MARK_CHAT_AS_READ, payload: resData});
+    } catch (error: any) {
+        console.error('Marking chat as read failed, ', error);
+    }
+};
