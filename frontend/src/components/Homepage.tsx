@@ -107,8 +107,9 @@ const Homepage = () => {
 
     useEffect(() => {
         if (messageReceived && currentChat?.id && token) {
-            dispatch(getUserChats(token));
+            dispatch(markChatAsRead(currentChat.id, token));
             dispatch(getAllMessages(currentChat.id, token));
+            dispatch(getUserChats(token));
         }
         setMessageReceived(false);
     }, [messageReceived]);
