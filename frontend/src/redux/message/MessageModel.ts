@@ -7,6 +7,7 @@ export interface MessageDTO {
     content: string;
     timeStamp: string;
     user: UserDTO;
+    readBy: UUID[];
 }
 
 export interface WebSocketMessageDTO {

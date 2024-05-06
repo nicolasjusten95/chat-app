@@ -1,4 +1,4 @@
-import {Avatar} from "@mui/material";
+import {Avatar, Badge} from "@mui/material";
 import React from "react";
 import {getChatName, getInitialsFromName, transformDateToString} from "../utils/Utils";
 import styles from './ChatCard.module.scss';
@@ -23,6 +23,9 @@ const ChatCard = (props: ChatCardProps) => {
     const lastMessageName: string = lastMessage ? lastMessage.user.fullName === auth.reqUser?.fullName ? "You" : lastMessage.user.fullName : "";
     const lastMessageString: string = lastMessage ? lastMessageName + ": " + lastMessageContent : "";
     const lastDate: string = lastMessage ? transformDateToString(new Date(lastMessage.timeStamp)) : "";
+    const numberOfReadMessages: number = props.chat.messages.filter(msg =>
+        msg.user.id === auth.reqUser?.id || msg.readBy.find(id => auth.reqUser?.id)).length;
+    const numberOfUnreadMessages: number = props.chat.messages.length - numberOfReadMessages;
 
     return (
         <div className={styles.chatCardOuterContainer}>
@@ -43,7 +46,7 @@ const ChatCard = (props: ChatCardProps) => {
                 </div>
                 <div className={styles.chatCardContentInnerContainer}>
                     <p className={styles.chatCardSmallTextContainer}>{lastMessageString}</p>
-                    {/* TODO: Add bubble with new messages*/}
+                    {<Badge badgeContent={numberOfUnreadMessages} color='primary' sx={{mr: '0.75rem'}}/>}
                 </div>
             </div>
         </div>
