@@ -4,9 +4,12 @@ import com.nicolas.chatapp.config.JwtConstants;
 import com.nicolas.chatapp.dto.request.GroupChatRequestDTO;
 import com.nicolas.chatapp.dto.response.ApiResponseDTO;
 import com.nicolas.chatapp.dto.response.ChatDTO;
+import com.nicolas.chatapp.dto.response.MessageDTO;
 import com.nicolas.chatapp.exception.ChatException;
+import com.nicolas.chatapp.exception.MessageException;
 import com.nicolas.chatapp.exception.UserException;
 import com.nicolas.chatapp.model.Chat;
+import com.nicolas.chatapp.model.Message;
 import com.nicolas.chatapp.model.User;
 import com.nicolas.chatapp.service.ChatService;
 import com.nicolas.chatapp.service.UserService;
@@ -91,6 +94,18 @@ public class ChatController {
         User user = userService.findUserByProfile(jwt);
         Chat chat = chatService.removeFromGroup(chatId, userId, user);
         log.info("User {} removed user {} from group chat: {}", user.getEmail(), userId, chat.getId());
+
+        return new ResponseEntity<>(ChatDTO.fromChat(chat), HttpStatus.OK);
+    }
+
+    @PutMapping("/markAsRead")
+    public ResponseEntity<ChatDTO> markAsRead(@RequestBody UUID chatId,
+                                                 @RequestHeader(JwtConstants.TOKEN_HEADER) String jwt)
+            throws UserException, ChatException {
+
+        User user = userService.findUserByProfile(jwt);
+        Chat chat = chatService.markAsRead(chatId, user);
+        log.info("Chat {} marked as read for user: {}", chatId, user.getEmail());
 
         return new ResponseEntity<>(ChatDTO.fromChat(chat), HttpStatus.OK);
     }

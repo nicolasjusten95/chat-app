@@ -187,6 +187,22 @@ class ChatServiceTest extends AbstractIntegrationTest {
     }
 
     @Test
+    void markAsRead() throws UserException, ChatException {
+
+        // Mark chat as read
+        User luke = userService.findUserById(lukesId);
+        Chat result = chatService.markAsRead(theGoodiesChatId, luke);
+        result.getMessages().forEach(msg -> assertThat(msg.getReadBy()).contains(luke.getId()));
+
+        // Mark non-existing chat as read
+        assertThrows(ChatException.class, () -> chatService.markAsRead(notExistingId, luke));
+
+        // Mark chat as read that user is not a part of
+        User vader = userService.findUserById(vadersId);
+        assertThrows(UserException.class, () -> chatService.markAsRead(theGoodiesChatId, vader));
+    }
+
+    @Test
     void deleteChat() throws UserException, ChatException {
 
         // Remove non-existing chat

@@ -153,4 +153,19 @@ public class ChatServiceImpl implements ChatService {
         throw new UserException("User doesn't have permissions to delete group chat");
     }
 
+    @Override
+    public Chat markAsRead(UUID chatId, User reqUser) throws ChatException, UserException {
+
+        Chat chat = findChatById(chatId);
+
+        if (chat.getUsers().contains(reqUser)) {
+            chat.getMessages().forEach(msg -> msg.getReadBy().add(reqUser.getId()));
+
+            return chatRepository.save(chat);
+        }
+
+
+        throw new UserException("User is not related to chat");
+    }
+
 }

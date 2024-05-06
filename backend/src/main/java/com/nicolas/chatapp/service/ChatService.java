@@ -27,4 +27,6 @@ public interface ChatService {
 
     void deleteChat(UUID chatId, UUID userId) throws UserException, ChatException;
 
+    Chat markAsRead(UUID chatId, User reqUser) throws ChatException, UserException;
+
 }

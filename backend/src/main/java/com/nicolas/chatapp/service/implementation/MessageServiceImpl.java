@@ -15,9 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +36,7 @@ public class MessageServiceImpl implements MessageService {
                 .user(user)
                 .content(req.content())
                 .timeStamp(LocalDateTime.now())
+                .readBy(new HashSet<>(Set.of(user.getId())))
                 .build();
 
         chat.getMessages().add(message);

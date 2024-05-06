@@ -1,14 +1,13 @@
 package com.nicolas.chatapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -32,6 +31,9 @@ public class Message {
 
     @ManyToOne
     private Chat chat;
+
+    @ElementCollection
+    private Set<UUID> readBy = new HashSet<>();
 
     @Override
     public boolean equals(Object obj) {
