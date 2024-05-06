@@ -4,13 +4,10 @@ import com.nicolas.chatapp.model.Message;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Builder
-public record MessageDTO(UUID id, String content, LocalDateTime timeStamp, UserDTO user) {
+public record MessageDTO(UUID id, String content, LocalDateTime timeStamp, UserDTO user, Set<UUID> readBy) {
 
     public static MessageDTO fromMessage(Message message) {
         if (Objects.isNull(message)) return null;
@@ -19,6 +16,7 @@ public record MessageDTO(UUID id, String content, LocalDateTime timeStamp, UserD
                 .content(message.getContent())
                 .timeStamp(message.getTimeStamp())
                 .user(UserDTO.fromUser(message.getUser()))
+                .readBy(new HashSet<>(message.getReadBy()))
                 .build();
     }
 
