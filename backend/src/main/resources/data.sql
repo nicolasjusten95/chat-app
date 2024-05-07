@@ -67,7 +67,12 @@ VALUES ('a284a44a-7b28-45da-8463-3a35417715f0', 'I am your father', '2024-04-22 
        ('6bd25bf8-dba1-46b1-8821-ba838d4a84ae', 'We won!', '2024-04-22 20:05:08.535241 +00:00', 'be900497-cc68-4504-9b99-4e5deaf1e6c0', 'ac63914e-151e-444f-b44c-f67a3374f1f1'),
        ('08db069b-e3d5-4cff-b17e-b3af15bb667f', 'The force will be with you, always', '2024-04-23 11:33:07.535241 +00:00', '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7', '7d81a13c-e835-455a-bc99-3fb6001fb0d5'),
        ('1b5bd428-9cc7-480b-8f8c-6cee22e6b76e', 'I got a really bad feeling about this', '2024-04-23 11:35:08.535241 +00:00', '4e039f0a-5eaf-4354-ad5b-14e2889643d4', '74397056-5ede-4533-8dfe-5d8367d588d2'),
-       ('81c67b8c-51f4-46e3-b7eb-8c73db374a2d', 'RRWWWGG', '2024-04-23 11:36:09.535241 +00:00', 'cd467a4d-8430-4545-ad3a-634ce007af46', '74397056-5ede-4533-8dfe-5d8367d588d2');
+       ('81c67b8c-51f4-46e3-b7eb-8c73db374a2d', 'RRWWWGG', '2024-04-23 11:36:09.535241 +00:00', 'cd467a4d-8430-4545-ad3a-634ce007af46', '74397056-5ede-4533-8dfe-5d8367d588d2'),
+('15dcca4f-b7d1-4b55-be30-bf5950a770a1', 'Join me, and together, we can rule the galaxy!', '2024-04-24 09:00:00.000000 +00:00', 'f290f384-60ba-4cdd-af96-26c88ede0264', '0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4'),
+('2658df83-821a-4e4c-94a5-7fbc19249368', 'I’ll never join you!', '2024-04-24 09:10:00.000000 +00:00', 'be900497-cc68-4504-9b99-4e5deaf1e6c0', '0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4'),
+('5c33a3a0-5598-42aa-8810-9408da913b3a', 'Help me, Obi-Wan Kenobi, you’re my only hope.', '2024-04-24 09:30:00.000000 +00:00', '0fb97ac1-1304-4e83-b640-f659b8679907', '8a3ad4c8-3c57-43c3-aed7-f3af68da5135'),
+('33d814e7-06fa-4dfc-a290-ccc4ca5664b2', 'Always pass on what you have learned.', '2024-04-24 10:00:00.000000 +00:00', '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7', '7d81a13c-e835-455a-bc99-3fb6001fb0d5'),
+('84e38fc1-07cf-4083-b442-94d216a8320a', 'Do or do not, there is no try.', '2024-04-24 10:30:00.000000 +00:00', '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7', '7d81a13c-e835-455a-bc99-3fb6001fb0d5');
 
 
 INSERT INTO CHAT_MESSAGES(chat_id, messages_id)
@@ -78,4 +83,9 @@ VALUES ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', 'a284a44a-7b28-45da-8463-3a35417
        ('ac63914e-151e-444f-b44c-f67a3374f1f1', '6bd25bf8-dba1-46b1-8821-ba838d4a84ae'),
        ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', '08db069b-e3d5-4cff-b17e-b3af15bb667f'),
        ('74397056-5ede-4533-8dfe-5d8367d588d2', '1b5bd428-9cc7-480b-8f8c-6cee22e6b76e'),
-       ('74397056-5ede-4533-8dfe-5d8367d588d2', '81c67b8c-51f4-46e3-b7eb-8c73db374a2d');
+       ('74397056-5ede-4533-8dfe-5d8367d588d2', '81c67b8c-51f4-46e3-b7eb-8c73db374a2d'),
+       ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', '15dcca4f-b7d1-4b55-be30-bf5950a770a1'),
+       ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', '2658df83-821a-4e4c-94a5-7fbc19249368'),
+       ('8a3ad4c8-3c57-43c3-aed7-f3af68da5135', '5c33a3a0-5598-42aa-8810-9408da913b3a'),
+       ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', '33d814e7-06fa-4dfc-a290-ccc4ca5664b2'),
+       ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', '84e38fc1-07cf-4083-b442-94d216a8320a');
