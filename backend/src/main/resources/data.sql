@@ -7,18 +7,22 @@ DELETE FROM APP_USER;
 
 
 INSERT INTO APP_USER(id, email, password, full_name)
--- Password: 1234
-VALUES ('be900497-cc68-4504-9b99-4e5deaf1e6c0', 'luke.skywalker@test.com', '$2a$12$0TjSkhITHjj8BDk8KjHUYu1ASnDBOFMYFgRJSpkmdLQnRJdwoVIvS', 'Luke Skywalker'),
--- Password: 2345
-       ('f290f384-60ba-4cdd-af96-26c88ede0264', 'darth.vader@test.com', '$2a$12$rrCst9IZ1/zsIFxRq.Zw9eUDEIRne0oIa0wRIy5frhnpy2YnBH3E6', 'Darth Vader'),
--- Password: 3456
-       ('d7083ad6-9e09-453e-b7c8-65016f20ea37', 'obiwan.kenobi@test.com', '$2a$12$cfSJM7CNCVVJBqE2SczGne6x.toBqiViSbhbw6WP74GKBq58A3ejC', 'Obi Wan Kenobi'),
--- Password: 4567
-       ('0fb97ac1-1304-4e83-b640-f659b8679907', 'leia.organa@test.com', '$2a$12$.Eo6Sidz9yNgIxCfPWxkU.NxWNGLseHKkrTEQYyremPbs06IebvKe', 'Leia Organa'),
--- Password: 5678
-       ('4e039f0a-5eaf-4354-ad5b-14e2889643d4', 'han.solo@test.com', '$2a$12$WMTSS95ddiBK5r3PUiqLXezB/MvUo9bCN8cj81e6BZvCaUjVFR2jy', 'Han Solo'),
--- Password: 6789
-       ('c419a854-010a-4a50-be82-f4587014d6e4', 'imperator.palpatine@test.com', '$2a$12$useRqqdVUGRpKvKoedssbeZVn/ePNO9jtcqcQfRzhQ.6g/vcPHciG', 'Imperator Palpatine');
+-- Password: luke
+VALUES ('be900497-cc68-4504-9b99-4e5deaf1e6c0', 'luke.skywalker@test.com', '$2a$12$y2uaorJLa.mxyJNUO2ThZ.OEvkKer/FCH49aOT/cY0qw6S2IFTPGK', 'Luke Skywalker'),
+-- Password: darth
+       ('f290f384-60ba-4cdd-af96-26c88ede0264', 'darth.vader@test.com', '$2a$12$KWVFqOfe2Eo.CtAO9Z56oOHdZmwl3EgGTLa4NXgG8IWqFQrt7XYoK', 'Darth Vader'),
+-- Password: obiwan
+       ('d7083ad6-9e09-453e-b7c8-65016f20ea37', 'obiwan.kenobi@test.com', '$2a$12$XsRUkOreHBfd1qpUzSAwvO0ASRGH7trf.FrFQ1E8cDSIGRwy/Pirm', 'Obi Wan Kenobi'),
+-- Password: leia
+       ('0fb97ac1-1304-4e83-b640-f659b8679907', 'leia.organa@test.com', '$2a$12$gGvELv.hL0SYa/dGILWz8.srw/H.5vasp6sRrCfEEyj7LDg0JpZtu', 'Leia Organa'),
+-- Password: han
+       ('4e039f0a-5eaf-4354-ad5b-14e2889643d4', 'han.solo@test.com', '$2a$12$t9aiOarVQAZ2K5tFes3yGO22w/EWA5YyHjZ5Q/6jVQtIA2r3Tgsx2', 'Han Solo'),
+-- Password: palpatine
+       ('c419a854-010a-4a50-be82-f4587014d6e4', 'imperator.palpatine@test.com', '$2a$12$YH2XhBwfEzLeU/RvhywwFu.OCzEFImnNq1nTJQWr6LlpR8IY1QSZe', 'Imperator Palpatine'),
+-- Password: yoda
+       ('6f8e857c-c22f-44a1-bd97-8c2f9ce688d7', 'master.yoda@test.com', '$2a$12$BaM1AfZT4Vt5PECAgiqr5OKhbtKIDnvruHe1QO2jcir8YnKRXeL1m', 'Master Yoda'),
+-- Password: chewbacca
+       ('cd467a4d-8430-4545-ad3a-634ce007af46', 'chewbacca@test.com', '$2a$12$ORtN4.IxNhehhh.MiuenG.AGvYqnl3QXnRoxExr61B30J6eoJycXK', 'Chewbacca');
 
 
 INSERT INTO CHAT(id, chat_name, is_group, created_by_id)
