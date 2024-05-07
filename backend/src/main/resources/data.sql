@@ -13,30 +13,52 @@ FROM APP_USER;
 
 
 INSERT INTO APP_USER(id, email, password, full_name)
--- Password: luke
 VALUES ('be900497-cc68-4504-9b99-4e5deaf1e6c0', 'luke.skywalker@test.com',
-        '$2a$12$y2uaorJLa.mxyJNUO2ThZ.OEvkKer/FCH49aOT/cY0qw6S2IFTPGK', 'Luke Skywalker'),
--- Password: darth
+        '$2a$12$y2uaorJLa.mxyJNUO2ThZ.OEvkKer/FCH49aOT/cY0qw6S2IFTPGK', 'Luke Skywalker'), -- Password: luke
        ('f290f384-60ba-4cdd-af96-26c88ede0264', 'darth.vader@test.com',
         '$2a$12$KWVFqOfe2Eo.CtAO9Z56oOHdZmwl3EgGTLa4NXgG8IWqFQrt7XYoK', 'Darth Vader'),
--- Password: obiwan
        ('d7083ad6-9e09-453e-b7c8-65016f20ea37', 'obiwan.kenobi@test.com',
         '$2a$12$XsRUkOreHBfd1qpUzSAwvO0ASRGH7trf.FrFQ1E8cDSIGRwy/Pirm', 'Obi Wan Kenobi'),
--- Password: leia
        ('0fb97ac1-1304-4e83-b640-f659b8679907', 'leia.organa@test.com',
         '$2a$12$gGvELv.hL0SYa/dGILWz8.srw/H.5vasp6sRrCfEEyj7LDg0JpZtu', 'Leia Organa'),
--- Password: han
        ('4e039f0a-5eaf-4354-ad5b-14e2889643d4', 'han.solo@test.com',
         '$2a$12$t9aiOarVQAZ2K5tFes3yGO22w/EWA5YyHjZ5Q/6jVQtIA2r3Tgsx2', 'Han Solo'),
--- Password: palpatine
        ('c419a854-010a-4a50-be82-f4587014d6e4', 'imperator.palpatine@test.com',
         '$2a$12$YH2XhBwfEzLeU/RvhywwFu.OCzEFImnNq1nTJQWr6LlpR8IY1QSZe', 'Imperator Palpatine'),
--- Password: yoda
        ('6f8e857c-c22f-44a1-bd97-8c2f9ce688d7', 'master.yoda@test.com',
         '$2a$12$BaM1AfZT4Vt5PECAgiqr5OKhbtKIDnvruHe1QO2jcir8YnKRXeL1m', 'Master Yoda'),
--- Password: chewbacca
        ('cd467a4d-8430-4545-ad3a-634ce007af46', 'chewbacca@test.com',
-        '$2a$12$ORtN4.IxNhehhh.MiuenG.AGvYqnl3QXnRoxExr61B30J6eoJycXK', 'Chewbacca');
+        '$2a$12$ORtN4.IxNhehhh.MiuenG.AGvYqnl3QXnRoxExr61B30J6eoJycXK', 'Chewbacca'),
+       ('f3496e0e-01e5-413b-9803-98f345f15431', 'ackbar@test.com',
+        '$2a$12$a0.xyMFDgIQe/7u3ZflfnOw1v8Et9/XT8/IQmkfYbaRJjbs99872', 'Admiral Ackbar'),
+       ('88b59305-f8fa-4a42-b348-681dedb82f43', 'boba.fett@test.com',
+        '$2a$12$C2uGQJUAZLafLCmU0ov4CuOw1sGKzNyv4/TmDWo1BNuEz9fON8PKq', 'Boba Fett'),
+       ('f9f7f33d-9a34-4e5b-9d31-84523c7a0bfd', 'lando.calrissian@test.com',
+        '$2a$12$fVAV7nQT4xsTIROCDZbipi12vMfwI5ywKLY4vAo44D.YeAv3jHw9S', 'Lando Calrissian'),
+       ('4ec5de56-95f8-4f3f-a6fd-6025a5398e48', 'c3po@test.com',
+        '$2a$12$e2k.5KiKIR4i5eH2qBd9zuAWOoQvT6PUPyT.fWtMqr.vtknLMGcr.', 'C-3PO'),
+       ('605dd929-2fef-4fea-b2b9-9b16b74f71c2', 'r2d2@test.com',
+        '$2a$12$yN82GK/g4DYSZ.LipBJ9Wu2W1m7geHyp.sEtOz/YaQ/z2cGLGgJW6', 'R2-D2'),
+       ('ab000497-cc68-4504-9c99-4e5dfab1e5b0', 'anakin.skywalker@test.com',
+        '$2a$12$y2naorJLa.mxyJNVO2ThZ.OEpkKer/FCH59aOT/cY0qw6T2IFTSRK', 'Anakin Skywalker'),
+       ('00ee271e-2a8b-48b8-9738-6f09be014c92', 'padme.amidala@test.com',
+        '$2a$12$EKVFqOfe2Eo.QtAL9Z56oOXdZm1f3EgGTLa4NXdG8IVqFQrt7YZoL', 'Padme Amidala'),
+       ('1f475795-ff2d-4875-be26-21f499d046d1', 'count.dooku@test.com',
+        '$2a$12$XsRKkOreHBfd1qpUzSRwvO0KSRGH7trf.FrFQ2E8cDSGGRwy/Pibn', 'Count Dooku'),
+       ('1fb97ec1-1300-4e80-b640-f659b8678907', 'mace.windu@test.com',
+        '$2a$12$gGwELv.hL1SYa/dGHLWz8.srw/H.5vsap6sRrCfEEyj7MDg0JqZdu', 'Mace Windu'),
+       ('586a0149-0fd0-407d-86ae-6f790b11b39c', 'jar.jar.binks@test.com',
+        '$2a$12$t9biOarVQAZ2K5tFes3yGO21w/EXA5YyHjZ5Q/6jVQtIA2r3Tgsx2', 'Jar Jar Binks'),
+       ('d419a854-010a-4a50-be82-f4587014d6e4', 'qui.gon.jinn@test.com',
+        '$2a$12$YH2XhBwfEzLeU/RvhywwFu.OCzEXImfNq1nTJQWr7LlpR8IY1TSZe', 'Qui-Gon Jinn'),
+       ('9868fffe-58e7-42d7-ba74-3184c776eb9d', 'darth.maul@test.com',
+        '$2a$12$BaS1AfZT4Vt5PECAgiqr5OKhistorvcruHe2QO2jcir8YnKRXeL1m', 'Darth Maul'),
+       ('074c75a5-32d6-4396-82c8-247faab12225', 'owen.lars@test.com',
+        '$2a$12$ORtN8.IxNheschs.MiuenG.AGvYqnl3QXnRosExr61B30J6eoJccXK', 'Owen Lars'),
+       ('0e88343e-9c14-4b52-b964-2c597afc12e8', 'beru.lars@test.com',
+        '$2a$12$a0.xyMJFDgIQe/7u3ZflfnCw1v8Et9/XT8/IQmkfYbaRJjbs99872', 'Beru Lars'),
+       ('cb8c3bb2-bdc6-4076-a45a-f626e193bffc', 'jango.fett@test.com',
+        '$2a$12$C2uGQJUAZLsflcmU0ov4CvOw1sGKzNyv4/TmDWo1BNuEz9fON8PKq', 'Jango Fett');
 
 
 INSERT INTO CHAT(id, chat_name, is_group, created_by_id)
@@ -110,9 +132,14 @@ VALUES ('a284a44a-7b28-45da-8463-3a35417715f0', 'I am your father', '2024-04-22 
         '7d81a13c-e835-455a-bc99-3fb6001fb0d5'),
        ('84e38fc1-07cf-4083-b442-94d216a8320a', 'Do or do not, there is no try.', '2024-04-24 10:30:00.000000 +00:00',
         '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7', '7d81a13c-e835-455a-bc99-3fb6001fb0d5'),
-       ('14a8cd52-439d-4284-8c8e-2a1ca21e1d56', 'May the Force be with us.', '2024-04-24 16:00:00.000000 +00:00', 'be900497-cc68-4504-9b99-4e5deaf1e6c0', '731ecf77-95b1-409c-8db8-a6f1aeb192bb'),
-       ('7c27b77a-d4f6-4e5d-9ca9-1b68254def39', 'Always remember, your focus determines your reality.', '2024-04-24 16:30:00.000000 +00:00', 'be900497-cc68-4504-9b99-4e5deaf1e6c0', '7d81a13c-e835-455a-bc99-3fb6001fb0d5'),
-       ('62e7a372-f30a-4f6e-9a30-109a64331d98', 'I ve got a bad feeling about this.', '2024-04-24 17:00:00.000000 +00:00', 'be900497-cc68-4504-9b99-4e5deaf1e6c0', '0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4');
+       ('14a8cd52-439d-4284-8c8e-2a1ca21e1d56', 'May the Force be with us.', '2024-04-24 16:00:00.000000 +00:00',
+        'be900497-cc68-4504-9b99-4e5deaf1e6c0', '731ecf77-95b1-409c-8db8-a6f1aeb192bb'),
+       ('7c27b77a-d4f6-4e5d-9ca9-1b68254def39', 'Always remember, your focus determines your reality.',
+        '2024-04-24 16:30:00.000000 +00:00', 'be900497-cc68-4504-9b99-4e5deaf1e6c0',
+        '7d81a13c-e835-455a-bc99-3fb6001fb0d5'),
+       ('62e7a372-f30a-4f6e-9a30-109a64331d98', 'I ve got a bad feeling about this.',
+        '2024-04-24 17:00:00.000000 +00:00', 'be900497-cc68-4504-9b99-4e5deaf1e6c0',
+        '0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4');
 
 
 INSERT INTO CHAT_MESSAGES(chat_id, messages_id)
