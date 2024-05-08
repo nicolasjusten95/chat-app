@@ -8,15 +8,12 @@ import com.nicolas.chatapp.dto.response.ApiResponseDTO;
 import com.nicolas.chatapp.dto.response.LoginResponseDTO;
 import com.nicolas.chatapp.dto.response.UserDTO;
 import com.nicolas.chatapp.exception.UserException;
-import com.nicolas.chatapp.model.User;
-import com.nicolas.chatapp.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UserControllerTest extends AbstractIntegrationTest {
 
