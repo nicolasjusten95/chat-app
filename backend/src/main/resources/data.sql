@@ -1,10 +1,17 @@
-DELETE FROM MESSAGE_READ_BY;
-DELETE FROM CHAT_MESSAGES;
-DELETE FROM CHAT_ADMINS;
-DELETE FROM CHAT_USERS;
-DELETE FROM MESSAGE;
-DELETE FROM CHAT;
-DELETE FROM APP_USER;
+DELETE
+FROM MESSAGE_READ_BY;
+DELETE
+FROM CHAT_MESSAGES;
+DELETE
+FROM CHAT_ADMINS;
+DELETE
+FROM CHAT_USERS;
+DELETE
+FROM MESSAGE;
+DELETE
+FROM CHAT;
+DELETE
+FROM APP_USER;
 
 
 INSERT INTO APP_USER(id, email, password, full_name)
@@ -94,7 +101,9 @@ VALUES ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', 'Darth Vader and Luke', false, '
        ('8a3ad4c8-3c57-43c3-aed7-f3af68da5135', 'Leia and Kenobi', false, 'd7083ad6-9e09-453e-b7c8-65016f20ea37'),
        ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', 'Luke and Yoda', false, '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7'),
        ('74397056-5ede-4533-8dfe-5d8367d588d2', 'Chewie and Han', false, 'cd467a4d-8430-4545-ad3a-634ce007af46'),
-       ('731ecf77-95b1-409c-8db8-a6f1aeb192bb', 'Skywalker Family', true, 'be900497-cc68-4504-9b99-4e5deaf1e6c0');
+       ('731ecf77-95b1-409c-8db8-a6f1aeb192bb', 'Skywalker Family', true, 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('51b918c3-ea54-4079-b0b8-f5f7edd92eb9', 'Chewie and Luke', false, 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('fc38b854-69f6-49ee-aa51-da00ea5eb191', 'R2D2 and Luke', false, 'be900497-cc68-4504-9b99-4e5deaf1e6c0');
 
 
 INSERT INTO CHAT_ADMINS(admins_id, chat_id)
@@ -122,7 +131,11 @@ VALUES ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', 'f290f384-60ba-4cdd-af96-26c88ed
        ('74397056-5ede-4533-8dfe-5d8367d588d2', '4e039f0a-5eaf-4354-ad5b-14e2889643d4'),
        ('731ecf77-95b1-409c-8db8-a6f1aeb192bb', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
        ('731ecf77-95b1-409c-8db8-a6f1aeb192bb', '0fb97ac1-1304-4e83-b640-f659b8679907'),
-       ('731ecf77-95b1-409c-8db8-a6f1aeb192bb', 'f290f384-60ba-4cdd-af96-26c88ede0264');
+       ('731ecf77-95b1-409c-8db8-a6f1aeb192bb', 'f290f384-60ba-4cdd-af96-26c88ede0264'),
+       ('51b918c3-ea54-4079-b0b8-f5f7edd92eb9', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('51b918c3-ea54-4079-b0b8-f5f7edd92eb9', 'cd467a4d-8430-4545-ad3a-634ce007af46'),
+       ('fc38b854-69f6-49ee-aa51-da00ea5eb191', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('fc38b854-69f6-49ee-aa51-da00ea5eb191', '605dd929-2fef-4fea-b2b9-9b16b74f71c2');
 
 
 INSERT INTO MESSAGE(id, content, time_stamp, user_id, chat_id)
@@ -175,7 +188,11 @@ VALUES ('a284a44a-7b28-45da-8463-3a35417715f0', 'I am your father', '2024-04-22 
         '2024-04-25 17:24:31.000000 +00:00',
         '0fb97ac1-1304-4e83-b640-f659b8679907', 'ac63914e-151e-444f-b44c-f67a3374f1f1'),
        ('85c6cb71-5770-4320-890f-43e70917dcaa', 'I`m just saying ...', '2024-04-25 17:43:11.000000 +00:00',
-        '4e039f0a-5eaf-4354-ad5b-14e2889643d4', 'ac63914e-151e-444f-b44c-f67a3374f1f1');
+        '4e039f0a-5eaf-4354-ad5b-14e2889643d4', 'ac63914e-151e-444f-b44c-f67a3374f1f1'),
+       ('84eb294a-9e0a-4634-aaad-4cfde087cff0', 'RRWWWGG', '2024-04-09 17:42:51.000000 +00:00',
+        'cd467a4d-8430-4545-ad3a-634ce007af46', '51b918c3-ea54-4079-b0b8-f5f7edd92eb9'),
+       ('b57bba0d-90f6-409e-a00b-c109bfbfce14', 'Beep boop beep!', '2024-04-12 17:42:51.000000 +00:00',
+        '605dd929-2fef-4fea-b2b9-9b16b74f71c2', 'fc38b854-69f6-49ee-aa51-da00ea5eb191');
 -- 'I ve got a bad feeling about this.'
 
 INSERT INTO CHAT_MESSAGES(chat_id, messages_id)
@@ -199,7 +216,9 @@ VALUES ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', 'a284a44a-7b28-45da-8463-3a35417
        ('ac63914e-151e-444f-b44c-f67a3374f1f1', '0e223052-e532-4c74-8efa-1c8fb7e8b49a'),
        ('ac63914e-151e-444f-b44c-f67a3374f1f1', '6fc16add-dc1b-42b3-9942-82b52d47684e'),
        ('ac63914e-151e-444f-b44c-f67a3374f1f1', '9230fbb8-5365-4409-baeb-47c3249b5d12'),
-       ('ac63914e-151e-444f-b44c-f67a3374f1f1', '85c6cb71-5770-4320-890f-43e70917dcaa');
+       ('ac63914e-151e-444f-b44c-f67a3374f1f1', '85c6cb71-5770-4320-890f-43e70917dcaa'),
+       ('51b918c3-ea54-4079-b0b8-f5f7edd92eb9', '84eb294a-9e0a-4634-aaad-4cfde087cff0'),
+       ('fc38b854-69f6-49ee-aa51-da00ea5eb191', 'b57bba0d-90f6-409e-a00b-c109bfbfce14');
 
 INSERT INTO MESSAGE_READ_BY(message_id, read_by)
 VALUES ('08db069b-e3d5-4cff-b17e-b3af15bb667f', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
@@ -215,4 +234,6 @@ VALUES ('08db069b-e3d5-4cff-b17e-b3af15bb667f', 'be900497-cc68-4504-9b99-4e5deaf
        ('15dcca4f-b7d1-4b55-be30-bf5950a770a1', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
        ('2658df83-821a-4e4c-94a5-7fbc19249368', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
        ('620d606a-9033-4210-b9c0-982e0f3800ef', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
-       ('15733d9e-939d-497b-b042-fd2fe54d7430', 'be900497-cc68-4504-9b99-4e5deaf1e6c0');
+       ('15733d9e-939d-497b-b042-fd2fe54d7430', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('84eb294a-9e0a-4634-aaad-4cfde087cff0', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('b57bba0d-90f6-409e-a00b-c109bfbfce14', 'be900497-cc68-4504-9b99-4e5deaf1e6c0');
