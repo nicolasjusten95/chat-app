@@ -7,7 +7,7 @@ inspired by WhatsApp. It enables users to exchange messages individually or with
 
 - **Realtime Messaging:** Experience seamless, real-time messaging with instant message delivery.
 - **Individual Messaging:** Send private messages to other users.
-- **Group Messaging:** Create groups to communicate with more than one user.
+- **Group Messaging:** Create and edit groups to communicate with more than one user.
 - **Login And Signup:** Securely access the application with a login and signup system.
 
 ## Technologies
@@ -38,8 +38,8 @@ inspired by WhatsApp. It enables users to exchange messages individually or with
     mvn clean install
     ```
    
-4. **Configure Environment Variables:**
-   Configure Spring Boot application.properties for database and other configurations.
+4. **Configure Environment Variables:**  
+   Configure the Spring Boot application.properties for database and other configurations.
 
 5. **Run the Application:**
     - Start the frontend:
@@ -52,7 +52,7 @@ inspired by WhatsApp. It enables users to exchange messages individually or with
       ```
 6. **Access the Application:**
    - Open your browser and visit [http://localhost:3000](http://localhost:3000) to use the Realtime Chat Application.
-   - You can log in with the sample user:
+   - You can log in with a sample user to access the app with predefined data:
      - email: luke.skywalker@test.com
      - password: luke
    - Or you can create your own Accounts and start chatting!
