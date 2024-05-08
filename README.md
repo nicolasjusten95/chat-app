@@ -59,27 +59,27 @@ inspired by WhatsApp. It enables users to exchange messages individually or with
 
 ## Images
 
+View your chats with other users:
 ![image Screenshot](./images/homepage.png)
-View your chats with other users.
 
+Send messages to other users:
 ![image Screenshot](./images/send_messages.png)
-Send messages to other users.
 
+Log into your account:
 ![image Screenshot](./images/signin.png)
-Log into your account.
 
+Create a new account:
 ![image Screenshot](./images/signup.png)
-Create a new account.
 
+Start a new chat:
 ![image Screenshot](./images/start_new_group_chat.png)
-Start a new chat.
 
+Edit your chats:
 ![image Screenshot](./images/edit_group_chat.png)
-Edit your chats.
 
 ## Contribution Guidelines
 
-We welcome contributions! If you have ideas for improvements or new features, feel free to open an issue or submit a pull request.
+I welcome contributions! If you have ideas for improvements or new features, feel free to open an issue or submit a pull request.
 
 ## License
 
