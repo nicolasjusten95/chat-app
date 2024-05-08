@@ -56,7 +56,7 @@ class UserServiceTest extends AbstractIntegrationTest {
         assertThat(user.getId()).isEqualTo(lukesId);
         assertThat(user.getEmail()).isEqualTo(mail);
 
-        // Get user with invalid jwts
+        // Get user with invalid jwt
         assertThrows(StringIndexOutOfBoundsException.class, () -> userService.findUserByProfile(""));
         assertThrows(IllegalArgumentException.class, () -> userService.findUserByProfile(JwtConstants.TOKEN_PREFIX));
         assertThrows(MalformedJwtException.class, () -> userService.findUserByProfile(JwtConstants.TOKEN_PREFIX + "12345678901234567890"));
@@ -86,7 +86,7 @@ class UserServiceTest extends AbstractIntegrationTest {
     @Test
     void searchUser() throws UserException {
 
-        // Search user by fullName
+        // Search user by name
         User luke = userService.findUserById(lukesId);
         List<User> result = userService.searchUser("Luke");
         assertThat(result).containsExactly(luke);

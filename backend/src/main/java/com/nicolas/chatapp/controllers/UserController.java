@@ -29,7 +29,7 @@ public class UserController {
 
         User user = userService.findUserByProfile(token);
 
-        return new ResponseEntity<>(UserDTO.fromUser(user), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(UserDTO.fromUser(user), HttpStatus.OK);
     }
 
     @GetMapping("/{query}")
@@ -62,7 +62,7 @@ public class UserController {
                 .status(true)
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
