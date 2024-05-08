@@ -18,7 +18,7 @@ const chatReducer = (state: ChatReducerState = initialState, action: Action): Ch
         case actionTypes.CREATE_GROUP:
             return {...state, createdGroup: action.payload};
         case actionTypes.GET_ALL_CHATS:
-            return {...state, chats: action.payload};
+            return {...state, chats: Array.from(action.payload)};
         case actionTypes.DELETE_CHAT:
             return {...state, deletedChat: action.payload};
         case actionTypes.ADD_MEMBER_TO_GROUP:

@@ -1,17 +1,3 @@
-DELETE
-FROM CHAT_MESSAGES;
-DELETE
-FROM CHAT_ADMINS;
-DELETE
-FROM CHAT_USERS;
-DELETE
-FROM MESSAGE;
-DELETE
-FROM CHAT;
-DELETE
-FROM APP_USER;
-
-
 INSERT INTO APP_USER(id, email, password, full_name)
 VALUES ('be900497-cc68-4504-9b99-4e5deaf1e6c0', 'luke.skywalker@test.com',
         '$2a$12$y2uaorJLa.mxyJNUO2ThZ.OEvkKer/FCH49aOT/cY0qw6S2IFTPGK', 'Luke Skywalker'), -- Password: luke
@@ -97,7 +83,7 @@ VALUES ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', 'Darth Vader and Luke', false, '
        ('ac63914e-151e-444f-b44c-f67a3374f1f1', 'The Goodies', true, 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
        ('f476eee8-9a39-4fd2-906f-9e7a746ef167', 'The Dark Side', true, 'c419a854-010a-4a50-be82-f4587014d6e4'),
        ('8a3ad4c8-3c57-43c3-aed7-f3af68da5135', 'Leia and Kenobi', false, 'd7083ad6-9e09-453e-b7c8-65016f20ea37'),
-       ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', 'Help from Yoda', false, '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7'),
+       ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', 'Luke and Yoda', false, '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7'),
        ('74397056-5ede-4533-8dfe-5d8367d588d2', 'Chewie and Han', false, 'cd467a4d-8430-4545-ad3a-634ce007af46'),
        ('731ecf77-95b1-409c-8db8-a6f1aeb192bb', 'Skywalker Family', true, 'be900497-cc68-4504-9b99-4e5deaf1e6c0');
 
@@ -164,12 +150,14 @@ VALUES ('a284a44a-7b28-45da-8463-3a35417715f0', 'I am your father', '2024-04-22 
         '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7', '7d81a13c-e835-455a-bc99-3fb6001fb0d5'),
        ('14a8cd52-439d-4284-8c8e-2a1ca21e1d56', 'May the Force be with us.', '2024-04-24 16:00:00.000000 +00:00',
         'be900497-cc68-4504-9b99-4e5deaf1e6c0', '731ecf77-95b1-409c-8db8-a6f1aeb192bb'),
-       ('7c27b77a-d4f6-4e5d-9ca9-1b68254def39', 'Always remember, your focus determines your reality.',
+       ('7c27b77a-d4f6-4e5d-9ca9-1b68254def39', 'Thanks for your advice!',
         '2024-04-24 16:30:00.000000 +00:00', 'be900497-cc68-4504-9b99-4e5deaf1e6c0',
         '7d81a13c-e835-455a-bc99-3fb6001fb0d5'),
        ('62e7a372-f30a-4f6e-9a30-109a64331d98', 'I ve got a bad feeling about this.',
         '2024-04-24 17:00:00.000000 +00:00', 'be900497-cc68-4504-9b99-4e5deaf1e6c0',
-        '0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4');
+        '0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4'),
+       ('0bd7a29b-8bb2-4a6c-8206-61f068e43b94', 'Welcome you are!', '2024-04-24 16:42:00.000000 +00:00',
+        '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7', '7d81a13c-e835-455a-bc99-3fb6001fb0d5');
 
 
 INSERT INTO CHAT_MESSAGES(chat_id, messages_id)
@@ -188,4 +176,15 @@ VALUES ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', 'a284a44a-7b28-45da-8463-3a35417
        ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', '84e38fc1-07cf-4083-b442-94d216a8320a'),
        ('731ecf77-95b1-409c-8db8-a6f1aeb192bb', '14a8cd52-439d-4284-8c8e-2a1ca21e1d56'),
        ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', '7c27b77a-d4f6-4e5d-9ca9-1b68254def39'),
-       ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', '62e7a372-f30a-4f6e-9a30-109a64331d98');
+       ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', '62e7a372-f30a-4f6e-9a30-109a64331d98'),
+       ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', '0bd7a29b-8bb2-4a6c-8206-61f068e43b94');
+
+INSERT INTO MESSAGE_READ_BY(message_id, read_by)
+VALUES ('08db069b-e3d5-4cff-b17e-b3af15bb667f', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('33d814e7-06fa-4dfc-a290-ccc4ca5664b2', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('84e38fc1-07cf-4083-b442-94d216a8320a', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('7c27b77a-d4f6-4e5d-9ca9-1b68254def39', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('08db069b-e3d5-4cff-b17e-b3af15bb667f', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('33d814e7-06fa-4dfc-a290-ccc4ca5664b2', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('84e38fc1-07cf-4083-b442-94d216a8320a', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('7c27b77a-d4f6-4e5d-9ca9-1b68254def39', 'be900497-cc68-4504-9b99-4e5deaf1e6c0');
