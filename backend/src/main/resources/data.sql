@@ -1,3 +1,12 @@
+DELETE FROM MESSAGE_READ_BY;
+DELETE FROM CHAT_MESSAGES;
+DELETE FROM CHAT_ADMINS;
+DELETE FROM CHAT_USERS;
+DELETE FROM MESSAGE;
+DELETE FROM CHAT;
+DELETE FROM APP_USER;
+
+
 INSERT INTO APP_USER(id, email, password, full_name)
 VALUES ('be900497-cc68-4504-9b99-4e5deaf1e6c0', 'luke.skywalker@test.com',
         '$2a$12$y2uaorJLa.mxyJNUO2ThZ.OEvkKer/FCH49aOT/cY0qw6S2IFTPGK', 'Luke Skywalker'), -- Password: luke
