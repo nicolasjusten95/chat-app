@@ -21,6 +21,12 @@ inspired by WhatsApp. It enables users to exchange messages individually or with
 
 ## Getting Started
 
+### Prerequisites
+
+Ensure you have **npm** and **mvn** installed on your machine.
+
+### Installation
+
 1. **Clone the repository:**  
     ```bash  
     git clone https://github.com/nicolasjusten95/chat-app.git
