@@ -3,6 +3,8 @@
 Welcome to my Chat Application! This project is a full-fledged messaging application with a user interface 
 inspired by WhatsApp. It enables users to exchange messages individually or within groups.
 
+![image Screenshot](./images/homepage.png)
+
 ## Features
 
 - **Realtime Messaging:** Experience seamless, real-time messaging with instant message delivery.
