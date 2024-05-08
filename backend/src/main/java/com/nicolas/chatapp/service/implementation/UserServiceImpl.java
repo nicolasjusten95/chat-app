@@ -11,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -67,12 +64,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> searchUser(String query) {
-        return userRepository.findByFullNameOrEmail(query);
+        return userRepository.findByFullNameOrEmail(query).stream()
+                .sorted(Comparator.comparing(User::getFullName))
+                .toList();
     }
 
     @Override
     public List<User> searchUserByName(String name) {
-        return userRepository.findByFullName(name);
+        return userRepository.findByFullName(name).stream()
+                .sorted(Comparator.comparing(User::getFullName))
+                .toList();
     }
 
 }
