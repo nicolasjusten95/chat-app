@@ -121,9 +121,10 @@ VALUES ('a284a44a-7b28-45da-8463-3a35417715f0', 'I am your father', '2024-04-22 
         'f290f384-60ba-4cdd-af96-26c88ede0264', '0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4'),
        ('37afbdc4-89b4-4961-b825-bb4d666e5442', 'Noooo', '2024-04-22 20:02:08.535241 +00:00',
         'be900497-cc68-4504-9b99-4e5deaf1e6c0', '0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4'),
-       ('620d606a-9033-4210-b9c0-982e0f3800ef', 'Oh btw I am your sister', '2024-04-22 20:03:08.535241 +00:00',
-        '0fb97ac1-1304-4e83-b640-f659b8679907', 'c40e7df3-7e67-4955-96b5-25e8769ec9bc'),
-       ('15733d9e-939d-497b-b042-fd2fe54d7430', 'Good to know', '2024-04-22 20:04:08.535241 +00:00',
+       ('620d606a-9033-4210-b9c0-982e0f3800ef', 'Oh btw I just found out that I am your sister',
+        '2024-04-20 20:03:08.535241 +00:00', '0fb97ac1-1304-4e83-b640-f659b8679907',
+        'c40e7df3-7e67-4955-96b5-25e8769ec9bc'),
+       ('15733d9e-939d-497b-b042-fd2fe54d7430', 'Good to know 😁', '2024-04-21 20:04:08.535241 +00:00',
         'be900497-cc68-4504-9b99-4e5deaf1e6c0', 'c40e7df3-7e67-4955-96b5-25e8769ec9bc'),
        ('6bd25bf8-dba1-46b1-8821-ba838d4a84ae', 'We won!', '2024-04-22 20:05:08.535241 +00:00',
         'be900497-cc68-4504-9b99-4e5deaf1e6c0', 'ac63914e-151e-444f-b44c-f67a3374f1f1'),
@@ -146,19 +147,27 @@ VALUES ('a284a44a-7b28-45da-8463-3a35417715f0', 'I am your father', '2024-04-22 
        ('33d814e7-06fa-4dfc-a290-ccc4ca5664b2', 'Always pass on what you have learned.',
         '2024-04-24 10:00:00.000000 +00:00', '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7',
         '7d81a13c-e835-455a-bc99-3fb6001fb0d5'),
-       ('84e38fc1-07cf-4083-b442-94d216a8320a', 'Do or do not, there is no try.', '2024-04-24 10:30:00.000000 +00:00',
+       ('84e38fc1-07cf-4083-b442-94d216a8320a', 'Do or do not, there is no try.', '2024-04-24 10:30:41.000000 +00:00',
         '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7', '7d81a13c-e835-455a-bc99-3fb6001fb0d5'),
-       ('14a8cd52-439d-4284-8c8e-2a1ca21e1d56', 'May the Force be with us.', '2024-04-24 16:00:00.000000 +00:00',
+       ('14a8cd52-439d-4284-8c8e-2a1ca21e1d56', 'May the Force be with us.', '2024-04-24 16:00:40.000000 +00:00',
         'be900497-cc68-4504-9b99-4e5deaf1e6c0', '731ecf77-95b1-409c-8db8-a6f1aeb192bb'),
        ('7c27b77a-d4f6-4e5d-9ca9-1b68254def39', 'Thanks for your advice!',
-        '2024-04-24 16:30:00.000000 +00:00', 'be900497-cc68-4504-9b99-4e5deaf1e6c0',
+        '2024-04-24 16:30:13.000000 +00:00', 'be900497-cc68-4504-9b99-4e5deaf1e6c0',
         '7d81a13c-e835-455a-bc99-3fb6001fb0d5'),
-       ('62e7a372-f30a-4f6e-9a30-109a64331d98', 'I ve got a bad feeling about this.',
-        '2024-04-24 17:00:00.000000 +00:00', 'be900497-cc68-4504-9b99-4e5deaf1e6c0',
-        '0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4'),
-       ('0bd7a29b-8bb2-4a6c-8206-61f068e43b94', 'Welcome you are!', '2024-04-24 16:42:00.000000 +00:00',
-        '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7', '7d81a13c-e835-455a-bc99-3fb6001fb0d5');
-
+       ('0bd7a29b-8bb2-4a6c-8206-61f068e43b94', 'Welcome you are!', '2024-04-25 16:42:56.000000 +00:00',
+        '6f8e857c-c22f-44a1-bd97-8c2f9ce688d7', '7d81a13c-e835-455a-bc99-3fb6001fb0d5'),
+       ('72e84e37-a99a-4634-bac2-5f9c2f7c7975', 'It`s not over yet 😅', '2024-04-25 16:43:11.000000 +00:00',
+        '4e039f0a-5eaf-4354-ad5b-14e2889643d4', 'ac63914e-151e-444f-b44c-f67a3374f1f1'),
+       ('0e223052-e532-4c74-8efa-1c8fb7e8b49a', 'You`ve got to stay focused Luke!', '2024-04-25 17:21:10.000000 +00:00',
+        '4e039f0a-5eaf-4354-ad5b-14e2889643d4', 'ac63914e-151e-444f-b44c-f67a3374f1f1'),
+       ('6fc16add-dc1b-42b3-9942-82b52d47684e', 'C`mon Han let him celebrate 🥳', '2024-04-25 17:24:00.000000 +00:00',
+        '0fb97ac1-1304-4e83-b640-f659b8679907', 'ac63914e-151e-444f-b44c-f67a3374f1f1'),
+       ('9230fbb8-5365-4409-baeb-47c3249b5d12', 'We got to cherish the small victories',
+        '2024-04-25 17:24:31.000000 +00:00',
+        '0fb97ac1-1304-4e83-b640-f659b8679907', 'ac63914e-151e-444f-b44c-f67a3374f1f1'),
+       ('85c6cb71-5770-4320-890f-43e70917dcaa', 'I`m just saying ...', '2024-04-25 17:43:11.000000 +00:00',
+        '4e039f0a-5eaf-4354-ad5b-14e2889643d4', 'ac63914e-151e-444f-b44c-f67a3374f1f1');
+-- 'I ve got a bad feeling about this.'
 
 INSERT INTO CHAT_MESSAGES(chat_id, messages_id)
 VALUES ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', 'a284a44a-7b28-45da-8463-3a35417715f0'),
@@ -176,8 +185,12 @@ VALUES ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', 'a284a44a-7b28-45da-8463-3a35417
        ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', '84e38fc1-07cf-4083-b442-94d216a8320a'),
        ('731ecf77-95b1-409c-8db8-a6f1aeb192bb', '14a8cd52-439d-4284-8c8e-2a1ca21e1d56'),
        ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', '7c27b77a-d4f6-4e5d-9ca9-1b68254def39'),
-       ('0bd20a41-4d23-4c4e-a8aa-8e46743f9ee4', '62e7a372-f30a-4f6e-9a30-109a64331d98'),
-       ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', '0bd7a29b-8bb2-4a6c-8206-61f068e43b94');
+       ('7d81a13c-e835-455a-bc99-3fb6001fb0d5', '0bd7a29b-8bb2-4a6c-8206-61f068e43b94'),
+       ('ac63914e-151e-444f-b44c-f67a3374f1f1', '72e84e37-a99a-4634-bac2-5f9c2f7c7975'),
+       ('ac63914e-151e-444f-b44c-f67a3374f1f1', '0e223052-e532-4c74-8efa-1c8fb7e8b49a'),
+       ('ac63914e-151e-444f-b44c-f67a3374f1f1', '6fc16add-dc1b-42b3-9942-82b52d47684e'),
+       ('ac63914e-151e-444f-b44c-f67a3374f1f1', '9230fbb8-5365-4409-baeb-47c3249b5d12'),
+       ('ac63914e-151e-444f-b44c-f67a3374f1f1', '85c6cb71-5770-4320-890f-43e70917dcaa');
 
 INSERT INTO MESSAGE_READ_BY(message_id, read_by)
 VALUES ('08db069b-e3d5-4cff-b17e-b3af15bb667f', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
@@ -187,4 +200,10 @@ VALUES ('08db069b-e3d5-4cff-b17e-b3af15bb667f', 'be900497-cc68-4504-9b99-4e5deaf
        ('08db069b-e3d5-4cff-b17e-b3af15bb667f', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
        ('33d814e7-06fa-4dfc-a290-ccc4ca5664b2', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
        ('84e38fc1-07cf-4083-b442-94d216a8320a', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
-       ('7c27b77a-d4f6-4e5d-9ca9-1b68254def39', 'be900497-cc68-4504-9b99-4e5deaf1e6c0');
+       ('7c27b77a-d4f6-4e5d-9ca9-1b68254def39', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('a284a44a-7b28-45da-8463-3a35417715f0', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('37afbdc4-89b4-4961-b825-bb4d666e5442', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('15dcca4f-b7d1-4b55-be30-bf5950a770a1', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('2658df83-821a-4e4c-94a5-7fbc19249368', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('620d606a-9033-4210-b9c0-982e0f3800ef', 'be900497-cc68-4504-9b99-4e5deaf1e6c0'),
+       ('15733d9e-939d-497b-b042-fd2fe54d7430', 'be900497-cc68-4504-9b99-4e5deaf1e6c0');
