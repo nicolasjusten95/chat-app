@@ -16,7 +16,7 @@ inspired by WhatsApp. It enables users to exchange messages individually or with
 
 - **Frontend:** Typescript with React
 - **Backend:** Java with Spring Boot, Spring Security, Spring Websocket and Spring Data JPA
-- **Database:** PostgreSQL / H2
+- **Database:** PostgreSQL
 - **Authentication:** JSON Web Token (JWT)
 - **State Management:** Redux, Thunk
 - **Component Library:** Material UI
